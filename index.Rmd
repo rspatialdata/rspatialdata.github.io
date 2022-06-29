@@ -1,0 +1,64 @@
+---
+pagetitle: "rspatialdata"
+---
+
+# **rspatialdata** is a collection of data sources and tutorials on visualising spatial data using R
+
+<div class="icon-grid">
+  <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-2">
+  <a href="admin_boundaries.html"><img src="images/admin_boundaries.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="osm.html"><img src="images/osm.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="population.html"><img src="images/population.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="elevation.html"><img src="images/elevation.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="temperature.html"><img src="images/temperature.jpg"></a>
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-2">
+  <a href="rainfall.html"><img src="images/rainfall.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="humidity.html"><img src="images/humidity.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="vegetation.html"><img src="images/vegetation.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="land_cover.html"><img src="images/land_cover.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="dhs-data.html"><img src="images/dhs.jpg"></a>
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-2">
+  <a href="malaria.html"><img src="images/malaria.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="air_pollution.html"><img src="images/air_pollution.jpg"></a>
+  </div>
+  <div class="col-sm-2">
+  <a href="species_occurrence.html"><img src="images/species_occurrence.jpg"></a>
+  </div>
+  <div class="col-sm-3"></div>
+  </div>
+</div>
+
+
+---
+
+<p style ="color:grey; font-size: 13px;">Last updated: `r Sys.Date()`</p>

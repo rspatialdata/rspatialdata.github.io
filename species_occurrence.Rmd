@@ -1,0 +1,165 @@
+---
+title: "Species Occurrence"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE, warning = FALSE)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Species occurrence data in different countries |
+| **Source:**   | [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). [Biodiversity Information Serving Our Nation (BISON)](https://bison.usgs.gov/), [iNaturalist (iNat)](https://www.inaturalist.org/), [eBird](https://ebird.org/home), and [VertNet](http://vertnet.org/) |
+| **Details on the retrieved data:**   | Panthera onca (Jaguar) occurrence in South America throughout 2020. |
+| **Spatial and temporal resolution:**  | Species occurrence observed worldwide (different start/end dates can be defined). |
+
+## Introduction
+
+In this tutorial, we will see how to extract and work with species occurrence data from different sources, namely, the [Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/). [Biodiversity Information Serving Our Nation (BISON)](https://bison.usgs.gov/), [iNaturalist (iNat)](https://www.inaturalist.org/), [eBird](https://ebird.org/home), and [VertNet](http://vertnet.org/). We could do this manually or use specific `R` packages (such as `rgbif`, `rbison`, `rebird`, or `rvertnet`) that separately retrieve data from these databases, however, we will use the `spocc` package to work with all databases at once.
+
+## Installing the `spocc` package
+
+The package can be installed in the following way
+
+```{r}
+if (!require(spocc)) {
+  install.packages('spocc', dependencies = TRUE)
+  library(spocc)
+}
+```
+
+Alternatively, the development version can be installed via
+
+```{r eval = FALSE}
+remotes::install_github('ropensci/spocc')
+```
+
+In addition to the `spocc` package, we will also use the `tidyverse` and `sf` packages. So, assuming they are already installed, we can load them via
+
+```{r}
+library(tidyverse)
+library(sf)
+library('rnaturalearth')
+```
+
+## Retrieving data
+
+The main function from the `spocc` data used to retrieve data from different sources is the `occ()`. It has some 19 different parameters (which can be accessed via the `?occ` command), but we will first start setting the parameters `query` and `from`.
+
+```{r}
+data <- occ(query = c('Panthera leo', 'Giraffa'), from = c('gbif'))
+data
+```
+
+From the above code, notice that we have selected the Panthera leo (Lion), Giraffa (Giraffe) species from the GBIF data set. Also notice that, although 18,253 occurrences have been reported, the function just returned 1,000 observations. You can change this behavior by setting the `limit` parameter accordingly.
+
+If we want to check the retrieved data (e.g., the first observation from the "Phantera Leo" data set), we can access them via
+```{r}
+head(data$gbif$data$Panthera_leo, 3) 
+```
+
+However, since different sources provide data in various formats, `spocc` also has a function that converts and formats data appropriately, namely `occ2df()`.
+
+```{r}
+occ2df(obj = data)
+```
+
+## Working with the downloaded data
+
+Now, suppose that we want to verify the observed jaguar ("Panthera onca") in countries (not territories, for this tutorial) in South America in 2020 based on the GBIF and iNAT databases. There are different ways to do this, but the first thing we will do is load geographical data about the countries in South America. We will do this using the `ne_countries()` from the `rnaturalearth` package.
+
+```{r}
+south_america <- c('Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Suriname', 'Paraguay', 'Peru', 'Uruguay', 'Venezuela')
+
+shape <- ne_countries(scale = 50, country = south_america, returnclass = 'sf')
+shape <- shape %>% dplyr::select(admin, geometry)
+
+ggplot() + geom_sf(data = shape)
+```
+
+The next step is to retrieve the species occurrence data as we have just learnt. To do this, we will use the `occ()` function.
+
+```{r, results = 'hide'}
+jaguar <- spocc::occ(query = c('Panthera onca'), 
+                     from = c('gbif', 'inat'), 
+                     limit = 500,
+                     date = c('2020-01-01', '2020-12-31'))
+```
+```{r}
+jaguar
+```
+
+As one can see, we have retrieved 185 observations from GBIF and 324 from iNAT (509 in total). Now, we can nicely convert and format our data using the `occ2df()` function.
+
+```{r}
+jaguar <- occ2df(jaguar)
+
+# Convert 'longitude' and 'latitude' columns into numbers
+jaguar <- jaguar %>% mutate_at(c('longitude', 'latitude'), as.numeric)
+
+# Remove lines with NA for 'longitude' or 'latitude', if any
+jaguar <- jaguar %>% filter_at(vars(longitude, latitude), all_vars(!is.na(.)))
+
+jaguar
+```
+
+However, these data come from all around the world. Recall that we want data just from South America. We can achieve this by only considering the data points that has intersection with our `shape` object. This can be done by
+
+```{r}
+# Convert longitude/latitude to POINT
+jaguar <- st_as_sf(x = jaguar, coords = c('longitude', 'latitude'), crs = st_crs(shape))
+# Select locations that belong to South America
+jaguar <- st_join(x = jaguar, y = shape, left = FALSE) # if left = TRUE, return left join
+
+jaguar
+```
+ 
+ Notice that we went from `482 x 6` to a `110 x 6` data set. 
+ 
+ Now we can plot the shapefile along with the observed jaguars in 2020.
+ 
+```{r}
+# Plot 'Panthera onca' occurrence 
+ggplot() +
+  geom_sf(data = shape) +
+  geom_sf(data = jaguar, aes(color = prov), size = 3) + 
+  scale_color_manual(name = 'Provider',
+                     values = c(alpha(colour =  'red', alpha = 0.35),
+                                alpha(colour = 'blue', alpha = 0.35)),
+                     labels = c('GBIF', 'INAT')) +
+  labs(x = 'Longitude', y = 'Latitude', title = 'Panthera onca occurrence in countries in South America in 2020') + 
+  theme_bw()
+```
+ 
+From the above image, notice that, since there are (almost) overlapping points, the semi-transparency into the plotted locations plays an important role in distinguishing regions with low and high jaguar density.
+
+## References
+
+- Global Biodiversity Information Facility (GBIF) website: https://www.gbif.org/
+- iNaturalist (iNat) website: https://www.inaturalist.org/
+- `spocc` package website: https://github.com/ropensci/spocc
+- `tidyverse` package website: https://www.tidyverse.org/
+- `sf` package website: https://r-spatial.github.io/sf/
+- `rnaturalearth`` package website: https://cran.r-project.org/web/packages/rnaturalearth/README.html
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/species_occurrence.Rmd 
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>
+
+

@@ -1,0 +1,62 @@
+---
+title: "Spatial analysis"
+output:
+  html_document:
+    css: "styles.css"
+---
+
+
+<br>
+
+R packages and other resources for manipulating, analyzing and visualizing spatial and spatial and spatio-temporal data are the following: 
+
+
+### R packages
+
+Spatial R packages can be seen at the [CRAN Task Views](https://cran.r-project.org/web/views/) webpage. The [`Spatial`](https://cran.r-project.org/web/views/Spatial.html) and [`SpatioTemporal`]( https://cran.r-project.org/web/views/SpatioTemporal.html) pages list many useful packages including the folowing:
+
+[sf](https://cran.r-project.org/web/packages/sf/index.html): Simple Features for R
+
+[terra](https://cran.r-project.org/web/packages/terra/index.html): Spatial Data Analysis
+
+[stars](https://cran.r-project.org/web/packages/stars/index.html): Spatiotemporal Arrays, Raster and Vector Data Cubes
+
+[spdep](https://cran.r-project.org/web/packages/spdep/index.html): Spatial Dependence: Weighting Schemes, Statistics
+
+[gstat](https://cran.r-project.org/web/packages/gstat/index.html): Spatial and Spatio-Temporal Geostatistical Modelling, Prediction and Simulation
+
+[spatstat](https://cran.r-project.org/web/packages/spatstat/index.html): Spatial Point Pattern Analysis, Model-Fitting, Simulation, Tests
+
+
+### Books
+
+Geocomputation with R
+
+https://geocompr.robinlovelace.net/
+
+Spatial Data Science with applications in R
+
+https://keen-swartz-3146c4.netlify.app/
+
+Geospatial Health Data: Modeling and Visualization with R-INLA and Shiny
+
+https://www.paulamoraga.com/book-geospatial/
+
+
+### Blogs and other online resources
+
+Spatial Data Science with R
+
+https://rspatial.org/
+
+R Spatial software blogs and ideas
+
+https://r-spatial.org/
+
+
+<br>
+
+----
+
+If you know other spatial and spatial-temporal references that can be useful to other people, please, share them with us, so that all the community can take advantage of them.
+

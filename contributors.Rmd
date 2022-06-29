@@ -1,0 +1,28 @@
+---
+title: "Contributors"
+output:
+  html_document:
+    css: "styles.css"
+---
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<br>
+
+This rspatialdata project is led by [Paula Moraga](https://www.paulamoraga.com/), Assistant Professor of Statistics and PI of the GeoHealth research group at King Abdullah University of Science and Technology (KAUST). Funding for the work is provided by the GeoHealth research group at KAUST.
+
+
+
+King Abdullah University of Science and Technology (KAUST)
+
+- Paula Moraga
+- Dilinie Seimon
+- Varsha Ujjinni Vijay Kumar
+- Andre Ribeiro Amaral
+
+Bates College
+
+- Laurie L. Baker
+
+<img style ="display: block; margin-left: auto; margin-right: auto;" src="images/kaust-logo-small.png">
+

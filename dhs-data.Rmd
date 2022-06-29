@@ -1,0 +1,401 @@
+---
+title: "Demographic and Health Survey (DHS)"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(DT)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Malaria related data (although different data set could have be chosen) |
+| **Source:**   | [The DHS (Demographic and Health Survey) Program](https://www.dhsprogram.com/) |
+| **Details on the retrieved data:**   | Households with at least one insecticide treated net (ITN) in 2005. |
+| **Spatial and temporal resolution:**  | Yearly data at country level. |
+
+# `rdhs` package
+
+This package gives the users the ability to access and make analysis on the [Demographic and Health Survey (DHS)](https://www.dhsprogram.com/) data. There are many functionalities that are useful in this package and they can be looked at one after another in more depth in the following sections.
+
+## Installation of the package `rdhs`
+
+You can install the package from github with `devtools`: 
+
+```{r install, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("ropensci/rdhs")
+```
+
+```{r load-lib}
+library(rdhs)
+```
+
+
+> **NOTE:** If you wish to download survey datasets from DHS website, you will need to set up an account with the DHS website. Instructions on how to download the data can be found [here](https://dhsprogram.com/data/Access-Instructions.cfm).
+
+> You can also find the model datasets which are not the accurate data of each country and can be used to just practice the working of the package `rdhs`. But if you want the survey datasets, then you would need to register and apply for access. 
+> The email, password and the project name that were used to create the account will then need to be provided to `rdhs` when attempting to download datasets, the process is explained well in this tutorial. 
+
+## Access standard indicator data  in R via the [DHS API](https://api.dhsprogram.com/#/index.html)
+
+The DHS program has published an API that gives access to a number of different data sets, where each represent one of the DHS API endpoints. The datasets include the standard health indicators and also a series of meta data sets that describe the types of surveys that have been conducted. 
+
+The function `dhs_data()` interacts with the published set of standard health indicator data calculated by DHS. We can either search for specific indicators, or by querying for indicators.
+
+```{r indicators,eval=FALSE}
+indicators <- dhs_indicators() # determines the indicators
+
+# Take a look at the first 7 values within the indicator list
+p1 <- indicators[order(indicators$IndicatorId), ][1:7, c("IndicatorId", "Definition")]
+```
+
+```{r out.width =540,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "indicator.png"))
+```
+
+
+As there are many indicators that can be used for querying and you cannot remember every one of them, using tags for searching will be much easier. The DHS tags the indicators depending on what areas of demography and health they relate to. This can be done by using the `dhs_tags()` function. 
+
+```{r tags, eval=FALSE}
+tags <- dhs_tags() # search by tags
+# search for 'HIV' within the column tagName using the grepl function
+t1 <- tags[grepl("Malaria", tags$TagName), ]
+```
+
+The available tags for analysis:
+
+```{r out.width =490,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "alltags.PNG"))
+```
+
+The chosen tag word for analysis:
+
+```{r out.width =335,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "malariatag.PNG"))
+```
+
+Now that we have the tag we are looking for analysis "Malaria", next we can concentrate on the geographic regions we are looking to work on , here we have taken as example for *Rwanda* and *Tanzania* in the year 2005 by using a specific study of tags , in our case we chose, `TagId` 79:
+
+```{r country-data, eval=FALSE}
+data_BT <- dhs_data(tagIds = 79, countryIds = c("RW", "TZ"), breakdown = "subnational", surveyYearStart = 2015)
+
+# displaying the first 5 outputs for tanzania and brazil in the year 2005 for HIV attitudes
+data_BT %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = "t",
+  scroller = TRUE,
+  fixedColumns = list(leftColumns = 3)
+))
+```
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "data_dhs.PNG"))
+```
+
+You can also use the [DHS STATcompiler](https://www.statcompiler.com/en/) for a click and collect datasets. It is easier to use the `rdhs` API interaction to find out about the data for multiple countries an their breakdowns using the `dhs_data()` function.
+
+```{r indicator-data,eval=FALSE}
+# finding the data for Households with at least one insecticide treated net (ITN) and in the year 2005 by regions(subnational)
+resp <- dhs_data(indicatorIds = "ML_IRSM_H_IIR", surveyYearStart = 2005, breakdown = "subnational")
+```
+
+
+```{r out.width =785,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "resp.png"))
+```
+
+Now let us visualise what we have from the above code, we can do so by creating a tibble of all the regions we are interested in and plotting it using the `geom_point()` function to see the number of households that have incorporated the ITN's to help reduce Malaria. 
+
+```{r regions,eval=FALSE}
+# regions we are interested in
+country <- c("Ghana", "Ethiopia", "Tanzania", "Zambia", "Rwanda", "Mali")
+
+ggplot(
+  resp[resp$CountryName %in% country, ],
+  aes(
+    x = SurveyYear,
+    y = Value,
+    color = CountryName
+  )
+) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(y = "Households with at least one ins ecticide treated net (ITN)", color = "Country") +
+  facet_wrap(~CountryName)
+```
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "graph.png"))
+```
+
+
+## Determine datasets and their surveys for analysis
+
+Let's say we want to get all the DHS survey data for Rwanda and Tanzania for the Malaria care. We begin with the DHS API interaction to determine our datasets.
+
+```{r survey,eval=FALSE}
+charac <- dhs_survey_characteristics()
+charac[grepl("Malaria", charac$SurveyCharacteristicName), ]
+```
+
+```{r out.width =450,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "characteristics.PNG"))
+```
+
+The DHS allows for countries to be filtered using their *countryIds*, which is one of the arguments in the `dhs_survey()` functions. To have a look at the different *countryIds* we have a function to find the same.
+
+```{r countryid,eval=FALSE}
+countryid <- dhs_countries(returnFields = c("CountryName", "DHS_CountryCode"))
+
+countryid %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = "t",
+  scroller = TRUE,
+  fixedColumns = list(leftColumns = 3)
+))
+```
+
+
+```{r out.width ="430px",echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "countrys.png"))
+```
+
+
+```{r survey-data,eval=FALSE}
+# finding all the surveys available for our search criteria
+survey <- dhs_surveys(
+  surveyCharacteristicIds = 57,
+  countryIds = c("RW", "TZ"),
+  surveyType = "DHS",
+  surveyYearStart = 2015
+)
+
+# finally use this information to find the datasets we will want to download and specific file format can be used flat file in our case
+datasets <- dhs_datasets(
+  surveyIds = survey$SurveyId,
+  fileFormat = "flat"
+)
+
+datasets %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  # scrollY = 350,
+  scrollX = 350,
+  dom = "t",
+  scroller = TRUE
+))
+```
+
+
+```{r out.width ="800px", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics(here::here("images", "datasets3.png"))
+```
+
+Recommended  file formats which can be downloaded are spss (.sav), which can be given as an argument as `fileFormat = "SV"` or the other option would be flat file format (.dat), which can be given as `fileFormat = "FL"`. The flat files are quicker but some datasets cannot be read in correctly, whereas the .sav files are slower to read but so far no datasets have been found that do not read in correctly.   
+
+
+## Download survey datasets from the [DHS website](https://dhsprogram.com/data/available-datasets.cfm).
+
+Now we can download our desired datasets from the website. For doing this, we would need to set up an account within the DHS website, and the given credentials need to be supplied to `rdhs` when attempting to download datasets.
+
+Once we have created an account, we need to set up our credentials using the function `set_rdhs_config()`. This will require providing as arguments your `email` and `project` for which you want to download datasets from. Later for which you will be prompted for your password.
+
+The process for downloading of the datasets are as follows:
+
+If you specify a directory for datasets and API calls to be cached using `cache_path`. If you do not specify or provide an argument for `cache_path` you will be prompted to provide `rdhs` permission to save the downloaded datasets and API calls within your user cache directory of your operating system. If you do not grant permission, these will be written in your R temporary directory. 
+
+Similarly, if you do not also provide an argument for `congif_path`, this will be saved within your temp directory unless permission is granted. Your config files will always be called "rdhs.json", so that `rdhs` can find them easily.
+
+```{r config,cache=TRUE,eval=FALSE,include=FALSE}
+# run this before making the client side
+config <- set_rdhs_config(
+  email = "vujj0001@student.monash.edu",
+  project = "rspatialdata",
+  config_path = "~/.rdhs.json",
+  global = TRUE,
+  verbose_download = TRUE
+)
+```
+
+
+```{r set-config,eval=FALSE}
+config <- set_rdhs_config(
+  email = "abc.gmail.com",
+  project = "project-name",
+  config_path = "~/.rdhs.json",
+  global = TRUE,
+  verbose_download = TRUE
+)
+```
+
+
+Let us create the client side for our downloaded datasets, where the client can be passed as an argument to any API functions we have seen earlier. This will cache the results for you. 
+
+The `get_rdhs_config()` function return the config being used by rdhs at the current R session. It will return be a data.frame  with class "rdhs_config" or will be NULL if this has not been set up yet. 
+
+
+```{r client,eval=FALSE}
+# authenticate_dhs(config)
+configuration <- get_rdhs_config()
+# the configurations are then assigned to the client object to invoke it later for all the functions
+client <- client_dhs(configuration)
+client
+```
+
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "client3.png"))
+```
+
+Let us add all the downloadable datasets into one object called downloads using the `get_datasets()` function , which is a data frame which holds the value of whether the files are accessible for the credentials provided or not. 
+
+```{r data-down,eval=FALSE}
+downloads <- get_datasets(datasets$FileName)
+```
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "downloads3.png"))
+```
+
+## Loading datasets and associating its metadata into R
+
+We can now examine what it is we have actually downloaded, by reading in one of these data set:
+
+
+NOTE: to know which file holds what kind of information, the nomenclature directory is given in [here](https://dhsprogram.com/publications/publication-dhsg4-dhs-questionnaires-and-manuals.cfm)
+
+```{r read-data,eval=FALSE}
+data_downloaded <- readRDS(downloads$RWBR70FL)
+```
+
+The dataset returned here contains all the survey questions within the dataset. The dataset is by default stored as a **labelled** class from the [**haven package**](https://github.com/tidyverse/haven). This package preserves the original semantics of the data, even the special missing values are also preserved.
+
+```{r eval=FALSE}
+data_downloaded %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  scrollX = 350,
+  dom = "t",
+  scroller = TRUE
+))
+```
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "datadownloaded.png"))
+```
+
+
+If we want to get the metadata for this dataset, we can use the `get_variable_labels()` function, which returns what survey question each of the variables in the dataset are referring to.
+
+
+```{r eval=FALSE}
+get_variable_labels(data_downloaded) %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = "t",
+  scroller = TRUE
+))
+```
+
+The downloaded dataset in our example is that of the birth history in the country of Rwanda, the different column names or variables description is found in the table above which tells the decoded version of all the headers within the dataset.
+
+
+The main reason for reading the data set using the default option is that `rdhs` will also create a table of all the survey variables and their labels and cache them for you.
+
+The default behavior for the function is to download the datasets, read them in and save the resultant data.frame as a .rds object within the cache directory. You can also control this behavior using the `download.options` argument:
+
+- `get_datasets(download.options = "zip")`: only the downloaded zip will be saved.
+
+- `get_datasets(download.options = "rds")`: only the read in rds will be saved. 
+
+- `get_datasets(download.options = "both")`: both the zip is downloaded as well as the read in rds and saved.
+
+
+Another function that is available for use in this package `rdhs` is `extract_dhs()`, it extracts data from your downloaded datasets according to a data.frame of requested survey variables or survey definitions.
+
+```{r extract,eval=FALSE}
+datasets <- dhs_datasets(surveyIds = survey$SurveyId, fileFormat = "FL", fileType = "PR")
+
+data_down <- get_datasets(datasets$FileName)
+questions <- search_variable_labels(datasets$FileName, search_terms = "household")
+extract <- extract_dhs(questions, add_geo = FALSE)
+```
+
+Let us first extract the desired variables from the Tanzania dataset of household surveys, in our case it is "share facilities with other households", "observed place for hand washing", "household selected for hemoglobin measurements" and we are storing them into the ques object.
+
+```{r eval=FALSE}
+ques <- search_variables(datasets$FileName, variables = c("hv225", "hv230a", "hv042"))
+
+extract2 <- extract_dhs(ques, add_geo = FALSE)
+
+extra2 <- head(extract2$TZPR7BFL)
+```
+
+And now lets do the same for Rwanda as well.
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "extractTZ.png"))
+```
+
+
+```{r eval=FALSE}
+extra2RW <- head(extract2$RWPR70FL)
+```
+
+```{r out.width =800,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "extractRW.png"))
+```
+
+
+Let us combine both the regions specific factor data into one dataframe and this can done by a function which helps combine two dataframes for further analysis , `rbind_labelled()`. 
+
+```{r combine,eval=FALSE}
+comb_extract <- rbind_labelled(extract2)
+comb_extract %>% datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  scrollX = 350,
+  dom = "t",
+  scroller = TRUE
+))
+```
+  
+```{r out.width =700,echo = FALSE,fig.align = 'center'}
+knitr::include_graphics(here::here("images", "combined.png"))
+```
+
+
+## References
+
+- `rdhs` package: https://cran.r-project.org/web/packages/rdhs/index.html
+
+- `DT` package: https://rstudio.github.io/DT/
+
+
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/dhs.Rmd
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>

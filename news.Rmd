@@ -1,0 +1,14 @@
+
+# useR! talk
+
+This project was presented at the useR! 2021 virtual conference.</br></br>
+
+<iframe style ="display: block; margin-left: auto; margin-right: auto;" width="560" height="315" src="https://www.youtube.com/embed/nLikORFBKgk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+# rOpenSci blog post
+
+<a href="https://ropensci.org/blog/2021/09/28/rspatialdata/">The story behind rspatialdata</a> was featured as an rOpenSci blog post.
+
+---
+

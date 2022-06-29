@@ -1,0 +1,223 @@
+---
+title: "Malaria"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(DT)
+library(ggthemes)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Malaria data in different locations |
+| **Source:**   | [Malaria Atlas Project](https://malariaatlas.org/) |
+| **Details on the retrieved data:**   | Parasite rate (PR) survey data and vector occurrence data in Zimbabwe and India. |
+| **Spatial and temporal resolution:**  | Malaria data at country level (with information on specific sites). |
+
+# Downloading and visualising malaria data with `malariaAtlas`
+
+This tutorial shows how to use the `malariaAtlas` package to download, visualize and manipulate global malaria data hosted by the [Malaria Atlas Project](https://malariaatlas.org/). These data can be explored and downloaded interactively at [data explorer](https://malariaatlas.org/explorer/#/).
+
+The `malariaAtlas` package enables users to download three types of data:
+
+- parasite rate (PR) survey data (*Plasmodium falciparum* and *Plasmodium vivax*)
+- vector occurrence data
+- administrative boundary shapefiles to visualise data
+- rasters covering a range of modelled outputs related to malaria research such as predicted malaria parasite prevalence
+
+ 
+## Installation of `malariaAtlas` package
+
+The `malariaAtlas` package can be installed from CRAN and loaded as follows:
+
+```{r install-malariaAtlas, eval=FALSE}
+install.packages("malariaAtlas")
+```
+
+```{r load-lib}
+library(malariaAtlas)
+```
+
+
+## Checking available data
+
+The `malariaAtlas` package provides users with a convenient API to interact with the publicly available malaria data hosted by the Malaria Atlas Project.
+The `listData()` function helps retrieve a list of all the available data which can be downloaded, and is a wrapper for `listPoints()`, `listRaster()` and `listShp()`.
+We can find all countries that have PR survey points data with `listData(datatype = "pr points")`,
+and all countries with vector occurrence data with `listData(datatype = "vector points")`.
+We can also see raster data available with `listData(datatype = "raster")`,
+and shapefiles available with `listData(datatype = "shape")`.
+
+
+The `isAvailable_pr()` function can be used to check whether a specified country or location has PR survey points.
+Similarly, `isAvailable_vec()` checks whether a specified country or location has vector occurrence data.
+For example, we can check whether Zimbabwe has PR survey points and India has vector occurrence data as follows:
+
+```{r func_pr, message = FALSE}
+isAvailable_pr(country = "Zimbabwe")
+isAvailable_vec(country = "India")
+```
+
+
+## Dowloading and visualising data
+
+
+### PR survey data
+
+The `getPR()` function downloads all the publicly available PR points for a country (or countries) and returns it as a dataframe. The `species` argument is a string specifying the Plasmodium species and can be `Pf`, `Pv` or `BOTH`.
+ 
+```{r get-pr,message = FALSE,warning=FALSE}
+ZM_PR_data <- getPR(country = "Zimbabwe", species = "BOTH")
+```
+
+```{r, echo=FALSE}
+ZM_PR_data %>%
+  datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+    deferRender = TRUE,
+    scrollY = 350,
+    scrollX = 350,
+    dom = "t",
+    scroller = TRUE,
+    fixedColumns = list(leftColumns = 4)
+  ))
+```
+
+`autoplot()` can be used to quickly and easily visualise the downloaded PR survey points.
+ 
+```{r viz-PR, message=FALSE,warning=FALSE}
+autoplot(ZM_PR_data)
+```
+
+
+### Vector data
+
+ 
+The `getVecOcc()` function downloads all publicly available vector points for a country (or countries) and returns it as a dataframe. The `species` argument is a string specifying the Anopheles species for finding the vector occurrences points, the options are `Anopheles....` or `ALL`.
+ 
+```{r get-vec,message = FALSE,warning=FALSE}
+IN_VEC_data <- getVecOcc(country = "India", species = "ALL")
+```
+
+```{r, echo=FALSE}
+IN_VEC_data %>%
+  datatable(extensions = c("Scroller", "FixedColumns"), options = list(
+    deferRender = TRUE,
+    scrollY = 350,
+    scrollX = 350,
+    dom = "t",
+    scroller = TRUE,
+    fixedColumns = list(leftColumns = 4)
+  ))
+```
+
+`autoplot()` uses `ggplot2` to visualise vector occurrence data.
+
+```{r message = FALSE}
+autoplot(IN_VEC_data)
+```
+
+
+### Shapefiles
+
+The `getShp()` function downloads a shapefile for a specified country (or countries).
+The `as.MAPshp()` function converts the SpatialPolygon downloaded using `getShp()` into a `MAPshp` object (data.frame) for easy plotting with `autoplot()`.
+
+```{r message = FALSE}
+IN_shp <- getShp(ISO = "IND", admin_level = c("admin1"))
+IN_shp <- as.MAPshp(IN_shp)
+autoplot(IN_shp)
+```
+
+### Modelled Rasters
+
+The `getRaster()` function downloads publicly available rasters for a specific surface and year, clipped to a given bounding box or shapefile. For example we can download Plasmodium falciparum PR2-10 for Zimbabwe in 2010 as follows:
+ 
+```{r message = FALSE}
+ZM_shp <- getShp(country = "Zimbabwe", admin_level = "admin0")
+ZMB_Pf <- getRaster(surface = "Plasmodium falciparum PR2-10", shp = ZM_shp, year = 2010)
+```
+ 
+Note that to use downloaded rasters and shapefiles directly with `autoplot()`, they must first be converted to usable rasters and shapefiles data frames, hence we use the `as.MAPraster()` and `as.MAPShp()` respectively.
+
+
+```{r message = FALSE}
+ZMB_Pf <- as.MAPraster(ZMB_Pf)
+ZMB_shp_data <- as.MAPshp(ZM_shp)
+autoplot(ZMB_Pf, shp_df = ZMB_shp_data)
+```
+
+## Complete visualisation examples
+
+
+Since the `ggplot2` is loaded as dependency when the `malariaAtlas` package is loaded, the functionalities of `ggplot2` can also be used for more appeal and options.
+
+
+### PR survey points
+
+```{r message = FALSE}
+ZMB_shp <- getShp(country = "Zimbabwe", admin_level = "admin0") # get shapefile
+ZMB_shp_df <- as.MAPshp(ZMB_shp) # convert shapefile
+ZMB_PfPR2_10 <- getRaster(surface = "Plasmodium falciparum PR2-10", shp = ZMB_shp, year = 2013) # get raster
+ZMB_PfPR2_10_df <- as.MAPraster(ZMB_PfPR2_10) # convert raster
+pr <- getPR(country = c("Zimbabwe"), species = "Pf") # get PR data
+
+p <- autoplot(ZMB_PfPR2_10_df, shp_df = ZMB_shp_df, printed = FALSE) # plot raster and shapefile
+p[[1]] + geom_point(
+  data = pr[pr$year_start == 2013, ],
+  aes(longitude, latitude, fill = positive / examined, size = examined), shape = 21
+) +
+  scale_size_continuous(name = "Survey Size") +
+  scale_fill_distiller(name = "PfPR", palette = "RdYlBu") +
+  ggtitle("Raw PfPR Survey points\n + Plasmodium falciparum PR2-10 in Zimbabwe in 2013") +
+  theme_solarized() +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+### Vector points
+
+```{r message = FALSE}
+IND_shp <- getShp(country = "India", admin_level = "admin0") # get shapefile
+IND_shp_df <- as.MAPshp(IND_shp) # convert shapefile
+IND_an_dirus <- getRaster(surface = "Anopheles dirus species complex", shp = IND_shp) # get raster
+IND_an_dirus_df <- as.MAPraster(IND_an_dirus) # convert raster
+vec <- getVecOcc(country = c("India"), species = "Anopheles dirus") # get vector point data
+
+p <- autoplot(IND_an_dirus_df, shp_df = IND_shp_df, printed = FALSE) # plot raster and shapefile
+p[[1]] + geom_point(data = vec, aes(longitude, latitude), shape = 21, show.legend = TRUE) +
+  scale_fill_distiller(name = "Predicted distribution", palette = "YlOrRd") +
+  ggtitle("Raw Vector Survey points + \nThe predicted distribution of Anohpeles dirus species complex") +
+  theme(legend.position = "bottom") +
+  theme_solarized() +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+
+
+## References
+
+- The `malariaAtlas` package repository : https://github.com/malaria-atlas-project/malariaAtlas
+- Malaria Atlas Project: https://malariaatlas.org/
+- Malaria data explorer: https://malariaatlas.org/explorer/#/
+
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/malaria.Rmd 
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>

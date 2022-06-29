@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Demographic and Health Survey (DHS)</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">rspatialdata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="admin_boundaries.html">Administrative boundaries</a>
+    </li>
+    <li>
+      <a href="osm.html">Open Street Map data</a>
+    </li>
+    <li>
+      <a href="population.html">Population</a>
+    </li>
+    <li>
+      <a href="elevation.html">Elevation</a>
+    </li>
+    <li>
+      <a href="temperature.html">Temperature</a>
+    </li>
+    <li>
+      <a href="rainfall.html">Rainfall</a>
+    </li>
+    <li>
+      <a href="humidity.html">Humidity</a>
+    </li>
+    <li>
+      <a href="vegetation.html">Vegetation</a>
+    </li>
+    <li>
+      <a href="land_cover.html">Land Cover</a>
+    </li>
+    <li>
+      <a href="dhs-data.html">DHS</a>
+    </li>
+    <li>
+      <a href="malaria.html">Malaria</a>
+    </li>
+    <li>
+      <a href="air_pollution.html">Air Pollution</a>
+    </li>
+    <li>
+      <a href="species_occurrence.html">Species Occurrence</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="spatio_temporal_analysis.html">Spatial Analysis</a>
+</li>
+<li>
+  <a href="contributors.html">Contributors</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="collaborate.html">Collaborations</a>
+</li>
+<li>
+  <a href="news.html">News</a>
+</li>
+<li>
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Demographic and Health Survey (DHS)</h1>
+
+</div>
+
+
+<div id="data-set-details" class="section level4">
+<h4>Data set details</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Data set description:</strong></td>
+<td>Malaria related data (although different data set could have be chosen)</td>
+</tr>
+<tr class="even">
+<td><strong>Source:</strong></td>
+<td><a href="https://www.dhsprogram.com/">The DHS (Demographic and Health Survey) Program</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Details on the retrieved data:</strong></td>
+<td>Households with at least one insecticide treated net (ITN) in 2005.</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial and temporal resolution:</strong></td>
+<td>Yearly data at country level.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="rdhs-package" class="section level1">
+<h1><code>rdhs</code> package</h1>
+<p>This package gives the users the ability to access and make analysis on the <a href="https://www.dhsprogram.com/">Demographic and Health Survey (DHS)</a> data. There are many functionalities that are useful in this package and they can be looked at one after another in more depth in the following sections.</p>
+<div id="installation-of-the-package-rdhs" class="section level2">
+<h2>Installation of the package <code>rdhs</code></h2>
+<p>You can install the package from github with <code>devtools</code>:</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;ropensci/rdhs&quot;)</code></pre>
+<pre class="r"><code>library(rdhs)</code></pre>
+<blockquote>
+<p><strong>NOTE:</strong> If you wish to download survey datasets from DHS website, you will need to set up an account with the DHS website. Instructions on how to download the data can be found <a href="https://dhsprogram.com/data/Access-Instructions.cfm">here</a>.</p>
+</blockquote>
+<blockquote>
+<p>You can also find the model datasets which are not the accurate data of each country and can be used to just practice the working of the package <code>rdhs</code>. But if you want the survey datasets, then you would need to register and apply for access. The email, password and the project name that were used to create the account will then need to be provided to <code>rdhs</code> when attempting to download datasets, the process is explained well in this tutorial.</p>
+</blockquote>
+</div>
+<div id="access-standard-indicator-data-in-r-via-the-dhs-api" class="section level2">
+<h2>Access standard indicator data in R via the <a href="https://api.dhsprogram.com/#/index.html">DHS API</a></h2>
+<p>The DHS program has published an API that gives access to a number of different data sets, where each represent one of the DHS API endpoints. The datasets include the standard health indicators and also a series of meta data sets that describe the types of surveys that have been conducted.</p>
+<p>The function <code>dhs_data()</code> interacts with the published set of standard health indicator data calculated by DHS. We can either search for specific indicators, or by querying for indicators.</p>
+<pre class="r"><code>indicators &lt;- dhs_indicators() # determines the indicators
+
+# Take a look at the first 7 values within the indicator list
+p1 &lt;- indicators[order(indicators$IndicatorId), ][1:7, c(&quot;IndicatorId&quot;, &quot;Definition&quot;)]</code></pre>
+<p><img src="images/indicator.PNG" width="540" style="display: block; margin: auto;" /></p>
+<p>As there are many indicators that can be used for querying and you cannot remember every one of them, using tags for searching will be much easier. The DHS tags the indicators depending on what areas of demography and health they relate to. This can be done by using the <code>dhs_tags()</code> function.</p>
+<pre class="r"><code>tags &lt;- dhs_tags() # search by tags
+# search for &#39;HIV&#39; within the column tagName using the grepl function
+t1 &lt;- tags[grepl(&quot;Malaria&quot;, tags$TagName), ]</code></pre>
+<p>The available tags for analysis:</p>
+<p><img src="images/alltags.PNG" width="490" style="display: block; margin: auto;" /></p>
+<p>The chosen tag word for analysis:</p>
+<p><img src="images/malariatag.PNG" width="335" style="display: block; margin: auto;" /></p>
+<p>Now that we have the tag we are looking for analysis “Malaria”, next we can concentrate on the geographic regions we are looking to work on , here we have taken as example for <em>Rwanda</em> and <em>Tanzania</em> in the year 2005 by using a specific study of tags , in our case we chose, <code>TagId</code> 79:</p>
+<pre class="r"><code>data_BT &lt;- dhs_data(tagIds = 79, countryIds = c(&quot;RW&quot;, &quot;TZ&quot;), breakdown = &quot;subnational&quot;, surveyYearStart = 2015)
+
+# displaying the first 5 outputs for tanzania and brazil in the year 2005 for HIV attitudes
+data_BT %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE,
+  fixedColumns = list(leftColumns = 3)
+))</code></pre>
+<p><img src="images/data_dhs.PNG" width="800" style="display: block; margin: auto;" /></p>
+<p>You can also use the <a href="https://www.statcompiler.com/en/">DHS STATcompiler</a> for a click and collect datasets. It is easier to use the <code>rdhs</code> API interaction to find out about the data for multiple countries an their breakdowns using the <code>dhs_data()</code> function.</p>
+<pre class="r"><code># finding the data for Households with at least one insecticide treated net (ITN) and in the year 2005 by regions(subnational)
+resp &lt;- dhs_data(indicatorIds = &quot;ML_IRSM_H_IIR&quot;, surveyYearStart = 2005, breakdown = &quot;subnational&quot;)</code></pre>
+<p><img src="images/resp.PNG" width="785" style="display: block; margin: auto;" /></p>
+<p>Now let us visualise what we have from the above code, we can do so by creating a tibble of all the regions we are interested in and plotting it using the <code>geom_point()</code> function to see the number of households that have incorporated the ITN’s to help reduce Malaria.</p>
+<pre class="r"><code># regions we are interested in
+country &lt;- c(&quot;Ghana&quot;, &quot;Ethiopia&quot;, &quot;Tanzania&quot;, &quot;Zambia&quot;, &quot;Rwanda&quot;, &quot;Mali&quot;)
+
+ggplot(
+  resp[resp$CountryName %in% country, ],
+  aes(
+    x = SurveyYear,
+    y = Value,
+    color = CountryName
+  )
+) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;) +
+  labs(y = &quot;Households with at least one ins ecticide treated net (ITN)&quot;, color = &quot;Country&quot;) +
+  facet_wrap(~CountryName)</code></pre>
+<p><img src="images/graph.png" width="800" style="display: block; margin: auto;" /></p>
+</div>
+<div id="determine-datasets-and-their-surveys-for-analysis" class="section level2">
+<h2>Determine datasets and their surveys for analysis</h2>
+<p>Let’s say we want to get all the DHS survey data for Rwanda and Tanzania for the Malaria care. We begin with the DHS API interaction to determine our datasets.</p>
+<pre class="r"><code>charac &lt;- dhs_survey_characteristics()
+charac[grepl(&quot;Malaria&quot;, charac$SurveyCharacteristicName), ]</code></pre>
+<p><img src="images/characteristics.PNG" width="450" style="display: block; margin: auto;" /></p>
+<p>The DHS allows for countries to be filtered using their <em>countryIds</em>, which is one of the arguments in the <code>dhs_survey()</code> functions. To have a look at the different <em>countryIds</em> we have a function to find the same.</p>
+<pre class="r"><code>countryid &lt;- dhs_countries(returnFields = c(&quot;CountryName&quot;, &quot;DHS_CountryCode&quot;))
+
+countryid %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE,
+  fixedColumns = list(leftColumns = 3)
+))</code></pre>
+<p><img src="images/countrys.PNG" width="430px" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># finding all the surveys available for our search criteria
+survey &lt;- dhs_surveys(
+  surveyCharacteristicIds = 57,
+  countryIds = c(&quot;RW&quot;, &quot;TZ&quot;),
+  surveyType = &quot;DHS&quot;,
+  surveyYearStart = 2015
+)
+
+# finally use this information to find the datasets we will want to download and specific file format can be used flat file in our case
+datasets &lt;- dhs_datasets(
+  surveyIds = survey$SurveyId,
+  fileFormat = &quot;flat&quot;
+)
+
+datasets %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  # scrollY = 350,
+  scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE
+))</code></pre>
+<p><img src="images/datasets3.png" width="800px" style="display: block; margin: auto;" /></p>
+<p>Recommended file formats which can be downloaded are spss (.sav), which can be given as an argument as <code>fileFormat = "SV"</code> or the other option would be flat file format (.dat), which can be given as <code>fileFormat = "FL"</code>. The flat files are quicker but some datasets cannot be read in correctly, whereas the .sav files are slower to read but so far no datasets have been found that do not read in correctly.</p>
+</div>
+<div id="download-survey-datasets-from-the-dhs-website." class="section level2">
+<h2>Download survey datasets from the <a href="https://dhsprogram.com/data/available-datasets.cfm">DHS website</a>.</h2>
+<p>Now we can download our desired datasets from the website. For doing this, we would need to set up an account within the DHS website, and the given credentials need to be supplied to <code>rdhs</code> when attempting to download datasets.</p>
+<p>Once we have created an account, we need to set up our credentials using the function <code>set_rdhs_config()</code>. This will require providing as arguments your <code>email</code> and <code>project</code> for which you want to download datasets from. Later for which you will be prompted for your password.</p>
+<p>The process for downloading of the datasets are as follows:</p>
+<p>If you specify a directory for datasets and API calls to be cached using <code>cache_path</code>. If you do not specify or provide an argument for <code>cache_path</code> you will be prompted to provide <code>rdhs</code> permission to save the downloaded datasets and API calls within your user cache directory of your operating system. If you do not grant permission, these will be written in your R temporary directory.</p>
+<p>Similarly, if you do not also provide an argument for <code>congif_path</code>, this will be saved within your temp directory unless permission is granted. Your config files will always be called “rdhs.json”, so that <code>rdhs</code> can find them easily.</p>
+<pre class="r"><code>config &lt;- set_rdhs_config(
+  email = &quot;abc.gmail.com&quot;,
+  project = &quot;project-name&quot;,
+  config_path = &quot;~/.rdhs.json&quot;,
+  global = TRUE,
+  verbose_download = TRUE
+)</code></pre>
+<p>Let us create the client side for our downloaded datasets, where the client can be passed as an argument to any API functions we have seen earlier. This will cache the results for you.</p>
+<p>The <code>get_rdhs_config()</code> function return the config being used by rdhs at the current R session. It will return be a data.frame with class “rdhs_config” or will be NULL if this has not been set up yet.</p>
+<pre class="r"><code># authenticate_dhs(config)
+configuration &lt;- get_rdhs_config()
+# the configurations are then assigned to the client object to invoke it later for all the functions
+client &lt;- client_dhs(configuration)
+client</code></pre>
+<p><img src="images/client3.png" width="800" style="display: block; margin: auto;" /></p>
+<p>Let us add all the downloadable datasets into one object called downloads using the <code>get_datasets()</code> function , which is a data frame which holds the value of whether the files are accessible for the credentials provided or not.</p>
+<pre class="r"><code>downloads &lt;- get_datasets(datasets$FileName)</code></pre>
+<p><img src="images/downloads3.png" width="800" style="display: block; margin: auto;" /></p>
+</div>
+<div id="loading-datasets-and-associating-its-metadata-into-r" class="section level2">
+<h2>Loading datasets and associating its metadata into R</h2>
+<p>We can now examine what it is we have actually downloaded, by reading in one of these data set:</p>
+<p>NOTE: to know which file holds what kind of information, the nomenclature directory is given in <a href="https://dhsprogram.com/publications/publication-dhsg4-dhs-questionnaires-and-manuals.cfm">here</a></p>
+<pre class="r"><code>data_downloaded &lt;- readRDS(downloads$RWBR70FL)</code></pre>
+<p>The dataset returned here contains all the survey questions within the dataset. The dataset is by default stored as a <strong>labelled</strong> class from the <a href="https://github.com/tidyverse/haven"><strong>haven package</strong></a>. This package preserves the original semantics of the data, even the special missing values are also preserved.</p>
+<pre class="r"><code>data_downloaded %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE
+))</code></pre>
+<p><img src="images/datadownloaded.PNG" width="800" style="display: block; margin: auto;" /></p>
+<p>If we want to get the metadata for this dataset, we can use the <code>get_variable_labels()</code> function, which returns what survey question each of the variables in the dataset are referring to.</p>
+<pre class="r"><code>get_variable_labels(data_downloaded) %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  # scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE
+))</code></pre>
+<p>The downloaded dataset in our example is that of the birth history in the country of Rwanda, the different column names or variables description is found in the table above which tells the decoded version of all the headers within the dataset.</p>
+<p>The main reason for reading the data set using the default option is that <code>rdhs</code> will also create a table of all the survey variables and their labels and cache them for you.</p>
+<p>The default behavior for the function is to download the datasets, read them in and save the resultant data.frame as a .rds object within the cache directory. You can also control this behavior using the <code>download.options</code> argument:</p>
+<ul>
+<li><p><code>get_datasets(download.options = "zip")</code>: only the downloaded zip will be saved.</p></li>
+<li><p><code>get_datasets(download.options = "rds")</code>: only the read in rds will be saved.</p></li>
+<li><p><code>get_datasets(download.options = "both")</code>: both the zip is downloaded as well as the read in rds and saved.</p></li>
+</ul>
+<p>Another function that is available for use in this package <code>rdhs</code> is <code>extract_dhs()</code>, it extracts data from your downloaded datasets according to a data.frame of requested survey variables or survey definitions.</p>
+<pre class="r"><code>datasets &lt;- dhs_datasets(surveyIds = survey$SurveyId, fileFormat = &quot;FL&quot;, fileType = &quot;PR&quot;)
+
+data_down &lt;- get_datasets(datasets$FileName)
+questions &lt;- search_variable_labels(datasets$FileName, search_terms = &quot;household&quot;)
+extract &lt;- extract_dhs(questions, add_geo = FALSE)</code></pre>
+<p>Let us first extract the desired variables from the Tanzania dataset of household surveys, in our case it is “share facilities with other households”, “observed place for hand washing”, “household selected for hemoglobin measurements” and we are storing them into the ques object.</p>
+<pre class="r"><code>ques &lt;- search_variables(datasets$FileName, variables = c(&quot;hv225&quot;, &quot;hv230a&quot;, &quot;hv042&quot;))
+
+extract2 &lt;- extract_dhs(ques, add_geo = FALSE)
+
+extra2 &lt;- head(extract2$TZPR7BFL)</code></pre>
+<p>And now lets do the same for Rwanda as well.</p>
+<p><img src="images/extractTZ.PNG" width="800" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>extra2RW &lt;- head(extract2$RWPR70FL)</code></pre>
+<p><img src="images/extractRW.PNG" width="800" style="display: block; margin: auto;" /></p>
+<p>Let us combine both the regions specific factor data into one dataframe and this can done by a function which helps combine two dataframes for further analysis , <code>rbind_labelled()</code>.</p>
+<pre class="r"><code>comb_extract &lt;- rbind_labelled(extract2)
+comb_extract %&gt;% datatable(extensions = c(&quot;Scroller&quot;, &quot;FixedColumns&quot;), options = list(
+  deferRender = TRUE,
+  scrollY = 350,
+  scrollX = 350,
+  dom = &quot;t&quot;,
+  scroller = TRUE
+))</code></pre>
+<p><img src="images/combined.png" width="700" style="display: block; margin: auto;" /></p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li><p><code>rdhs</code> package: <a href="https://cran.r-project.org/web/packages/rdhs/index.html" class="uri">https://cran.r-project.org/web/packages/rdhs/index.html</a></p></li>
+<li><p><code>DT</code> package: <a href="https://rstudio.github.io/DT/" class="uri">https://rstudio.github.io/DT/</a></p></li>
+</ul>
+<hr />
+<p style="color:grey; font-size: 13px;">
+Last updated: 2022-06-29<br />
+Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/dhs.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/dhs.Rmd</a>
+<details>
+<summary>
+<span style="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span>
+</summary>
+<pre><code>## R version 4.0.3 (2020-10-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18363)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] rdhs_0.7.2                DT_0.17                  
+##  [3] forcats_0.5.1             stringr_1.4.0            
+##  [5] dplyr_1.0.4               purrr_0.3.4              
+##  [7] readr_1.4.0               tidyr_1.1.4              
+##  [9] tibble_3.1.6              tidyverse_1.3.1          
+## [11] openair_2.9-1             leaflet_2.1.1            
+## [13] ggplot2_3.3.5             rgeoboundaries_0.0.0.9000
+## 
+## loaded via a namespace (and not attached):
+##  [1] nlme_3.1-149        fs_1.5.2            sf_0.9-7           
+##  [4] lubridate_1.8.0     RColorBrewer_1.1-2  httr_1.4.2         
+##  [7] rprojroot_2.0.2     tools_4.0.3         backports_1.4.1    
+## [10] bslib_0.3.1         utf8_1.1.4          R6_2.5.0           
+## [13] KernSmooth_2.23-17  DBI_1.1.2           mgcv_1.8-33        
+## [16] colorspace_2.0-3    withr_2.5.0         tidyselect_1.1.0   
+## [19] curl_4.3.2          compiler_4.0.3      rvest_1.0.2        
+## [22] cli_3.2.0           xml2_1.3.2          labeling_0.4.2     
+## [25] triebeard_0.3.0     sass_0.4.0          scales_1.1.1       
+## [28] classInt_0.4-3      hexbin_1.28.2       rappdirs_0.3.3     
+## [31] digest_0.6.27       rmarkdown_2.11      jpeg_0.1-9         
+## [34] pkgconfig_2.0.3     htmltools_0.5.2     dbplyr_2.1.1       
+## [37] fastmap_1.1.0       highr_0.9           maps_3.4.0         
+## [40] htmlwidgets_1.5.4   rlang_0.4.10        readxl_1.3.1       
+## [43] rstudioapi_0.13     httpcode_0.3.0      jquerylib_0.1.4    
+## [46] farver_2.1.0        generics_0.1.2      jsonlite_1.8.0     
+## [49] crosstalk_1.2.0     magrittr_2.0.1      Matrix_1.2-18      
+## [52] Rcpp_1.0.7          munsell_0.5.0       fansi_0.4.2        
+## [55] lifecycle_1.0.1     stringi_1.5.3       yaml_2.2.1         
+## [58] storr_1.2.5         MASS_7.3-53         grid_4.0.3         
+## [61] crayon_1.5.1        lattice_0.20-41     haven_2.5.0        
+## [64] splines_4.0.3       mapproj_1.2.8       hms_1.1.1          
+## [67] knitr_1.33          pillar_1.7.0        reprex_2.0.1       
+## [70] crul_1.2.0          glue_1.4.2          evaluate_0.15      
+## [73] latticeExtra_0.6-29 hoardr_0.5.2        modelr_0.1.8       
+## [76] png_0.1-7           vctrs_0.3.8         urltools_1.7.3     
+## [79] cellranger_1.1.0    gtable_0.3.0        assertthat_0.2.1   
+## [82] cachem_1.0.6        xfun_0.30           broom_0.8.0        
+## [85] countrycode_1.2.0   e1071_1.7-4         class_7.3-17       
+## [88] memoise_2.0.1       units_0.6-7         cluster_2.1.0      
+## [91] ellipsis_0.3.2      here_1.0.1</code></pre>
+</details>
+</p>
+</div>
+</div>
+
+<p style ="color:grey; font-size: 13px;">
+  Corrections: If you see mistakes or want to suggest changes, please 
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io/issues/new">
+  create an issue</a> on the source repository or  
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">submit a pull 
+  request</a></br>
+  Contributions: If you want to contribute or collaborate on the project, please
+  see the <a href="https://rspatialdata.github.io/contributing.html">
+  guidelines for collaborating</a></br>
+  Reuse: Text and figures are licensed under Creative Commons Attribution 
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0.</a>
+</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

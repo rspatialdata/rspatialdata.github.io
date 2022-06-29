@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Elevation data</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">rspatialdata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="admin_boundaries.html">Administrative boundaries</a>
+    </li>
+    <li>
+      <a href="osm.html">Open Street Map data</a>
+    </li>
+    <li>
+      <a href="population.html">Population</a>
+    </li>
+    <li>
+      <a href="elevation.html">Elevation</a>
+    </li>
+    <li>
+      <a href="temperature.html">Temperature</a>
+    </li>
+    <li>
+      <a href="rainfall.html">Rainfall</a>
+    </li>
+    <li>
+      <a href="humidity.html">Humidity</a>
+    </li>
+    <li>
+      <a href="vegetation.html">Vegetation</a>
+    </li>
+    <li>
+      <a href="land_cover.html">Land Cover</a>
+    </li>
+    <li>
+      <a href="dhs-data.html">DHS</a>
+    </li>
+    <li>
+      <a href="malaria.html">Malaria</a>
+    </li>
+    <li>
+      <a href="air_pollution.html">Air Pollution</a>
+    </li>
+    <li>
+      <a href="species_occurrence.html">Species Occurrence</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="spatio_temporal_analysis.html">Spatial Analysis</a>
+</li>
+<li>
+  <a href="contributors.html">Contributors</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="collaborate.html">Collaborations</a>
+</li>
+<li>
+  <a href="news.html">News</a>
+</li>
+<li>
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Elevation data</h1>
+
+</div>
+
+
+<div id="data-set-details" class="section level4">
+<h4>Data set details</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Data set description:</strong></td>
+<td>Elevation data in Switzerland</td>
+</tr>
+<tr class="even">
+<td><strong>Source:</strong></td>
+<td><a href="https://ned.usgs.gov/epqs/">USGS Elevation Point Query Service</a> and <a href="https://registry.opendata.aws/terrain-tiles/">Amazon Web Services Terrain Tiles</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Details on the retrieved data:</strong></td>
+<td>Elevation in Switzerland along with the data on the administrative areas for the same country.</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial and temporal resolution:</strong></td>
+<td>Elevation data with different zoom levels (<a href="https://github.com/tilezen/joerd/blob/master/docs/data-sources.md#what-is-the-ground-resolution">see details</a>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="downloading-elevation-data-with-the-elevatr-package" class="section level1">
+<h1>Downloading elevation data with the <code>elevatr</code> package</h1>
+<p>This tutorial gives you a brief understanding of how to use the <code>elevatr</code> package for a standardized access to the elevation data from the web. The packages uses two endpoints to access its data from:</p>
+<ul>
+<li><a href="https://ned.usgs.gov/epqs/">USGS Elevation Point Query Service</a> for point elevation data (for United states only).</li>
+<li><a href="https://registry.opendata.aws/terrain-tiles/">Amazon Web Services Terrain Tiles</a> for raster elevation data such as DEM (digital elevation model) (for all global elevation data).</li>
+</ul>
+<div id="installing-the-package" class="section level2">
+<h2>Installing the package</h2>
+<p>The <code>elevtr</code> package can be directly downloaded from CRAN as follows.</p>
+<pre class="r"><code>install.packages(&quot;elevatr&quot;)</code></pre>
+<p>Loading the <code>elevatr</code> package:</p>
+<pre class="r"><code>library(elevatr)</code></pre>
+<!--
+## Datasets available 
+
+The package has three different data sets already within it, they are namely **lake**, **pt_df**, **sp_big** , all of which are .rda files. It can be accessed by using the code `elevatr`, from which you can work with any of the above data sets and these can be saved into the working environment by assigning it to an object for further analysis and visualisation. 
+
+You can also use other packages or own downloaded data set for showing elevation of a certain area.   
+
+
+
+```r
+elevatr::lake # SpatialPolygons Dataframe of lake Sunapee
+elevatr::pt_df # small data frame of x & y locations
+elevatr::sp_big # SpatialPoints of random points
+```
+-->
+</div>
+<div id="functions-available" class="section level2">
+<h2>Functions available</h2>
+<p>Currently, there are two functions in this package which help users access elevation web services, namely, <code>get_elev_point()</code> and <code>get_elev_raster()</code>.</p>
+<p>The <code>get_elev_point()</code> function gets the point elevations using the USGS Elevation Point Query Services (for United states only) and AWS Terrain Tiles (for all global elevation data).</p>
+<ul>
+<li><strong>Input</strong>: This function accepts a data frame of longitude and latitude values (<code>x</code> and <code>y</code>), a <code>SpatialPoints/SpatialPointsDataFrame</code>, or a simple feature object (<code>sf</code>). It has a source argument <code>src</code> which indicates which API to use, either <code>"eqps"</code> or <code>"aws"</code>.<br />
+</li>
+<li><strong>Output</strong>: produces either a <code>SpatialPointsDataFrame</code> or <code>Simple Feature object</code>, depending on the class of input locations.</li>
+</ul>
+<p>The <code>get_elev_point()</code> function can be used as follows:</p>
+<pre class="r"><code>ll_proj &lt;- &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot;
+elev &lt;- elevatr::get_elev_point(pt_df, prj = ll_proj)
+
+library(kableExtra)
+elev %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+elevation
+</th>
+<th style="text-align:left;">
+elev_units
+</th>
+<th style="text-align:right;">
+coords.x1
+</th>
+<th style="text-align:right;">
+coords.x2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+meters
+</td>
+<td style="text-align:right;">
+-71.82791
+</td>
+<td style="text-align:right;">
+40.25963
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+243.79
+</td>
+<td style="text-align:left;">
+meters
+</td>
+<td style="text-align:right;">
+-71.76843
+</td>
+<td style="text-align:right;">
+43.05586
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+73.74
+</td>
+<td style="text-align:left;">
+meters
+</td>
+<td style="text-align:right;">
+-71.37858
+</td>
+<td style="text-align:right;">
+42.52338
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+86.83
+</td>
+<td style="text-align:left;">
+meters
+</td>
+<td style="text-align:right;">
+-71.10417
+</td>
+<td style="text-align:right;">
+42.65332
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+391.93
+</td>
+<td style="text-align:left;">
+meters
+</td>
+<td style="text-align:right;">
+-71.56750
+</td>
+<td style="text-align:right;">
+43.91346
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>get_elev_raster()</code> function helps users get elevation data as a raster from the AWS Open Data Terrain Tiles. The source data are global and also contain the estimations for depth for oceans.</p>
+<ul>
+<li><p><strong>Input</strong>: This takes in a data frame of longitude and latitude values (<code>x</code> and <code>y</code>) or any <code>sp</code> or <code>raster</code> object. It has a <code>z</code> argument to determine the zoom or resolution of the raster (1 to 14). It also has a <code>clip</code> argument to determine clipping of returned DEM. Options are <code>"tile"</code> which is the default value and returns the full tiles, <code>"bbox"</code> which returns the DEM clipped to the bounding box of the original locations, or <code>"locations"</code> if the spatial data in the input locations should be used to clip the DEM.</p></li>
+<li><p><strong>Output</strong>: Returns a <code>raster</code> object of the elevation tiles that cover the bounding box of the input spatial data.</p></li>
+</ul>
+<!--
+- When this function is used an additional column will be added to the data slot of a `SpatialPointsDataFrame` called **elevation**.
+
+- To access data from the services you will need to set the argument `src` = `eqps`
+-->
+<p>We can use the <code>get_elev_raster()</code> function to obtain the elevation data of Switzerland, and plot it together with the country boundaries obtained by using the <code>rgeoboundaries</code> package as follows.</p>
+<pre class="r"><code>library(rgeoboundaries)
+library(sf)
+library(raster)
+library(ggplot2)
+library(viridis)
+
+swiss_bound &lt;- rgeoboundaries::geoboundaries(&quot;Switzerland&quot;)
+elevation_data &lt;- elevatr::get_elev_raster(locations = swiss_bound, z = 9, clip = &quot;locations&quot;)
+
+
+elevation_data &lt;- as.data.frame(elevation_data, xy = TRUE)
+colnames(elevation_data)[3] &lt;- &quot;elevation&quot;
+# remove rows of data frame with one or more NA&#39;s,using complete.cases
+elevation_data &lt;- elevation_data[complete.cases(elevation_data), ]
+
+ggplot() +
+  geom_raster(data = elevation_data, aes(x = x, y = y, fill = elevation)) +
+  geom_sf(data = swiss_bound, color = &quot;white&quot;, fill = NA) +
+  coord_sf() +
+  scale_fill_viridis_c() +
+  labs(title = &quot;Elevation in Switzerland&quot;, x = &quot;Longitude&quot;, y = &quot;Latitude&quot;, fill = &quot;Elevation (meters)&quot;)</code></pre>
+<p><img src="elevation_files/figure-html/raster-elev-1.png" width="672" /></p>
+<p>We can also get the different administrative areas of the country Switzerland, by using the <code>ne_states</code> function from the <code>rnaturalearth</code> package. And the <code>get_elev_raster</code> function, you can get the elevation data. The following code does the same:</p>
+<p>NOTE: increasing or decreasing the <code>z</code> argument will make the map zoom in and out on the country by setting the appropriate z-axis value.</p>
+<pre class="r"><code># install.packages(&quot;rnaturlaearth&quot;)
+# remotes::install_github(&quot;ropensci/rnaturalearthhires&quot;)
+
+library(rnaturalearth)
+library(rnaturalearthhires)
+
+sf_swiss &lt;- ne_states(country = &quot;switzerland&quot;, returnclass = &quot;sf&quot;)
+
+elevation_1 &lt;- elevatr::get_elev_raster(locations = sf_swiss, z = 7, clip = &quot;locations&quot;)
+cropped_elev &lt;- crop(elevation_1, sf_swiss)
+elevate &lt;- as.data.frame(cropped_elev, xy = TRUE)
+
+colnames(elevate)[3] &lt;- &quot;elevation_value&quot;
+elevate &lt;- elevate[complete.cases(elevate), ]
+
+ggplot() +
+  # geom_sf(data = st_as_sfc(st_bbox(elevation_1)),color = &quot;grey&quot;, fill = &quot;grey&quot;,alpha = 0.05) +
+  geom_raster(data = elevate, aes(x = x, y = y, fill = elevation_value)) +
+  geom_sf(data = sf_swiss, color = &quot;white&quot;, fill = NA) +
+  coord_sf(xlim = c(5.3, 10.8), ylim = c(45.5, 47.8)) +
+  scale_fill_viridis_c() +
+  labs(title = &quot;Elevation in Switzerland&quot;, x = &quot;Longitude&quot;, y = &quot;Latitude&quot;, fill = &quot;Elevation (meters)&quot;)</code></pre>
+<p><img src="elevation_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<!--
+
+We can also use boundary boxes for the visualization of the elevation and can be done as thus:
+
+
+#```{r}
+df <- data.frame(
+  x = sp::bbox(lake)[1, 1],
+  sp::bbox(lake)[1, 2],
+  y = sp::bbox(lake)[2, 1],
+  sp::bbox(lake)[2, 2]
+)
+x <- get_elev_raster(locations = df, prj = sp::proj4string(lake), z = 10)
+
+x <- get_elev_raster(lake, z = 12)
+x <- get_elev_raster(lake, src = "aws", z = 12, expand = 1300)
+
+plot(x)
+```
+
+-->
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li><code>elevatr</code> repository: <a href="https://github.com/jhollist/elevatr" class="uri">https://github.com/jhollist/elevatr</a></li>
+<li><code>rgeoboundaries</code> package: <a href="https://gitlab.com/dickoa/rgeoboundaries" class="uri">https://gitlab.com/dickoa/rgeoboundaries</a></li>
+<li><code>ggplot2</code> package: <a href="https://ggplot2.tidyverse.org/" class="uri">https://ggplot2.tidyverse.org/</a></li>
+</ul>
+<hr />
+<p style="color:grey; font-size: 13px;">
+Last updated: 2022-06-29<br />
+Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/elevation.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/elevation.Rmd</a>
+<details>
+<summary>
+<span style="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span>
+</summary>
+<pre><code>## R version 4.0.3 (2020-10-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18363)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] rnaturalearthhires_0.2.0  rnaturalearth_0.1.0      
+##  [3] viridis_0.5.1             viridisLite_0.3.0        
+##  [5] raster_3.5-15             sp_1.4-5                 
+##  [7] sf_0.9-7                  rgeoboundaries_0.0.0.9000
+##  [9] elevatr_0.4.2             kableExtra_1.3.4         
+## [11] forcats_0.5.1             stringr_1.4.0            
+## [13] dplyr_1.0.4               purrr_0.3.4              
+## [15] readr_1.4.0               tidyr_1.1.4              
+## [17] tibble_3.1.6              ggplot2_3.3.5            
+## [19] tidyverse_1.3.1          
+## 
+## loaded via a namespace (and not attached):
+##  [1] fs_1.5.2           lubridate_1.8.0    webshot_0.5.2      progress_1.2.2    
+##  [5] httr_1.4.2         tools_4.0.3        backports_1.4.1    bslib_0.3.1       
+##  [9] utf8_1.1.4         rgdal_1.5-23       R6_2.5.0           KernSmooth_2.23-17
+## [13] rgeos_0.5-5        DBI_1.1.2          colorspace_2.0-3   withr_2.5.0       
+## [17] gridExtra_2.3      tidyselect_1.1.0   prettyunits_1.1.1  curl_4.3.2        
+## [21] compiler_4.0.3     progressr_0.10.1   cli_3.2.0          rvest_1.0.2       
+## [25] xml2_1.3.2         labeling_0.4.2     triebeard_0.3.0    sass_0.4.0        
+## [29] scales_1.1.1       classInt_0.4-3     rappdirs_0.3.3     systemfonts_1.0.4 
+## [33] digest_0.6.27      rmarkdown_2.11     svglite_1.2.3.2    pkgconfig_2.0.3   
+## [37] htmltools_0.5.2    dbplyr_2.1.1       fastmap_1.1.0      highr_0.9         
+## [41] rlang_0.4.10       readxl_1.3.1       rstudioapi_0.13    httpcode_0.3.0    
+## [45] farver_2.1.0       jquerylib_0.1.4    generics_0.1.2     jsonlite_1.8.0    
+## [49] magrittr_2.0.1     Rcpp_1.0.7         munsell_0.5.0      fansi_0.4.2       
+## [53] gdtools_0.2.4      lifecycle_1.0.1    terra_1.5-17       stringi_1.5.3     
+## [57] yaml_2.2.1         grid_4.0.3         crayon_1.5.1       lattice_0.20-41   
+## [61] haven_2.5.0        hms_1.1.1          knitr_1.33         pillar_1.7.0      
+## [65] codetools_0.2-16   crul_1.2.0         reprex_2.0.1       glue_1.4.2        
+## [69] evaluate_0.15      hoardr_0.5.2       modelr_0.1.8       urltools_1.7.3    
+## [73] vctrs_0.3.8        cellranger_1.1.0   gtable_0.3.0       slippymath_0.3.1  
+## [77] assertthat_0.2.1   cachem_1.0.6       xfun_0.30          broom_0.8.0       
+## [81] countrycode_1.2.0  e1071_1.7-4        class_7.3-17       memoise_2.0.1     
+## [85] units_0.6-7        ellipsis_0.3.2</code></pre>
+</details>
+</p>
+</div>
+</div>
+
+<p style ="color:grey; font-size: 13px;">
+  Corrections: If you see mistakes or want to suggest changes, please 
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io/issues/new">
+  create an issue</a> on the source repository or  
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">submit a pull 
+  request</a></br>
+  Contributions: If you want to contribute or collaborate on the project, please
+  see the <a href="https://rspatialdata.github.io/contributing.html">
+  guidelines for collaborating</a></br>
+  Reuse: Text and figures are licensed under Creative Commons Attribution 
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0.</a>
+</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

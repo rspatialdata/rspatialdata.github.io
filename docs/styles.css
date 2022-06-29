@@ -1,0 +1,45 @@
+h1, .h1 {
+    border-top: 60px solid transparent;
+    border-bottom: 20px solid transparent;
+}
+
+h2, .h2, h3, .h3 {
+    border-top: 50px solid transparent;
+    border-bottom: 20px solid transparent;
+}
+
+h4, .h4 {
+    border-top: 20px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.title.toc-ignore {
+  border-bottom: 0px solid transparent;
+}
+
+.contributors .col-md-3 {
+  padding: 30px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.contributors .col-md-3 img{
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-grid .col-sm-2 img:hover {
+  transform:scale(1.1);
+}
+
+.icon-grid .col-sm-2 img {
+  height: 90%;
+  width: 90%;
+  transition:transform .25s ease;
+  display: block;
+  margin-bottom: 2em;
+}

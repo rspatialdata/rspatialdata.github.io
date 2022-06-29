@@ -1,0 +1,298 @@
+---
+title: "Temperature"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Temperature data worldwide and in Nigeria |
+| **Source:**   | [Worldclim](https://www.worldclim.org/) database |
+| **Details on the retrieved data:**   | Mean monthly maximum temperatures worldwide and in Nigeria for the years 1970-2000. |
+| **Spatial and temporal resolution:**  | Temperature data at spatial resolutions between 30 seconds (~1 km2) and 10 minutes (~340km2). |
+
+## The `WorldClim` database
+
+[Worldclim](https://www.worldclim.org/) is a database of global interpolated climate data for global land areas, and provides aggregated historical climate data for the years 1970-2000.
+
+WorldClim provides [monthly climate data](https://www.worldclim.org/data/worldclim21.html) for minimum, maximum and average temperatures, as well as precipitation, solar radiation, wind speed and water vapor pressure, at four spatial resolutions between 30 seconds (~1 km^2^) and 10 minutes (~340km^2^). A list of [19 bioclimatic variables](https://www.worldclim.org/data/bioclim.html) derived as an average of the monthly values for the years 1970-2000 are also provided as more biologically meaningful variables.
+
+The `raster` R package provides access to the WorldClim database, and allows us to download data sets on the many different climatic conditions provided by WorldClim.
+
+## Installing `raster`
+
+The `raster` package can be directly installed from CRAN as follows
+
+```{r install-raster, eval=FALSE}
+install.packages("raster")
+```
+
+## Downloading maximum temperature data
+
+We can then use `getData()` function of the `raster` package to download different climatic conditions from the Worldclim database.
+
+The following example downloads the monthly maximum temperatures at a spatial resolution of 10 minutes (~340km^2^).
+
+```{r download-maxtemp-data}
+library(raster)
+tmax_data <- getData(name = "worldclim", var = "tmax", res = 10)
+```
+
+## Understanding the downloaded data
+
+The downloaded monthly maximum temperature data, will be a RasterStack object -  which is a collection of RasterLayer objects with the same spatial extent and resolution. This makes sense, because the monthly maximum temperature data should contain 12 RasterLayers for 12 months.
+
+```{r print-maxtemp-data}
+tmax_data
+```
+
+Note how each RasterLayer corresponding to the 12 months of the year are named from tmax1 - tmax12 respectively.
+
+The minimum and maximum values for each month however don't seem practical. This is because the Worldclim temperature data set is stated to have a gain of 0.1, which means that it must be multiplied by 0.1 to convert back to degrees Celsius. 
+```{r convert-maxtemp-to-celsius}
+gain(tmax_data) <- 0.1
+```
+
+Thereafter, to extract the maximum temperature of a single month we can use the following approach. This example prints out the RasterLayer object corresponding to the maximum temperature in May - the fifth month of year.
+
+```{r maxtemp-may-data}
+tmax_data$tmax5
+```
+
+## Visualising the data with `ggplot2`
+
+The `ggplot2` package provides the `geom_raster()` function, which can be used to easily visualise the downloaded temperature.
+
+The following example visualises the maximum temperature in May. Before visualising the data, we first convert the RasterLayer object to a dataframe, as follows.
+
+```{r visualise-may-maxtemp}
+# install.packages("ggplot2")
+library(ggplot2)
+
+# Converting the raster object into a dataframe
+tmax_data_may_df <- as.data.frame(tmax_data$tmax5, xy = TRUE, na.rm = TRUE)
+rownames(tmax_data_may_df) <- c()
+
+ggplot(
+  data = tmax_data_may_df,
+  aes(x = x, y = y)
+) +
+  geom_raster(aes(fill = tmax5)) +
+  labs(
+    title = "Maximum temperature in May",
+    subtitle = "For the years 1970-2000"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradientn(
+    name = "Temperature (°C)",
+    colours = c("#0094D1", "#68C1E6", "#FEED99", "#AF3301"),
+    breaks = c(-20, 0, 20, 40)
+  )
+```
+
+## Examples
+
+### Visualising monthly maximum temperatures
+
+The following example visualises the maximum monthly temperatures for each month.
+
+```{r visualise-monthly-maxtemp-example}
+# install.packages(c("raster", "ggplot2", "tidyverse"))
+library(raster)
+library(ggplot2)
+library(tidyverse)
+
+# Downloading monthly maximum temperature data
+tmax_data <- getData(name = "worldclim", var = "tmax", res = 10)
+
+# Converting temperature values to Celcius
+gain(tmax_data) <- 0.1
+
+# Converting the raster object into a dataframe
+tmax_data_df <- as.data.frame(tmax_data, xy = TRUE, na.rm = TRUE)
+rownames(tmax_data_df) <- c()
+
+# Renaming the month columns, Converting the dataframe into long format and converting month column into a factor
+tmax_data_df_long <- tmax_data_df %>%
+  rename(
+    "January" = "tmax1", "February" = "tmax2", "March" = "tmax3", "April" = "tmax4",
+    "May" = "tmax5", "June" = "tmax6", "July" = "tmax7", "August" = "tmax8",
+    "September" = "tmax9", "October" = "tmax10", "November" = "tmax11", "December" = "tmax12"
+  ) %>%
+  pivot_longer(c(-x, -y), names_to = "month", values_to = "temp")
+
+tmax_data_df_long$month <- factor(tmax_data_df_long$month, levels = month.name)
+
+tmax_data_df_long %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_raster(aes(fill = temp)) +
+  facet_wrap(~month) +
+  labs(
+    title = "Monthly maximum temperatures",
+    subtitle = "For the years 1970-2000"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradientn(
+    name = "Temperature (°C)",
+    colours = c("#006D9B", "#0094D1", "#68C1E6", "#FEED99", "#AF3301"),
+    breaks = c(-40, -20, 0, 20, 40)
+  )
+```
+
+### Visualising mean monthly temperature
+
+The WorldClim database provides the monthly maximum temperatures across the world, but it might also be important to visualise an annual average of these values. This can be done by averaging the monthly maximum temperature values.
+
+The following is a complete example of downloading monthly maximum temperature values, calculating their mean and visualising it.
+
+```{r visualise-mean-maxtemp-example}
+# install.packages(c("raster","ggplot2", "magrittr"))
+library(raster)
+library(ggplot2)
+library(magrittr)
+
+# Downloading monthly maximum temperature data
+tmax_data <- getData(name = "worldclim", var = "tmax", res = 10)
+
+# Converting temperature values to Celcius
+gain(tmax_data) <- 0.1
+
+# Calculating mean of the monthly maximum temperatures
+tmax_mean <- mean(tmax_data)
+
+# Converting the raster object into a dataframe
+tmax_mean_df <- as.data.frame(tmax_mean, xy = TRUE, na.rm = TRUE)
+
+tmax_mean_df %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_raster(aes(fill = layer)) +
+  labs(
+    title = "Mean monthly maximum temperatures",
+    subtitle = "For the years 1970-2000"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradientn(
+    name = "Temperature (°C)",
+    colours = c("#0094D1", "#68C1E6", "#FEED99", "#AF3301"),
+    breaks = c(-20, 0, 20, 40)
+  )
+``` 
+
+### Visualising mean monthly temperature of Nigeria
+
+This example uses the same approach as the previous example but only extracts and visualises the mean monthly temperature in Nigeria.
+
+```{r}
+# install.packages(c("raster","ggplot2", "magrittr", "sf"))
+# remotes::install_github("wmgeolab/rgeoboundaries")
+library(raster)
+library(ggplot2)
+library(magrittr)
+library(sf)
+library(rgeoboundaries)
+
+
+# Downloading monthly maximum temperature data
+tmax_data <- getData(name = "worldclim", var = "tmax", res = 10)
+
+# Converting temperature values to Celcius
+gain(tmax_data) <- 0.1
+
+# Calculating mean of the monthly maximum temperatures
+tmax_mean <- mean(tmax_data)
+
+# Downloading the boundary of Nigeria
+nigeria_sf <- geoboundaries("Nigeria")
+
+# Extracting temperature data of Nigeria
+tmax_mean_ngeria <- raster::mask(tmax_mean, as_Spatial(nigeria_sf))
+
+# Converting the raster object into a dataframe
+tmax_mean_nigeria_df <- as.data.frame(tmax_mean_ngeria, xy = TRUE, na.rm = TRUE)
+
+tmax_mean_nigeria_df %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_raster(aes(fill = layer)) +
+  geom_sf(data = nigeria_sf, inherit.aes = FALSE, fill = NA) +
+  labs(
+    title = "Mean monthly maximum temperatures in Nigeria",
+    subtitle = "For the years 1970-2000"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradient(
+    name = "Temperature (°C)",
+    low = "#FEED99",
+    high = "#AF3301"
+  )
+```
+
+  
+### Visualising bioclimatic variables
+
+The list of 19 bioclimatic variables provided by the Worldclim database are derived from the monthly values, in order to generate more biologically meaningful variables.
+
+The complete list of variables and their codes can be found [here](https://www.worldclim.org/data/bioclim.html)
+
+The process of downloading and visualising these variables follows a similar approach to the tutorial. The following is a complete example of downloading and visualising the "Maximum Temperature of the Warmest Month".
+  
+```{r warmest-month-maxtemp-example}
+# install.packages(c("raster", "ggplot2", "magrittr"))
+library(raster)
+library(ggplot2)
+library(magrittr)
+
+# Downloading bioclimatic data
+bio <- getData(name = "worldclim", var = "bio", res = 10)
+
+# Converting temperature values to Celcius
+gain(bio) <- 0.1
+
+# Extracting only the 5th bioclimatic variable and onverting the raster object into a dataframe
+bio5_df <- as.data.frame(bio$bio5, xy = TRUE, na.rm = TRUE)
+
+bio5_df %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_raster(aes(fill = bio5)) +
+  labs(
+    title = "Maximum temperature of the warmest month",
+    subtitle = "In the time period 1970-2000"
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradientn(
+    name = "Temperature (°C)",
+    colours = c("#0094D1", "#68C1E6", "#FEED99", "#AF3301"),
+    breaks = c(-20, 0, 20, 40)
+  )
+```
+
+## References
+
+- `WorldClim` website: https://worldclim.org/data/index.html  
+- `raster` package documentation: https://cran.r-project.org/web/packages/raster/raster.pdf
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/temperature.Rmd 
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>

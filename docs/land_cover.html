@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Land Cover</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">rspatialdata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="admin_boundaries.html">Administrative boundaries</a>
+    </li>
+    <li>
+      <a href="osm.html">Open Street Map data</a>
+    </li>
+    <li>
+      <a href="population.html">Population</a>
+    </li>
+    <li>
+      <a href="elevation.html">Elevation</a>
+    </li>
+    <li>
+      <a href="temperature.html">Temperature</a>
+    </li>
+    <li>
+      <a href="rainfall.html">Rainfall</a>
+    </li>
+    <li>
+      <a href="humidity.html">Humidity</a>
+    </li>
+    <li>
+      <a href="vegetation.html">Vegetation</a>
+    </li>
+    <li>
+      <a href="land_cover.html">Land Cover</a>
+    </li>
+    <li>
+      <a href="dhs-data.html">DHS</a>
+    </li>
+    <li>
+      <a href="malaria.html">Malaria</a>
+    </li>
+    <li>
+      <a href="air_pollution.html">Air Pollution</a>
+    </li>
+    <li>
+      <a href="species_occurrence.html">Species Occurrence</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="spatio_temporal_analysis.html">Spatial Analysis</a>
+</li>
+<li>
+  <a href="contributors.html">Contributors</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="collaborate.html">Collaborations</a>
+</li>
+<li>
+  <a href="news.html">News</a>
+</li>
+<li>
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Land Cover</h1>
+
+</div>
+
+
+<div id="data-set-details" class="section level4">
+<h4>Data set details</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Data set description:</strong></td>
+<td>Land cover classification in Zimbabwe</td>
+</tr>
+<tr class="even">
+<td><strong>Source:</strong></td>
+<td><a href="https://modis.gsfc.nasa.gov/data/dataprod/">Moderate Resolution Imaging Spectroradiometer (MODIS)</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Details on the retrieved data:</strong></td>
+<td>Land cover classification (<a href="https://modis.gsfc.nasa.gov/data/dataprod/mod12.php">Land Cover Products</a>) in Zimbabwe in 2019.</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial and temporal resolution:</strong></td>
+<td>Annually averaged data at a 500 meter spatial resolution.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="modis-moderate-resolution-imaging-spectroradiometer" class="section level2">
+<h2>MODIS (Moderate Resolution Imaging Spectroradiometer)</h2>
+<p>MODIS is an instrument aboard the Terra and Aqua satellites, which orbits the entire Earth every 1-2 days, acquiring data at different spatial resolutions. The data acquired by MODIS describes features of the land, oceans and the atmosphere. A complete list of MODIS data products can be found on the <a href="https://modis.gsfc.nasa.gov/data/dataprod/">MODIS website</a>.</p>
+</div>
+<div id="downloading-land-cover-data-using-modistsp" class="section level2">
+<h2>Downloading Land Cover data using <code>MODIStsp</code></h2>
+<p><code>MODIStsp</code> is an R package for downloading and preprocessing time series of raster data from MODIS data products. The package’s name is an acronym for ‘MODIS Time Series Processing’. This tutorial will focus on downloading and visualising land cover data, but the same process can be followed with other MODIS data products as well.</p>
+<div id="installing-modistsp" class="section level3">
+<h3>Installing <code>MODIStsp</code></h3>
+<p>The <code>MODIStsp</code> package can be downloaded from CRAN as follows.</p>
+<pre class="r"><code>install.packages(&quot;MODIStsp&quot;)</code></pre>
+</div>
+<div id="identifying-the-modis-data-product" class="section level3">
+<h3>Identifying the MODIS data product</h3>
+<p>The first step of downloading data is to identify which <a href="https://modis.gsfc.nasa.gov/data/dataprod/">MODIS data product</a> to use.</p>
+<p>This tutorial will use the <a href="https://modis.gsfc.nasa.gov/data/dataprod/mod12.php">Land Cover Products</a>, which uses different classification schemes to identify types of land cover. The primary land cover scheme identifies 17 classes defined by the <strong>International Geosphere-Biosphere Programme (IGBP)</strong> as detailed in their <a href="https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf">user guide</a>.This product contains annually averaged data, collected bi-annually allowing for hemispheric differences in the growing seasons, and enabling the product to capture two growth cycles if necessary.</p>
+<p>The product IDs for each of these products can also be found on the <a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php">data product page</a>.</p>
+<p>This tutorial will use the ‘Land Cover Type Yearly L3 Global 500m’ product with the product IDs MCD12Q1 (Combined Aqua and Terra Product ID)</p>
+</div>
+<div id="retrieving-modis-layers-for-a-product" class="section level3">
+<h3>Retrieving MODIS layers for a product</h3>
+<p>The product layers (original MODIS layers, quality layers and spectral indexes) available for a given product can be retrieved using the following function.</p>
+<pre class="r"><code>library(MODIStsp)
+MODIStsp_get_prodlayers(&quot;MCD12Q1&quot;)</code></pre>
+<pre style="max-height: 200px;"><code>## $prodname
+## [1] &quot;LandCover_Type_Yearly_500m (MCD12Q1)&quot;
+## 
+## $bandnames
+##  [1] &quot;LC1&quot;                 &quot;LC2&quot;                 &quot;LC3&quot;                
+##  [4] &quot;LC4&quot;                 &quot;LC5&quot;                 &quot;LC_Prop1&quot;           
+##  [7] &quot;LC_Prop2&quot;            &quot;LC_Prop3&quot;            &quot;LC_Prop1_Assessment&quot;
+## [10] &quot;LC_Prop2_Assessment&quot; &quot;LC_Prop3_Assessment&quot; &quot;LC_QC&quot;              
+## [13] &quot;LC_LW&quot;              
+## 
+## $bandfullnames
+##  [1] &quot;Land Cover Type 1 (IGBP)*&quot;                                      
+##  [2] &quot;Land Cover Type 2 (UMD)*&quot;                                       
+##  [3] &quot;Land Cover Type 3 (LAI/fPAR)*&quot;                                  
+##  [4] &quot;Land Cover Type 4 (NPP/BGC)*&quot;                                   
+##  [5] &quot;Land Cover Type 5: Annual Plant Functional Types classification&quot;
+##  [6] &quot;FAO-Land Cover Classification System 1 (LCCS1) land cover layer&quot;
+##  [7] &quot;FAO-LCCS2 land use layer&quot;                                       
+##  [8] &quot;FAO-LCCS3 surface hydrology layer&quot;                              
+##  [9] &quot;LCCS1 land cover layer confidence&quot;                              
+## [10] &quot;LCCS2 land use layer confidence&quot;                                
+## [11] &quot;LCCS3 surface hydrology layer confidence&quot;                       
+## [12] &quot;Land Cover QC&quot;                                                  
+## [13] &quot;Binary land/water mask derived from MOD44W&quot;                     
+## 
+## $quality_bandnames
+## NULL
+## 
+## $quality_fullnames
+## NULL
+## 
+## $indexes_bandnames
+## NULL
+## 
+## $indexes_fullnames
+## NULL</code></pre>
+<p>Note how the <code>\$bandfullnames</code> define each of the <code>\$bandnames</code>.</p>
+</div>
+<div id="the-modistsp-function" class="section level3">
+<h3>The <code>MODIStsp()</code> function</h3>
+<p><code>MODIStsp()</code> is the main function of the <code>MODIStsp</code> package, and allows us to download MODIS data products. While this is a very comprehensive function and we only a very few of its arguments in this tutorial, the entire list of arguments can be found in the <a href="https://docs.ropensci.org/MODIStsp/reference/MODIStsp.html">MODIStsp documentation</a>.</p>
+<p>The <code>MODIStsp()</code> function provides two ways of downloading data, namely, through a GUI (interactive) or through an R script (non-interactive). This tutorial will focus on the non-interactive execution.</p>
+</div>
+<div id="downloading-igbp-land-cover-classification-data" class="section level3">
+<h3>Downloading IGBP land cover classification data</h3>
+<p>To download the IGBP land cover classification data in Zimbabwe, first we download the boundary of Zimbabwe with the <code>geoboundaries()</code> function from the <code>rgeoboundaries</code> package and save it on our computer.</p>
+<pre class="r"><code># remotes::install_github(&quot;wmgeolab/rgeoboundaries&quot;)
+# install.packages(&quot;sf&quot;)
+library(rgeoboundaries)
+library(sf)
+# Downloading the country boundary of Zimbabwe
+map_boundary &lt;- geoboundaries(&quot;Zimbabwe&quot;)
+# Defining filepath to save downloaded spatial file
+spatial_filepath &lt;- &quot;LandCoverData/zimbabwe.shp&quot;
+# Saving downloaded spatial file on to our computer
+st_write(map_boundary, paste0(spatial_filepath))</code></pre>
+<p>Then we use the <code>MODIStsp()</code> function to download the IGBP land cover classification data.</p>
+<p>To download data in Zimbabwe, we use the boundary of Zimbabwe we downloaded. So in the <code>MODIStsp()</code> function we set the <code>spatmeth</code> argument as “file” and set the <code>spafile</code> argument as the path of the map we saved.</p>
+<p>Since IGBP land cover classification data is provided annually and dated on the 1st of January each year, the <code>start-date</code> and <code>end_date</code> arguments should contain the 1st of January of each year for which we want the data to be downloaded.</p>
+<p>The <code>start-date</code> and <code>end_date</code> arguments define the period for which we want the data to be downloaded.</p>
+<p>Note that this tutorial uses a test username and password. The <code>user</code> and <code>password</code> arguments should be the username and password corresponding to your <a href="https://urs.earthdata.nasa.gov/">earthdata</a> credentials.</p>
+<pre class="r"><code>library(MODIStsp)
+MODIStsp(gui             = FALSE,
+         out_folder      = &quot;LandCoverData&quot;,
+         out_folder_mod  = &quot;LandCoverData&quot;,
+         selprod         = &quot;LandCover_Type_Yearly_500m (MCD12Q1)&quot;,
+         bandsel         = &quot;LC1&quot;, 
+         user            = &quot;mstp_test&quot; ,
+         password        = &quot;MSTP_test_01&quot;,
+         start_date      = &quot;2019.01.01&quot;, 
+         end_date        = &quot;2019.12.31&quot;, 
+         verbose         = FALSE,
+         spatmeth        = &quot;file&quot;,
+         spafile         = spatial_filepath,
+         out_format      = &quot;GTiff&quot;)</code></pre>
+</div>
+</div>
+<div id="understanding-the-downloaded-data" class="section level2">
+<h2>Understanding the downloaded data</h2>
+<p>The downloaded files are saved in subfolders within the defined output folder.</p>
+<p>A separate subfolder is created for each processed original MODIS layer, Quality Indicator or Spectral Index with an image for each processed date. The images will be placed in the following folder structure and named using the following naming convention.</p>
+<p><code>&lt;defined_out_folder&gt;/&lt;shape_file_name&gt;/&lt;product_name&gt;/&lt;layer_name&gt;/&lt;prodcode&gt;_&lt;layername&gt;_&lt;YYYY&gt;_&lt;day_of_year&gt;.&lt;extension&gt;</code></p>
+</div>
+<div id="visualising-land-cover-in-zimbabwe" class="section level2">
+<h2>Visualising land cover in Zimbabwe</h2>
+<p>The following example uses the <code>geom_raster()</code> function from the <code>ggplot2</code> package to visualise the downloaded IGBP land cover classification in Zimbabwe</p>
+<pre class="r"><code># install.packages(c(&quot;sf&quot;, &quot;raster&quot;, &quot;here&quot;, &quot;ggplot2&quot;, &quot;viridis&quot;))
+# remotes::install_github(&quot;wmgeolab/rgeoboundaries&quot;)
+library(rgeoboundaries)
+library(sf)
+library(raster)
+library(here)
+library(ggplot2)
+library(viridis)
+library(dplyr)
+
+# Downloading the boundary of Zimbabwe
+map_boundary &lt;- geoboundaries(&quot;Zimbabwe&quot;)
+
+# Reading in the downloaded landcover raster data
+IGBP_raster &lt;- raster(here::here(&quot;LandCoverData/zimbabwe/LandCover_Type_Yearly_500m_v6/LC1/MCD12Q1_LC1_2019_001.tif&quot;))
+
+# Transforming data
+IGBP_raster &lt;- projectRaster(IGBP_raster, crs = &quot;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&quot;)
+
+# Cropping data
+IGBP_raster &lt;- raster::mask(IGBP_raster, as_Spatial(map_boundary))
+
+# Converting the raster object into a dataframe and converting the IGBP classification into a factor
+IGBP_df &lt;- as.data.frame(IGBP_raster, xy = TRUE, na.rm = TRUE) %&gt;%
+  mutate(MCD12Q1_LC1_2019_001 = as.factor(round(MCD12Q1_LC1_2019_001)))
+rownames(IGBP_df) &lt;- c()
+# Renaming IGBP classification levels
+levels(IGBP_df$MCD12Q1_LC1_2019_001) &lt;- c( &quot;Evergreen needleleaf forests&quot;,
+                                           &quot;Evergreen broadleaf forests&quot;,
+                                           &quot;Deciduous needleleaf forests&quot;,
+                                           &quot;Deciduous broadleaf forests&quot;,
+                                           &quot;Mixed forests&quot;,
+                                           &quot;Closed shrublands&quot;,
+                                           &quot;Open shrublands&quot;,
+                                           &quot;Woody savannas&quot;,
+                                           &quot;Savannas&quot;,
+                                           &quot;Grasslands&quot;,
+                                           &quot;Permanent wetlands&quot;,
+                                           &quot;Croplands&quot;,
+                                           &quot;Urban and built-up lands&quot;,
+                                           &quot;Cropland/natural vegetation mosaics&quot;,
+                                           &quot;Snow and ice&quot;,
+                                           &quot;Barren&quot;,
+                                           &quot;Water bodies&quot;)
+# Visualising using ggplot2
+ggplot() + 
+  geom_raster(data = IGBP_df,
+              aes(x = x, y = y, fill = MCD12Q1_LC1_2019_001)) +
+  geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
+  scale_fill_viridis(name = &quot;Land Cover Type&quot;, discrete = TRUE) +
+  labs(title = &quot;Land Cover classification in Zimbabwe&quot;,
+       subtitle = &quot;01-01-2019 - 31-12-2019&quot;,
+       x = &quot;Longitude&quot;,
+       y = &quot;Latitude&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="land_cover_files/figure-html/visualise-data-1.png" width="672" /></p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li><p><code>MODIS</code> website: <a href="https://modis.gsfc.nasa.gov/" class="uri">https://modis.gsfc.nasa.gov/</a></p></li>
+<li><p><code>MODIStsp</code> vignette: <a href="https://cran.r-project.org/web/packages/MODIStsp/vignettes/MODIStsp.html" class="uri">https://cran.r-project.org/web/packages/MODIStsp/vignettes/MODIStsp.html</a></p></li>
+<li><p><code>MODIStsp land cover</code> data product page: <a href="https://modis.gsfc.nasa.gov/data/dataprod/mod12.php" class="uri">https://modis.gsfc.nasa.gov/data/dataprod/mod12.php</a></p></li>
+</ul>
+<hr />
+<p style="color:grey; font-size: 13px;">
+Last updated: 2022-06-29<br />
+Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/land_cover.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/land_cover.Rmd</a>
+<details>
+<summary>
+<span style="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span>
+</summary>
+<pre><code>## R version 4.0.3 (2020-10-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18363)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] here_1.0.1                sf_0.9-7                 
+##  [3] MODIStsp_2.0.5            raster_3.5-15            
+##  [5] sp_1.4-5                  nasapower_4.0.7          
+##  [7] viridis_0.5.1             viridisLite_0.3.0        
+##  [9] rnaturalearth_0.1.0       terra_1.5-17             
+## [11] rdhs_0.7.2                DT_0.17                  
+## [13] forcats_0.5.1             stringr_1.4.0            
+## [15] dplyr_1.0.4               purrr_0.3.4              
+## [17] readr_1.4.0               tidyr_1.1.4              
+## [19] tibble_3.1.6              tidyverse_1.3.1          
+## [21] openair_2.9-1             leaflet_2.1.1            
+## [23] ggplot2_3.3.5             rgeoboundaries_0.0.0.9000
+## 
+## loaded via a namespace (and not attached):
+##   [1] colorspace_2.0-3         ellipsis_0.3.2           class_7.3-17            
+##   [4] rgdal_1.5-23             rprojroot_2.0.2          fs_1.5.2                
+##   [7] httpcode_0.3.0           rstudioapi_0.13          farver_2.1.0            
+##  [10] hexbin_1.28.2            urltools_1.7.3           fansi_0.4.2             
+##  [13] lubridate_1.8.0          xml2_1.3.2               codetools_0.2-16        
+##  [16] splines_4.0.3            cachem_1.0.6             knitr_1.33              
+##  [19] jsonlite_1.8.0           broom_0.8.0              cluster_2.1.0           
+##  [22] dbplyr_2.1.1             png_0.1-7                rgeos_0.5-5             
+##  [25] hoardr_0.5.2             mapproj_1.2.8            compiler_4.0.3          
+##  [28] httr_1.4.2               backports_1.4.1          assertthat_0.2.1        
+##  [31] Matrix_1.2-18            fastmap_1.1.0            cli_3.2.0               
+##  [34] htmltools_0.5.2          tools_4.0.3              gtable_0.3.0            
+##  [37] glue_1.4.2               gdalUtilities_1.2.1      maps_3.4.0              
+##  [40] rappdirs_0.3.3           Rcpp_1.0.7               cellranger_1.1.0        
+##  [43] jquerylib_0.1.4          vctrs_0.3.8              crul_1.2.0              
+##  [46] countrycode_1.2.0        nlme_3.1-149             crosstalk_1.2.0         
+##  [49] xfun_0.30                rvest_1.0.2              lifecycle_1.0.1         
+##  [52] rnaturalearthhires_0.2.0 zoo_1.8-8                MASS_7.3-53             
+##  [55] scales_1.1.1             hms_1.1.1                parallel_4.0.3          
+##  [58] RColorBrewer_1.1-2       yaml_2.2.1               curl_4.3.2              
+##  [61] memoise_2.0.1            gridExtra_2.3            sass_0.4.0              
+##  [64] triebeard_0.3.0          latticeExtra_0.6-29      stringi_1.5.3           
+##  [67] highr_0.9                e1071_1.7-4              storr_1.2.5             
+##  [70] bitops_1.0-7             rlang_0.4.10             pkgconfig_2.0.3         
+##  [73] evaluate_0.15            lattice_0.20-41          htmlwidgets_1.5.4       
+##  [76] labeling_0.4.2           tidyselect_1.1.0         magrittr_2.0.1          
+##  [79] R6_2.5.0                 generics_0.1.2           DBI_1.1.2               
+##  [82] pillar_1.7.0             haven_2.5.0              withr_2.5.0             
+##  [85] mgcv_1.8-33              xts_0.12.1               units_0.6-7             
+##  [88] modelr_0.1.8             crayon_1.5.1             KernSmooth_2.23-17      
+##  [91] utf8_1.1.4               rmarkdown_2.11           jpeg_0.1-9              
+##  [94] grid_4.0.3               readxl_1.3.1             data.table_1.14.2       
+##  [97] reprex_2.0.1             digest_0.6.27            classInt_0.4-3          
+## [100] munsell_0.5.0            bslib_0.3.1</code></pre>
+</details>
+</p>
+</div>
+
+<p style ="color:grey; font-size: 13px;">
+  Corrections: If you see mistakes or want to suggest changes, please 
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io/issues/new">
+  create an issue</a> on the source repository or  
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">submit a pull 
+  request</a></br>
+  Contributions: If you want to contribute or collaborate on the project, please
+  see the <a href="https://rspatialdata.github.io/contributing.html">
+  guidelines for collaborating</a></br>
+  Reuse: Text and figures are licensed under Creative Commons Attribution 
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0.</a>
+</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

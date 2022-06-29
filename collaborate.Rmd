@@ -1,0 +1,60 @@
+---
+output:
+  html_document:
+    css: "styles.css"
+---
+
+# Collaborating on `rspatialdata`
+
+If you want to contribute or collaborate on the `rspatialdata` project, please refer to the following guidelines. If you have an unanswered question, get in touch with [any of us](contributors.html).
+
+If you have an idea of a topic that fits into the [`rspatialdata` project](index.html), you can either [contact us](contributors.html) or [submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) on [our source repository](https://github.com/rspatialdata/rspatialdata.github.io). Please see guidelines for new tutorial ideas below.
+
+You can also collaborate on the project by submitting your own tutorial as a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) on [our source repository](https://github.com/rspatialdata/rspatialdata.github.io). Please see guidelines for writing your own tutorial below.
+
+Community contributions will help us to maintain `rspatialdata` as a living project.
+
+### 1. New tutorial ideas
+
+New tutorial ideas are always welcome! However, before contacting us to suggest new posts, make sure that your idea fits the `rspatialdata` goal of *providing a collection of data sources and tutorials on downloading and visualising spatial data using `R`*. Also, make sure that your idea has not already been covered in any of the published tutorials. 
+
+Moreover, when submitting a new idea, it would be helpful if you could also refer to the tools (or packages) that are commonly used to achieve your desired result so that we can implement it (provided it makes sense) quickly.
+
+### 2. Writing your own tutorial
+
+If you want to write your own tutorial (and have your name on it, of course), you can always [submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) on [our source repository](https://github.com/rspatialdata/rspatialdata.github.io) with the newly created files. To do this, make sure that you do the following.
+
+1. Use this header when creating your `.Rmd` file:
+
+```
+---
+title: "Title"
+author: "By [author](contributors.html)"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+```
+
+2. On top of your tutorial, include a summary table, as below:
+
+```
+|                                       |                   |
+| ------------------------------------- | ----------------- |
+| **Data set description:**             | Brief description |
+| **Source:**                           | [Source](link)    |
+| **Details on the retrieved data:**    | Details.          |
+| **Spatial and temporal resolution:**  | Details.          |
+```
+
+3. **Always** include references.
+
+4. Include the `Last updated` date and information about your `R` session in the footer. You can achieve this by using the `Sys.Date()` and `sessionInfo()` commands, respectively. See the [source code of the administrative boundaries tutorial](https://github.com/rspatialdata/rspatialdata.github.io/blob/main/admin_boundaries.Rmd) for reference.
+
+5. Add yourself as a contributor on the [contributors.Rmd](https://github.com/rspatialdata/rspatialdata.github.io/blob/main/contributors.Rmd) file.
+
+-----
+
+Also, let us know if `rspatialdata` project helped you and how! We will be very happy to hear from you!

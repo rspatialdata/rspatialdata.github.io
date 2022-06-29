@@ -1,0 +1,54 @@
+name: "rspatialdata"
+output_dir: "docs"
+navbar:
+  title: "rspatialdata"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Tutorials"
+      menu:
+        - text: "Administrative boundaries"
+          href: admin_boundaries.html
+        - text: "Open Street Map data"
+          href: osm.html
+        - text: "Population"
+          href: population.html
+        - text: "Elevation"
+          href: elevation.html
+        - text: "Temperature"
+          href: temperature.html
+        - text: "Rainfall"
+          href: rainfall.html
+        - text: "Humidity"
+          href: humidity.html
+        - text: "Vegetation"
+          href: vegetation.html
+        - text: "Land Cover"
+          href: land_cover.html
+        - text: "DHS"
+          href: dhs-data.html
+        - text: "Malaria"
+          href: malaria.html
+        - text: "Air Pollution"
+          href: air_pollution.html 
+        - text: "Species Occurrence"
+          href: species_occurrence.html 
+    - text: "Spatial Analysis"
+      href: spatio_temporal_analysis.html
+    - text: "Contributors"
+      href: contributors.html
+  right:
+    - text: "Collaborations"
+      href: collaborate.html
+    - text: "News"
+      href: news.html
+    - icon: fa-github
+      href: https://github.com/rspatialdata/rspatialdata.github.io
+output:
+  html_document:
+    theme: cosmo
+    css: 'styles.css'
+    include:
+      after_body: footer.html
+
+    

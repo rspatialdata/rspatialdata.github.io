@@ -1,0 +1,202 @@
+---
+title: "Air Pollution"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE, warning = FALSE)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Air pollution data collected in the UK |
+| **Source:**   | [UK AIR - Air Information Resource](https://uk-air.defra.gov.uk/) |
+| **Details on the retrieved data:**   | $\text{PM}_{2.5}$ concentration in the UK throughout 2020. Data retrieved from the [Automatic Urban and Rural Network](https://uk-air.defra.gov.uk/networks/network-info?view=aurn). |
+| **Spatial and temporal resolution:**  | Yearly air pollution data measured in specific sites across the UK. |
+
+
+## Introduction
+
+In this tutorial, we will see how to extract and work with a data set from the [Department for Environment Food & Rural Affairs of the Government of the United Kingdom](https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs) that measures the [air pollution level](https://uk-air.defra.gov.uk/) across its territory. From the [`Data` page](https://uk-air.defra.gov.uk/data/), one can download data grouped by many different characteristics. However, to make it easier, we will use the [`openair` package](https://davidcarslaw.github.io/openair/) to retrieve the UK air pollution data.
+
+## Installing the `openair` package
+
+One can easily install it by running the following code
+
+```{r}
+if (!require(openair)) {
+  install.packages("openair")
+  library(openair)
+}
+```
+
+Alternatively, one can also refer to the the [`openair`'s GitHub page](https://github.com/davidcarslaw/openair), and install it via the `devtools` package.
+
+## Retrieving data
+
+From the [UK air pollution website](https://uk-air.defra.gov.uk/), one can choose to work with many different Monitoring Networks. For this tutorial, we will use data from the [Automatic Urban and Rural Network (AURN)](https://uk-air.defra.gov.uk/networks/network-info?view=aurn). In particular, we will study the concentration of $\text{PM}_{2.5}$ (tiny particles that are two and one half microns or less in width) in the air $(\mu\text{g}/\text{m}^3)$ throughout the year 2020.
+
+To do this let's also use the `tidyverse` package.
+
+```{r}
+library(tidyverse)
+```
+
+### Checking the available data
+
+Firstly, one can check which sort of data is available for each Monitoring Network by using the `ìmportMeta()` function.
+
+```{r}
+meta_data <- importMeta(source = "aurn", all = TRUE)
+head(meta_data, 3)
+```
+
+In the above code, we selected data from the AURN. Alternatively, one could have selected data from The Scottish Air Quality Network (`saqn`), Northern Ireland Air Quality Network (`ni`), etc. For an extensive list, refer to its documentation in `?importMeta`. The parameter `all` is optional and makes the function return all data if set to `TRUE`.
+
+Now, we can filter the sites that measure the pollutant of interest ($\text{PM}_{2.5}$). We can do this using the following snippet of code
+
+```{r}
+selected_data <- meta_data %>%
+  filter(variable == "PM2.5")
+head(selected_data, 3)
+```
+
+### Downloading the selected data
+
+Now that we have checked which data is available, one can download the desired data from the AURN by using the `importAURN()` function. Other networks can be accessed by using functions described [here](https://davidcarslaw.github.io/openair/reference/index.html).
+
+If one checks the `importAURN()` documentation, they will see that we can use the `site`, `year` and `pollutant` arguments. We will set them appropriately to download the desired data. As a remark, just notice that the `site` parameter has to be a list of the sites' code written in lowercase. Therefore,
+
+```{r}
+selected_sites <- selected_data %>%
+  select(code) %>%
+  mutate_all(.funs = tolower)
+selected_sites
+```
+
+Finally, we can download the data as follows
+
+```{r, eval = FALSE}
+data <- importAURN(site = selected_sites$code, year = 2020, pollutant = "pm2.5")
+head(data, 5)
+```
+```{r, eval = FALSE, echo = FALSE}
+write_csv(data, "data.csv")
+```
+```{r, echo = FALSE}
+data <- read_csv(file = "data.csv")
+head(data, 5)
+```
+
+Notice that, as we are download data from the servers, the above command can take some time to run.
+
+Now, we can put together the information stored in the `meta_data` and `data` variables to have a final and filtered data set that we can work with. To do this, we will use the `right_join()` function (see its documentation [here](https://dplyr.tidyverse.org/reference/join.html)) in the following way
+
+```{r}
+filtered_data <- meta_data %>%
+  filter(variable == "PM2.5") %>%
+  right_join(data, "code") %>%
+  select(date, pm2.5, code, site.x, site_type, latitude, longitude, variable) %>%
+  rename(site = site.x)
+head(filtered_data, 5)
+```
+
+### Saving the filtered data
+
+To avoid having to download and filter the data every time, we can save it in a `.csv` file.
+
+```{r, eval = FALSE}
+write_csv(filtered_data, "filtered_data.csv")
+```
+
+## Working with the downloaded data
+
+If one saved the selected data in another `R` session, the first thing they have to do is loading the appropriate `.csv` file.
+
+```{r, eval = FALSE}
+filtered_data <- read_csv(file = "filtered_data.csv")
+```
+
+One thing that we can do with the data is visualizing where the selected sites are. To do this, we can refer back to the [Administrative Boundaries tutorial](https://rspatialdata.github.io/admin_boundaries.html). 
+
+But first, let's summarize all the downloaded data by taking the average of the $\text{PM}_{2.5}$ measurements in each site.  **Remark**: If one wants to fit a model with a temporal component, this simplification may not be applied, since we are losing information doing this. However, for the purposes of this tutorial, we will keep it simple.
+
+```{r}
+all_sites <- filtered_data %>%
+  group_by(site) %>%
+  summarize(mean = mean(pm2.5, na.rm = TRUE), latitude = first(latitude), longitude = first(longitude), site_type = first(site_type))
+head(all_sites, 5)
+```
+
+From the above output, we can see that the sites are also classified according to their type. In real-world applications, one may be interested in working only with the `Rural Background` sites; in this case, we can simply apply a filter to the `all_sites` data.
+
+```{r}
+all_rural_data <- all_sites %>%
+  filter(site_type == "Rural Background")
+head(all_rural_data, 3)
+```
+
+Alternatively, we can group the Urban Background, Urban Industrial and Urban Traffic sites, and the Rural Background and Suburban Background sites into `Urban` and `Rural` classes, respectively.
+
+```{r}
+transform_site_type <- function(site_type) {
+  result <- c()
+  for (i in (1:length(site_type))) {
+    if ((site_type[i] == "Urban Background") | (site_type[i] == "Urban Industrial") | (site_type[i] == "Urban Traffic")) {
+      result <- c(result, "1. Urban")
+    } else {
+      result <- c(result, "2. Rural")
+    }
+  }
+  result
+}
+
+all_sites <- all_sites %>%
+  mutate(new_site_type = transform_site_type(site_type))
+head(all_sites)
+```
+
+Now, using the `rgeoboundaries` package (in addition to the `ggplot` from `tidyverse`), we can plot the map for all sites as follows
+
+```{r}
+library(rgeoboundaries)
+
+# Download the boundaries
+uk_boundary <- geoboundaries(country = "GBR")
+
+# Plot the map
+ggplot(data = uk_boundary) +
+  geom_sf() +
+  geom_point(data = all_sites, aes(x = longitude, y = latitude, shape = new_site_type, color = mean), size = 3) +
+  scale_color_gradient(name = "Level of Air pollution", low = "blue", high = "red") +
+  scale_shape_discrete(name = "Site type") +
+  ggtitle("Mean level of air pollution in the UK in 2020") +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+## References
+
+- UK air pollution website: https://uk-air.defra.gov.uk/
+- `openair` package website: https://davidcarslaw.github.io/openair/
+- The `openair` book: https://bookdown.org/david_carslaw/openair/
+- `tidyverse` package website: https://www.tidyverse.org/
+- `rgeoboundaries` repository: https://github.com/wmgeolab/rgeoboundaries
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/air_pollution.Rmd 
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>

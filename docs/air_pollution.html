@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Air Pollution</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">rspatialdata</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="admin_boundaries.html">Administrative boundaries</a>
+    </li>
+    <li>
+      <a href="osm.html">Open Street Map data</a>
+    </li>
+    <li>
+      <a href="population.html">Population</a>
+    </li>
+    <li>
+      <a href="elevation.html">Elevation</a>
+    </li>
+    <li>
+      <a href="temperature.html">Temperature</a>
+    </li>
+    <li>
+      <a href="rainfall.html">Rainfall</a>
+    </li>
+    <li>
+      <a href="humidity.html">Humidity</a>
+    </li>
+    <li>
+      <a href="vegetation.html">Vegetation</a>
+    </li>
+    <li>
+      <a href="land_cover.html">Land Cover</a>
+    </li>
+    <li>
+      <a href="dhs-data.html">DHS</a>
+    </li>
+    <li>
+      <a href="malaria.html">Malaria</a>
+    </li>
+    <li>
+      <a href="air_pollution.html">Air Pollution</a>
+    </li>
+    <li>
+      <a href="species_occurrence.html">Species Occurrence</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="spatio_temporal_analysis.html">Spatial Analysis</a>
+</li>
+<li>
+  <a href="contributors.html">Contributors</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="collaborate.html">Collaborations</a>
+</li>
+<li>
+  <a href="news.html">News</a>
+</li>
+<li>
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Air Pollution</h1>
+
+</div>
+
+
+<div id="data-set-details" class="section level4">
+<h4>Data set details</h4>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Data set description:</strong></td>
+<td>Air pollution data collected in the UK</td>
+</tr>
+<tr class="even">
+<td><strong>Source:</strong></td>
+<td><a href="https://uk-air.defra.gov.uk/">UK AIR - Air Information Resource</a></td>
+</tr>
+<tr class="odd">
+<td><strong>Details on the retrieved data:</strong></td>
+<td><span class="math inline">\(\text{PM}_{2.5}\)</span> concentration in the UK throughout 2020. Data retrieved from the <a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn">Automatic Urban and Rural Network</a>.</td>
+</tr>
+<tr class="even">
+<td><strong>Spatial and temporal resolution:</strong></td>
+<td>Yearly air pollution data measured in specific sites across the UK.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this tutorial, we will see how to extract and work with a data set from the <a href="https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs">Department for Environment Food &amp; Rural Affairs of the Government of the United Kingdom</a> that measures the <a href="https://uk-air.defra.gov.uk/">air pollution level</a> across its territory. From the <a href="https://uk-air.defra.gov.uk/data/"><code>Data</code> page</a>, one can download data grouped by many different characteristics. However, to make it easier, we will use the <a href="https://davidcarslaw.github.io/openair/"><code>openair</code> package</a> to retrieve the UK air pollution data.</p>
+</div>
+<div id="installing-the-openair-package" class="section level2">
+<h2>Installing the <code>openair</code> package</h2>
+<p>One can easily install it by running the following code</p>
+<pre class="r"><code>if (!require(openair)) {
+  install.packages(&quot;openair&quot;)
+  library(openair)
+}</code></pre>
+<p>Alternatively, one can also refer to the the <a href="https://github.com/davidcarslaw/openair"><code>openair</code>’s GitHub page</a>, and install it via the <code>devtools</code> package.</p>
+</div>
+<div id="retrieving-data" class="section level2">
+<h2>Retrieving data</h2>
+<p>From the <a href="https://uk-air.defra.gov.uk/">UK air pollution website</a>, one can choose to work with many different Monitoring Networks. For this tutorial, we will use data from the <a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn">Automatic Urban and Rural Network (AURN)</a>. In particular, we will study the concentration of <span class="math inline">\(\text{PM}_{2.5}\)</span> (tiny particles that are two and one half microns or less in width) in the air <span class="math inline">\((\mu\text{g}/\text{m}^3)\)</span> throughout the year 2020.</p>
+<p>To do this let’s also use the <code>tidyverse</code> package.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="checking-the-available-data" class="section level3">
+<h3>Checking the available data</h3>
+<p>Firstly, one can check which sort of data is available for each Monitoring Network by using the <code>ìmportMeta()</code> function.</p>
+<pre class="r"><code>meta_data &lt;- importMeta(source = &quot;aurn&quot;, all = TRUE)
+head(meta_data, 3)</code></pre>
+<pre><code>## # A tibble: 3 x 13
+##   code  site     site_type        latitude longitude variable Parameter_name  
+##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;           
+## 1 ABD   Aberdeen Urban Background     57.2     -2.09 O3       Ozone           
+## 2 ABD   Aberdeen Urban Background     57.2     -2.09 NO       Nitric oxide    
+## 3 ABD   Aberdeen Urban Background     57.2     -2.09 NO2      Nitrogen dioxide
+## # ... with 6 more variables: start_date &lt;dttm&gt;, end_date &lt;chr&gt;,
+## #   ratified_to &lt;dttm&gt;, zone &lt;chr&gt;, agglomeration &lt;chr&gt;, local_authority &lt;chr&gt;</code></pre>
+<p>In the above code, we selected data from the AURN. Alternatively, one could have selected data from The Scottish Air Quality Network (<code>saqn</code>), Northern Ireland Air Quality Network (<code>ni</code>), etc. For an extensive list, refer to its documentation in <code>?importMeta</code>. The parameter <code>all</code> is optional and makes the function return all data if set to <code>TRUE</code>.</p>
+<p>Now, we can filter the sites that measure the pollutant of interest (<span class="math inline">\(\text{PM}_{2.5}\)</span>). We can do this using the following snippet of code</p>
+<pre class="r"><code>selected_data &lt;- meta_data %&gt;%
+  filter(variable == &quot;PM2.5&quot;)
+head(selected_data, 3)</code></pre>
+<pre><code>## # A tibble: 3 x 13
+##   code  site                site_type latitude longitude variable Parameter_name
+##   &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;         
+## 1 ABD   Aberdeen            Urban Ba~     57.2     -2.09 PM2.5    PM2.5 particu~
+## 2 ABD9  Aberdeen Erroll Pa~ Urban Ba~     57.2     -2.09 PM2.5    PM2.5 particu~
+## 3 ACTH  Auchencorth Moss    Rural Ba~     55.8     -3.24 PM2.5    PM2.5 particu~
+## # ... with 6 more variables: start_date &lt;dttm&gt;, end_date &lt;chr&gt;,
+## #   ratified_to &lt;dttm&gt;, zone &lt;chr&gt;, agglomeration &lt;chr&gt;, local_authority &lt;chr&gt;</code></pre>
+</div>
+<div id="downloading-the-selected-data" class="section level3">
+<h3>Downloading the selected data</h3>
+<p>Now that we have checked which data is available, one can download the desired data from the AURN by using the <code>importAURN()</code> function. Other networks can be accessed by using functions described <a href="https://davidcarslaw.github.io/openair/reference/index.html">here</a>.</p>
+<p>If one checks the <code>importAURN()</code> documentation, they will see that we can use the <code>site</code>, <code>year</code> and <code>pollutant</code> arguments. We will set them appropriately to download the desired data. As a remark, just notice that the <code>site</code> parameter has to be a list of the sites’ code written in lowercase. Therefore,</p>
+<pre class="r"><code>selected_sites &lt;- selected_data %&gt;%
+  select(code) %&gt;%
+  mutate_all(.funs = tolower)
+selected_sites</code></pre>
+<pre><code>## # A tibble: 114 x 1
+##    code 
+##    &lt;chr&gt;
+##  1 abd  
+##  2 abd9 
+##  3 acth 
+##  4 bple 
+##  5 bel2 
+##  6 birr 
+##  7 agrn 
+##  8 birm 
+##  9 bmld 
+## 10 bir1 
+## # ... with 104 more rows</code></pre>
+<p>Finally, we can download the data as follows</p>
+<pre class="r"><code>data &lt;- importAURN(site = selected_sites$code, year = 2020, pollutant = &quot;pm2.5&quot;)
+head(data, 5)</code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   date                pm2.5 site     code 
+##   &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;
+## 1 2020-01-01 00:00:00 35.9  Aberdeen ABD  
+## 2 2020-01-01 01:00:00  5.82 Aberdeen ABD  
+## 3 2020-01-01 02:00:00  3.68 Aberdeen ABD  
+## 4 2020-01-01 03:00:00  3.07 Aberdeen ABD  
+## 5 2020-01-01 04:00:00  3.99 Aberdeen ABD</code></pre>
+<p>Notice that, as we are download data from the servers, the above command can take some time to run.</p>
+<p>Now, we can put together the information stored in the <code>meta_data</code> and <code>data</code> variables to have a final and filtered data set that we can work with. To do this, we will use the <code>right_join()</code> function (see its documentation <a href="https://dplyr.tidyverse.org/reference/join.html">here</a>) in the following way</p>
+<pre class="r"><code>filtered_data &lt;- meta_data %&gt;%
+  filter(variable == &quot;PM2.5&quot;) %&gt;%
+  right_join(data, &quot;code&quot;) %&gt;%
+  select(date, pm2.5, code, site.x, site_type, latitude, longitude, variable) %&gt;%
+  rename(site = site.x)
+head(filtered_data, 5)</code></pre>
+<pre><code>## # A tibble: 5 x 8
+##   date                pm2.5 code  site     site_type latitude longitude variable
+##   &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;   
+## 1 2020-01-01 00:00:00 35.9  ABD   Aberdeen Urban Ba~     57.2     -2.09 PM2.5   
+## 2 2020-01-01 01:00:00  5.82 ABD   Aberdeen Urban Ba~     57.2     -2.09 PM2.5   
+## 3 2020-01-01 02:00:00  3.68 ABD   Aberdeen Urban Ba~     57.2     -2.09 PM2.5   
+## 4 2020-01-01 03:00:00  3.07 ABD   Aberdeen Urban Ba~     57.2     -2.09 PM2.5   
+## 5 2020-01-01 04:00:00  3.99 ABD   Aberdeen Urban Ba~     57.2     -2.09 PM2.5</code></pre>
+</div>
+<div id="saving-the-filtered-data" class="section level3">
+<h3>Saving the filtered data</h3>
+<p>To avoid having to download and filter the data every time, we can save it in a <code>.csv</code> file.</p>
+<pre class="r"><code>write_csv(filtered_data, &quot;filtered_data.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="working-with-the-downloaded-data" class="section level2">
+<h2>Working with the downloaded data</h2>
+<p>If one saved the selected data in another <code>R</code> session, the first thing they have to do is loading the appropriate <code>.csv</code> file.</p>
+<pre class="r"><code>filtered_data &lt;- read_csv(file = &quot;filtered_data.csv&quot;)</code></pre>
+<p>One thing that we can do with the data is visualizing where the selected sites are. To do this, we can refer back to the <a href="https://rspatialdata.github.io/admin_boundaries.html">Administrative Boundaries tutorial</a>.</p>
+<p>But first, let’s summarize all the downloaded data by taking the average of the <span class="math inline">\(\text{PM}_{2.5}\)</span> measurements in each site. <strong>Remark</strong>: If one wants to fit a model with a temporal component, this simplification may not be applied, since we are losing information doing this. However, for the purposes of this tutorial, we will keep it simple.</p>
+<pre class="r"><code>all_sites &lt;- filtered_data %&gt;%
+  group_by(site) %&gt;%
+  summarize(mean = mean(pm2.5, na.rm = TRUE), latitude = first(latitude), longitude = first(longitude), site_type = first(site_type))
+head(all_sites, 5)</code></pre>
+<pre><code>## # A tibble: 5 x 5
+##   site                       mean latitude longitude site_type       
+##   &lt;chr&gt;                     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;           
+## 1 Aberdeen                   5.02     57.2     -2.09 Urban Background
+## 2 Auchencorth Moss           3.33     55.8     -3.24 Rural Background
+## 3 Barnstaple A39             8.44     51.1     -4.04 Urban Traffic   
+## 4 Belfast Centre             6.82     54.6     -5.93 Urban Background
+## 5 Birmingham A4540 Roadside  8.20     52.5     -1.88 Urban Traffic</code></pre>
+<p>From the above output, we can see that the sites are also classified according to their type. In real-world applications, one may be interested in working only with the <code>Rural Background</code> sites; in this case, we can simply apply a filter to the <code>all_sites</code> data.</p>
+<pre class="r"><code>all_rural_data &lt;- all_sites %&gt;%
+  filter(site_type == &quot;Rural Background&quot;)
+head(all_rural_data, 3)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   site                    mean latitude longitude site_type       
+##   &lt;chr&gt;                  &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;           
+## 1 Auchencorth Moss        3.33     55.8     -3.24 Rural Background
+## 2 Chilbolton Observatory  7.60     51.1     -1.44 Rural Background
+## 3 Lough Navar             3.96     54.4     -7.90 Rural Background</code></pre>
+<p>Alternatively, we can group the Urban Background, Urban Industrial and Urban Traffic sites, and the Rural Background and Suburban Background sites into <code>Urban</code> and <code>Rural</code> classes, respectively.</p>
+<pre class="r"><code>transform_site_type &lt;- function(site_type) {
+  result &lt;- c()
+  for (i in (1:length(site_type))) {
+    if ((site_type[i] == &quot;Urban Background&quot;) | (site_type[i] == &quot;Urban Industrial&quot;) | (site_type[i] == &quot;Urban Traffic&quot;)) {
+      result &lt;- c(result, &quot;1. Urban&quot;)
+    } else {
+      result &lt;- c(result, &quot;2. Rural&quot;)
+    }
+  }
+  result
+}
+
+all_sites &lt;- all_sites %&gt;%
+  mutate(new_site_type = transform_site_type(site_type))
+head(all_sites)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   site                       mean latitude longitude site_type     new_site_type
+##   &lt;chr&gt;                     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;        
+## 1 Aberdeen                   5.02     57.2     -2.09 Urban Backgr~ 1. Urban     
+## 2 Auchencorth Moss           3.33     55.8     -3.24 Rural Backgr~ 2. Rural     
+## 3 Barnstaple A39             8.44     51.1     -4.04 Urban Traffic 1. Urban     
+## 4 Belfast Centre             6.82     54.6     -5.93 Urban Backgr~ 1. Urban     
+## 5 Birmingham A4540 Roadside  8.20     52.5     -1.88 Urban Traffic 1. Urban     
+## 6 Birmingham Acocks Green    7.88     52.4     -1.83 Urban Backgr~ 1. Urban</code></pre>
+<p>Now, using the <code>rgeoboundaries</code> package (in addition to the <code>ggplot</code> from <code>tidyverse</code>), we can plot the map for all sites as follows</p>
+<pre class="r"><code>library(rgeoboundaries)
+
+# Download the boundaries
+uk_boundary &lt;- geoboundaries(country = &quot;GBR&quot;)
+
+# Plot the map
+ggplot(data = uk_boundary) +
+  geom_sf() +
+  geom_point(data = all_sites, aes(x = longitude, y = latitude, shape = new_site_type, color = mean), size = 3) +
+  scale_color_gradient(name = &quot;Level of Air pollution&quot;, low = &quot;blue&quot;, high = &quot;red&quot;) +
+  scale_shape_discrete(name = &quot;Site type&quot;) +
+  ggtitle(&quot;Mean level of air pollution in the UK in 2020&quot;) +
+  labs(x = &quot;Longitude&quot;, y = &quot;Latitude&quot;)</code></pre>
+<p><img src="air_pollution_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li>UK air pollution website: <a href="https://uk-air.defra.gov.uk/" class="uri">https://uk-air.defra.gov.uk/</a></li>
+<li><code>openair</code> package website: <a href="https://davidcarslaw.github.io/openair/" class="uri">https://davidcarslaw.github.io/openair/</a></li>
+<li>The <code>openair</code> book: <a href="https://bookdown.org/david_carslaw/openair/" class="uri">https://bookdown.org/david_carslaw/openair/</a></li>
+<li><code>tidyverse</code> package website: <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></li>
+<li><code>rgeoboundaries</code> repository: <a href="https://github.com/wmgeolab/rgeoboundaries" class="uri">https://github.com/wmgeolab/rgeoboundaries</a></li>
+</ul>
+<hr />
+<p style="color:grey; font-size: 13px;">
+Last updated: 2022-06-29<br />
+Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/air_pollution.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/air_pollution.Rmd</a>
+<details>
+<summary>
+<span style="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span>
+</summary>
+<pre><code>## R version 4.0.3 (2020-10-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18363)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] forcats_0.5.1             stringr_1.4.0            
+##  [3] dplyr_1.0.4               purrr_0.3.4              
+##  [5] readr_1.4.0               tidyr_1.1.4              
+##  [7] tibble_3.1.6              tidyverse_1.3.1          
+##  [9] openair_2.9-1             leaflet_2.1.1            
+## [11] ggplot2_3.3.5             rgeoboundaries_0.0.0.9000
+## 
+## loaded via a namespace (and not attached):
+##  [1] nlme_3.1-149        fs_1.5.2            sf_0.9-7           
+##  [4] lubridate_1.8.0     RColorBrewer_1.1-2  httr_1.4.2         
+##  [7] tools_4.0.3         backports_1.4.1     bslib_0.3.1        
+## [10] utf8_1.1.4          R6_2.5.0            KernSmooth_2.23-17 
+## [13] DBI_1.1.2           mgcv_1.8-33         colorspace_2.0-3   
+## [16] withr_2.5.0         tidyselect_1.1.0    curl_4.3.2         
+## [19] compiler_4.0.3      rvest_1.0.2         cli_3.2.0          
+## [22] xml2_1.3.2          labeling_0.4.2      triebeard_0.3.0    
+## [25] sass_0.4.0          scales_1.1.1        classInt_0.4-3     
+## [28] hexbin_1.28.2       rappdirs_0.3.3      digest_0.6.27      
+## [31] rmarkdown_2.11      jpeg_0.1-9          pkgconfig_2.0.3    
+## [34] htmltools_0.5.2     dbplyr_2.1.1        fastmap_1.1.0      
+## [37] highr_0.9           maps_3.4.0          htmlwidgets_1.5.4  
+## [40] rlang_0.4.10        readxl_1.3.1        rstudioapi_0.13    
+## [43] httpcode_0.3.0      jquerylib_0.1.4     farver_2.1.0       
+## [46] generics_0.1.2      jsonlite_1.8.0      crosstalk_1.2.0    
+## [49] magrittr_2.0.1      Matrix_1.2-18       Rcpp_1.0.7         
+## [52] munsell_0.5.0       fansi_0.4.2         lifecycle_1.0.1    
+## [55] stringi_1.5.3       yaml_2.2.1          MASS_7.3-53        
+## [58] grid_4.0.3          crayon_1.5.1        lattice_0.20-41    
+## [61] haven_2.5.0         splines_4.0.3       mapproj_1.2.8      
+## [64] hms_1.1.1           knitr_1.33          pillar_1.7.0       
+## [67] reprex_2.0.1        crul_1.2.0          glue_1.4.2         
+## [70] evaluate_0.15       latticeExtra_0.6-29 hoardr_0.5.2       
+## [73] modelr_0.1.8        png_0.1-7           vctrs_0.3.8        
+## [76] urltools_1.7.3      cellranger_1.1.0    gtable_0.3.0       
+## [79] assertthat_0.2.1    cachem_1.0.6        xfun_0.30          
+## [82] broom_0.8.0         countrycode_1.2.0   e1071_1.7-4        
+## [85] class_7.3-17        memoise_2.0.1       units_0.6-7        
+## [88] cluster_2.1.0       ellipsis_0.3.2</code></pre>
+</details>
+</p>
+</div>
+
+<p style ="color:grey; font-size: 13px;">
+  Corrections: If you see mistakes or want to suggest changes, please 
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io/issues/new">
+  create an issue</a> on the source repository or  
+  <a href="https://github.com/rspatialdata/rspatialdata.github.io">submit a pull 
+  request</a></br>
+  Contributions: If you want to contribute or collaborate on the project, please
+  see the <a href="https://rspatialdata.github.io/contributing.html">
+  guidelines for collaborating</a></br>
+  Reuse: Text and figures are licensed under Creative Commons Attribution 
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0.</a>
+</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

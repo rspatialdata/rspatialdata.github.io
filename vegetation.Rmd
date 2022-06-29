@@ -1,0 +1,217 @@
+---
+title: "Vegetation"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+#### Data set details
+
+|||
+| ----------- | ----------- |
+| **Data set description:** | Vegetation information in Mongolia |
+| **Source:**   | [MODIS Vegetation Index Products (NDVI and EVI)](https://modis.gsfc.nasa.gov/data/dataprod/mod13.php) |
+| **Details on the retrieved data:**   | Normalized Difference Vegetation Index (NDVI) in Mongolia in 2020. |
+| **Spatial and temporal resolution:**  | 16-day and monthly periods in 3 spatial resolutions (250m, 500m and 1km). |
+
+## MODIS (Moderate Resolution Imaging Spectroradiometer)
+
+MODIS is an instrument aboard the Terra and Aqua satellites, which orbits the entire Earth every 1-2 days, acquiring data at different spatial resolutions. The data acquired by MODIS describes features of the land, oceans and the atmosphere. A complete list of MODIS data products can be found on the [MODIS website](https://modis.gsfc.nasa.gov/data/dataprod/).
+
+## Downloading Vegetation data using `MODIStsp`
+
+`MODIStsp` is an R package for downloading and preprocessing time series of raster data from MODIS data products.
+The package's name is an acronym for 'MODIS Time Series Processing'.
+This tutorial will focus on downloading and visualising vegetation data, but the same process can be followed with other MODIS data products as well.
+
+
+### Installing `MODIStsp`
+
+The `MODIStsp` package can be downloaded from CRAN as follows.
+
+```{r install-MODIStsp, eval=FALSE}
+install.packages("MODIStsp")
+```
+
+### Identifying the MODIS data product
+
+The first step of downloading data is to identify which [MODIS data product](https://modis.gsfc.nasa.gov/data/dataprod/) to use.
+
+This tutorial will use the [MODIS Vegetation Index Products (NDVI and EVI)](https://modis.gsfc.nasa.gov/data/dataprod/mod13.php), which are two primary vegetation layers; the Normalized Difference Vegetation Index and the Enhanced Vegetation Index. This product will contain data produced on 16-day periods as well as monthly temporal averaged data, in 3 spatial resolutions (250m, 500m and 1km).
+
+The product IDs for each of these products can also be found on the  [data product page](https://modis.gsfc.nasa.gov/data/dataprod/mod13.php). 
+
+This tutorial will use the 'Vegetation Indices 16-Day L3 Global 250' product with the product IDs MOD13Q1(Terra Product ID), and MYD13Q1(Aqua Product ID), but will be represented by M\*D13Q1 - the second character is replaced by an asterix(\*) to identify both Terra and Aqua.
+
+### Retrieving MODIS layers for a product
+
+The product layers (original MODIS layers, quality layers and spectral indexes) available for a given product can be retrieved using the following function.
+
+```{r modis-get-productlayers, attr.output='style="max-height: 200px;"'}
+library(MODIStsp)
+MODIStsp_get_prodlayers("M*D13Q1")
+```
+
+Note how the `\$bandfullnames` define each of the `\$bandnames`, the `\$quality_fullnames` define the `\$quality_bandnames`, and the `\$indexes_fullnames` define the `\$indexes_bandnames`.
+
+### The `MODIStsp()` function
+
+`MODIStsp()` is the main function of the `MODIStsp` package, and allows us to download MODIS data products. While this is a very comprehensive function and we only a very few of its arguments in this tutorial, the entire list of arguments can be found in the [MODIStsp documentation](https://docs.ropensci.org/MODIStsp/reference/MODIStsp.html).
+
+The `MODIStsp()` function provides two ways of downloading data, namely, through a GUI (interactive) or through an R script (non-interactive). This tutorial will focus on the non-interactive execution.
+
+### Downloading NDVI data
+
+To download the NDVI (Normalized Difference Vegetation Index) in Mongolia, first we download the boundary of Mongolia with the `geoboundaries()` function from the `rgeoboundaries` package and save it on our computer.
+
+```{r downloading-shapefile, eval=FALSE}
+# remotes::install_github("wmgeolab/rgeoboundaries")
+# install.packages("sf")
+library(rgeoboundaries)
+library(sf)
+
+# Downloading the country boundary of Mongolia
+map_boundary <- geoboundaries("Mongolia")
+
+# Defining filepath to save downloaded spatial file
+spatial_filepath <- "VegetationData/mongolia.shp"
+
+# Saving downloaded spatial file on to our computer
+st_write(map_boundary, paste0(spatial_filepath))
+```
+
+Then we use the `MODIStsp()` function to download the NDVI data.
+
+To download data in Mongolia, we use the boundary of Mongolia we downloaded. So in the `MODIStsp()` function we set the `spatmeth` argument as "file" and set the `spafile` argument as the path of the map we saved.
+
+Since vegetation data can be categorised as spatio-temporal data, the `start-date` and `end_date` arguments define the period for which we want the data to be downloaded. Here we use the same date for both the start and end date since we want to download the data for a single date.
+
+Note that this tutorial uses a test username and password. The `user` and `password` arguments should be the username and password corresponding to your [earthdata](https://urs.earthdata.nasa.gov/) credentials.
+
+```{r downloading-data, eval=FALSE}
+library(MODIStsp)
+MODIStsp(
+  gui = FALSE,
+  out_folder = "VegetationData",
+  out_folder_mod = "VegetationData",
+  selprod = "Vegetation_Indexes_16Days_1Km (M*D13A2)",
+  bandsel = "NDVI",
+  user = "mstp_test",
+  password = "MSTP_test_01",
+  start_date = "2020.06.01",
+  end_date = "2020.06.01",
+  verbose = FALSE,
+  spatmeth = "file",
+  spafile = spatial_filepath,
+  out_format = "GTiff"
+)
+```
+
+## Understanding the downloaded data
+
+The downloaded files are saved in subfolders within the defined output folder.
+
+A separate subfolder is created for each processed original MODIS layer, Quality Indicator or Spectral Index with an image for each processed date. The images will be placed in the following folder structure and named using the following naming convention.
+
+`<defined_out_folder>/<shape_file_name>/<product_name>/<layer_name>/<prodcode>_<layername>_<YYYY>_<day_of_year>.<extension>`
+
+## Visualising NDVI in Mongolia
+
+The following example uses the `geom_raster()` function from the `ggplot2` package to visualise the downloaded NDVI (Normalized Difference Vegetation Index) of Mongolia.
+
+```{r visualise-data}
+# remotes::install_github("wmgeolab/rgeoboundaries")
+# install.packages(c("sf, "raster", "here", "ggplot2", "viridis", "rgdal"))
+library(rgeoboundaries)
+library(sf)
+library(raster)
+library(here)
+library(ggplot2)
+library(viridis)
+library(rgdal)
+
+# Downloading the boundary of Mongolia
+map_boundary <- geoboundaries("Mongolia")
+
+# Reading in the downloaded NDVI raster data
+NDVI_raster <- raster(here::here("VegetationData/mongolia/VI_16Days_1Km_v6/NDVI/MYD13A2_NDVI_2020_153.tif"))
+
+# Transforming the data
+NDVI_raster <- projectRaster(NDVI_raster, crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+
+# Cropping the data
+NDVI_raster <- raster::mask(NDVI_raster, as_Spatial(map_boundary))
+
+# Dividing values by 10000 to have NDVI values between -1 and 1
+gain(NDVI_raster) <- 0.0001
+
+# Converting the raster object into a dataframe
+NDVI_df <- as.data.frame(NDVI_raster, xy = TRUE, na.rm = TRUE)
+rownames(NDVI_df) <- c()
+
+# Visualising using ggplot2
+ggplot() +
+  geom_raster(
+    data = NDVI_df,
+    aes(x = x, y = y, fill = MYD13A2_NDVI_2020_153)
+  ) +
+  geom_sf(data = map_boundary, inherit.aes = FALSE, fill = NA) +
+  scale_fill_viridis(name = "NDVI") +
+  labs(
+    title = "NDVI (Normalized Difference Vegetation Index) in Mongolia",
+    subtitle = "01-06-2020",
+    x = "Longitude",
+    y = "Latitude"
+  ) +
+  theme_minimal()
+```
+
+
+The following example uses the `leaflet()` function from the `leaflet` package to visualise the downloaded NDVI (Normalized Difference Vegetation Index) of Mongolia.
+
+
+
+```{r mongolia-example-leaflet}
+# install.packages("leaflet")
+library(leaflet)
+
+# Defining color palette
+pal <- colorNumeric(c("#440154FF", "#238A8DFF", "#FDE725FF"), values(NDVI_raster), na.color = "transparent")
+
+# Visualising using leaflet
+leaflet() %>%
+  addTiles() %>%
+  addRasterImage(NDVI_raster, colors = pal) %>%
+  addLegend(
+    pal = pal, values = values(NDVI_raster),
+    title = "NDVI"
+  )
+```
+
+## References
+
+- `MODIS` website: https://modis.gsfc.nasa.gov/
+
+- `MODIStsp` vignette: https://cran.r-project.org/web/packages/MODIStsp/vignettes/MODIStsp.html
+
+- `MODIStsp vegetation index` data product page: https://modis.gsfc.nasa.gov/data/dataprod/mod13.php
+
+
+---
+
+<p style ="color:grey; font-size: 13px;">  
+Last updated: `r Sys.Date()`  
+Source code: https://github.com/rspatialdata/rspatialdata.github.io/blob/main/vegetation.Rmd 
+<details>
+<summary><span style ="color:grey; font-size: 13px;">Tutorial was complied using: (click to expand)</span></summary>
+```{r echo=FALSE}
+sessionInfo()
+```
+</details>
+</p>
