@@ -12,16 +12,12 @@ output:
 This rspatialdata project is led by [Paula Moraga](https://www.paulamoraga.com/), Assistant Professor of Statistics and PI of the GeoHealth research group at King Abdullah University of Science and Technology (KAUST). Funding for the work is provided by the GeoHealth research group at KAUST.
 
 
-
-King Abdullah University of Science and Technology (KAUST)
+Contributors:
 
 - Paula Moraga
 - Dilinie Seimon
 - Varsha Ujjinni Vijay Kumar
 - Andre Ribeiro Amaral
-
-Bates College
-
 - Laurie L. Baker
 
 <img style ="display: block; margin-left: auto; margin-right: auto;" src="images/kaust-logo-small.png">
