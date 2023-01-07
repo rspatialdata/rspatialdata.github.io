@@ -38,8 +38,9 @@ navbar:
     - text: "Contributors"
       href: contributors.html
   right:
-    - icon: fa-github
-      href: https://github.com/rspatialdata/rspatialdata.github.io
+  right:
+    - icon: fa-globe
+      href: http://Paula-Moraga.github.io
 output:
   html_document:
     theme: cosmo
