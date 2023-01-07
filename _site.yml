@@ -38,10 +38,6 @@ navbar:
     - text: "Contributors"
       href: contributors.html
   right:
-    - text: "Collaborations"
-      href: collaborate.html
-    - text: "News"
-      href: news.html
     - icon: fa-github
       href: https://github.com/rspatialdata/rspatialdata.github.io
 output:

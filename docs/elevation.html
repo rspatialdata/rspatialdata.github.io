@@ -382,12 +382,6 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="collaborate.html">Collaborations</a>
-</li>
-<li>
-  <a href="news.html">News</a>
-</li>
-<li>
   <a href="https://github.com/rspatialdata/rspatialdata.github.io">
     <span class="fa fa-github"></span>
      
@@ -659,7 +653,7 @@ plot(x)
 </ul>
 <hr />
 <p style="color:grey; font-size: 13px;">
-Last updated: 2022-06-29<br />
+Last updated: 2023-01-07<br />
 Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/elevation.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/elevation.Rmd</a>
 <details>
 <summary>
@@ -685,37 +679,54 @@ Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blo
 ##  [1] rnaturalearthhires_0.2.0  rnaturalearth_0.1.0      
 ##  [3] viridis_0.5.1             viridisLite_0.3.0        
 ##  [5] raster_3.5-15             sp_1.4-5                 
-##  [7] sf_0.9-7                  rgeoboundaries_0.0.0.9000
-##  [9] elevatr_0.4.2             kableExtra_1.3.4         
-## [11] forcats_0.5.1             stringr_1.4.0            
-## [13] dplyr_1.0.4               purrr_0.3.4              
-## [15] readr_1.4.0               tidyr_1.1.4              
-## [17] tibble_3.1.6              ggplot2_3.3.5            
-## [19] tidyverse_1.3.1          
+##  [7] sf_1.0-7                  elevatr_0.4.2            
+##  [9] kableExtra_1.3.4          rdhs_0.7.2               
+## [11] DT_0.17                   forcats_0.5.1            
+## [13] stringr_1.4.0             dplyr_1.0.4              
+## [15] purrr_0.3.4               readr_2.1.2              
+## [17] tidyr_1.1.4               tibble_3.1.6             
+## [19] tidyverse_1.3.1           openair_2.9-1            
+## [21] leaflet_2.1.1             ggplot2_3.3.5            
+## [23] rgeoboundaries_0.0.0.9000
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] fs_1.5.2           lubridate_1.8.0    webshot_0.5.2      progress_1.2.2    
-##  [5] httr_1.4.2         tools_4.0.3        backports_1.4.1    bslib_0.3.1       
-##  [9] utf8_1.1.4         rgdal_1.5-23       R6_2.5.0           KernSmooth_2.23-17
-## [13] rgeos_0.5-5        DBI_1.1.2          colorspace_2.0-3   withr_2.5.0       
-## [17] gridExtra_2.3      tidyselect_1.1.0   prettyunits_1.1.1  curl_4.3.2        
-## [21] compiler_4.0.3     progressr_0.10.1   cli_3.2.0          rvest_1.0.2       
-## [25] xml2_1.3.2         labeling_0.4.2     triebeard_0.3.0    sass_0.4.0        
-## [29] scales_1.1.1       classInt_0.4-3     rappdirs_0.3.3     systemfonts_1.0.4 
-## [33] digest_0.6.27      rmarkdown_2.11     svglite_1.2.3.2    pkgconfig_2.0.3   
-## [37] htmltools_0.5.2    dbplyr_2.1.1       fastmap_1.1.0      highr_0.9         
-## [41] rlang_0.4.10       readxl_1.3.1       rstudioapi_0.13    httpcode_0.3.0    
-## [45] farver_2.1.0       jquerylib_0.1.4    generics_0.1.2     jsonlite_1.8.0    
-## [49] magrittr_2.0.1     Rcpp_1.0.7         munsell_0.5.0      fansi_0.4.2       
-## [53] gdtools_0.2.4      lifecycle_1.0.1    terra_1.5-17       stringi_1.5.3     
-## [57] yaml_2.2.1         grid_4.0.3         crayon_1.5.1       lattice_0.20-41   
-## [61] haven_2.5.0        hms_1.1.1          knitr_1.33         pillar_1.7.0      
-## [65] codetools_0.2-16   crul_1.2.0         reprex_2.0.1       glue_1.4.2        
-## [69] evaluate_0.15      hoardr_0.5.2       modelr_0.1.8       urltools_1.7.3    
-## [73] vctrs_0.3.8        cellranger_1.1.0   gtable_0.3.0       slippymath_0.3.1  
-## [77] assertthat_0.2.1   cachem_1.0.6       xfun_0.30          broom_0.8.0       
-## [81] countrycode_1.2.0  e1071_1.7-4        class_7.3-17       memoise_2.0.1     
-## [85] units_0.6-7        ellipsis_0.3.2</code></pre>
+##   [1] colorspace_2.0-3    ellipsis_0.3.2      class_7.3-17       
+##   [4] rgdal_1.5-23        rprojroot_2.0.2     fs_1.5.2           
+##   [7] httpcode_0.3.0      rstudioapi_0.13     farver_2.1.0       
+##  [10] hexbin_1.28.2       urltools_1.7.3      bit64_4.0.5        
+##  [13] fansi_0.4.2         lubridate_1.8.0     xml2_1.3.2         
+##  [16] codetools_0.2-16    splines_4.0.3       cachem_1.0.6       
+##  [19] knitr_1.33          jsonlite_1.8.0      broom_0.8.0        
+##  [22] cluster_2.1.0       dbplyr_2.1.1        png_0.1-7          
+##  [25] hoardr_0.5.2        mapproj_1.2.8       compiler_4.0.3     
+##  [28] httr_1.4.2          backports_1.4.1     assertthat_0.2.1   
+##  [31] Matrix_1.2-18       fastmap_1.1.0       cli_3.2.0          
+##  [34] s2_1.0.7            prettyunits_1.1.1   htmltools_0.5.2    
+##  [37] tools_4.0.3         gtable_0.3.0        glue_1.6.2         
+##  [40] wk_0.5.0            maps_3.4.0          rappdirs_0.3.3     
+##  [43] Rcpp_1.0.7          cellranger_1.1.0    jquerylib_0.1.4    
+##  [46] vctrs_0.3.8         crul_1.2.0          svglite_1.2.3.2    
+##  [49] countrycode_1.2.0   nlme_3.1-149        progressr_0.10.1   
+##  [52] crosstalk_1.2.0     xfun_0.30           rvest_1.0.2        
+##  [55] lifecycle_1.0.1     terra_1.5-17        MASS_7.3-53        
+##  [58] scales_1.1.1        vroom_1.5.7         hms_1.1.1          
+##  [61] slippymath_0.3.1    parallel_4.0.3      RColorBrewer_1.1-2 
+##  [64] yaml_2.2.1          curl_4.3.2          gridExtra_2.3      
+##  [67] memoise_2.0.1       gdtools_0.2.4       sass_0.4.0         
+##  [70] triebeard_0.3.0     latticeExtra_0.6-29 stringi_1.5.3      
+##  [73] highr_0.9           e1071_1.7-4         storr_1.2.5        
+##  [76] systemfonts_1.0.4   rlang_1.0.2         pkgconfig_2.0.3    
+##  [79] evaluate_0.15       lattice_0.20-41     htmlwidgets_1.5.4  
+##  [82] labeling_0.4.2      bit_4.0.4           tidyselect_1.1.0   
+##  [85] here_1.0.1          magrittr_2.0.1      R6_2.5.0           
+##  [88] generics_0.1.2      DBI_1.1.2           pillar_1.7.0       
+##  [91] haven_2.5.0         withr_2.5.0         mgcv_1.8-33        
+##  [94] units_0.8-0         modelr_0.1.8        crayon_1.5.1       
+##  [97] KernSmooth_2.23-17  utf8_1.1.4          tzdb_0.3.0         
+## [100] rmarkdown_2.11      progress_1.2.2      jpeg_0.1-9         
+## [103] grid_4.0.3          readxl_1.3.1        webshot_0.5.2      
+## [106] reprex_2.0.1        digest_0.6.27       classInt_0.4-3     
+## [109] munsell_0.5.0       bslib_0.3.1</code></pre>
 </details>
 </p>
 </div>

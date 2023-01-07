@@ -388,12 +388,6 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="collaborate.html">Collaborations</a>
-</li>
-<li>
-  <a href="news.html">News</a>
-</li>
-<li>
   <a href="https://github.com/rspatialdata/rspatialdata.github.io">
     <span class="fa fa-github"></span>
      
@@ -453,121 +447,133 @@ div.tocify {
 <h2>Exploring the <code>osmdata</code> package</h2>
 <p>The <code>osmdata</code> package provides spatial data about a wide range of spatial properties and objects across the world. The <code>available_features()</code> function can be used to get the list of recognized features in OSM. A list of the available features can be found in the <a href="https://wiki.openstreetmap.org/wiki/Map_Features">OSM wiki</a>.</p>
 <pre class="r"><code>available_features()</code></pre>
-<pre style="max-height: 200px;"><code>##   [1] &quot;4wd_only&quot;                &quot;abandoned&quot;              
-##   [3] &quot;abutters&quot;                &quot;access&quot;                 
-##   [5] &quot;addr&quot;                    &quot;addr:city&quot;              
-##   [7] &quot;addr:conscriptionnumber&quot; &quot;addr:country&quot;           
-##   [9] &quot;addr:county&quot;             &quot;addr:district&quot;          
-##  [11] &quot;addr:flats&quot;              &quot;addr:full&quot;              
-##  [13] &quot;addr:hamlet&quot;             &quot;addr:housename&quot;         
-##  [15] &quot;addr:housenumber&quot;        &quot;addr:inclusion&quot;         
-##  [17] &quot;addr:interpolation&quot;      &quot;addr:place&quot;             
-##  [19] &quot;addr:postbox&quot;            &quot;addr:postcode&quot;          
-##  [21] &quot;addr:province&quot;           &quot;addr:state&quot;             
-##  [23] &quot;addr:street&quot;             &quot;addr:subdistrict&quot;       
-##  [25] &quot;addr:suburb&quot;             &quot;addr:unit&quot;              
-##  [27] &quot;admin_level&quot;             &quot;aeroway&quot;                
-##  [29] &quot;agricultural&quot;            &quot;alt_name&quot;               
-##  [31] &quot;amenity&quot;                 &quot;area&quot;                   
-##  [33] &quot;atv&quot;                     &quot;backward&quot;               
-##  [35] &quot;barrier&quot;                 &quot;basin&quot;                  
-##  [37] &quot;bdouble&quot;                 &quot;bicycle&quot;                
-##  [39] &quot;bicycle_road&quot;            &quot;biergarten&quot;             
-##  [41] &quot;boat&quot;                    &quot;border_type&quot;            
-##  [43] &quot;boundary&quot;                &quot;bridge&quot;                 
-##  [45] &quot;building&quot;                &quot;building:colour&quot;        
-##  [47] &quot;building:fireproof&quot;      &quot;building:flats&quot;         
-##  [49] &quot;building:levels&quot;         &quot;building:material&quot;      
-##  [51] &quot;building:min_level&quot;      &quot;building:part&quot;          
-##  [53] &quot;building:soft_storey&quot;    &quot;bus_bay&quot;                
-##  [55] &quot;busway&quot;                  &quot;castle_type&quot;            
-##  [57] &quot;change&quot;                  &quot;charge&quot;                 
-##  [59] &quot;construction&quot;            &quot;construction#Railways&quot;  
-##  [61] &quot;covered&quot;                 &quot;craft&quot;                  
-##  [63] &quot;crossing&quot;                &quot;crossing:island&quot;        
-##  [65] &quot;cuisine&quot;                 &quot;cutting&quot;                
-##  [67] &quot;cycleway&quot;                &quot;denomination&quot;           
-##  [69] &quot;destination&quot;             &quot;diet&quot;                   
-##  [71] &quot;diplomatic&quot;              &quot;direction&quot;              
-##  [73] &quot;dispensing&quot;              &quot;disused&quot;                
-##  [75] &quot;disused:shop&quot;            &quot;drive_in&quot;               
-##  [77] &quot;drive_through&quot;           &quot;ele&quot;                    
-##  [79] &quot;electric_bicycle&quot;        &quot;electrified&quot;            
-##  [81] &quot;embankment&quot;              &quot;embedded_rails&quot;         
-##  [83] &quot;emergency&quot;               &quot;end_date&quot;               
-##  [85] &quot;entrance&quot;                &quot;est_width&quot;              
-##  [87] &quot;fee&quot;                     &quot;fire_object:type&quot;       
-##  [89] &quot;fire_operator&quot;           &quot;fire_rank&quot;              
-##  [91] &quot;foot&quot;                    &quot;footway&quot;                
-##  [93] &quot;ford&quot;                    &quot;forestry&quot;               
-##  [95] &quot;forward&quot;                 &quot;frequency&quot;              
-##  [97] &quot;fuel&quot;                    &quot;gauge&quot;                  
-##  [99] &quot;golf_cart&quot;               &quot;goods&quot;                  
-## [101] &quot;hazmat&quot;                  &quot;healthcare&quot;             
-## [103] &quot;healthcare:counselling&quot;  &quot;healthcare:speciality&quot;  
-## [105] &quot;height&quot;                  &quot;hgv&quot;                    
-## [107] &quot;highway&quot;                 &quot;historic&quot;               
-## [109] &quot;horse&quot;                   &quot;ice_road&quot;               
-## [111] &quot;incline&quot;                 &quot;industrial&quot;             
-## [113] &quot;inline_skates&quot;           &quot;inscription&quot;            
-## [115] &quot;internet_access&quot;         &quot;junction&quot;               
-## [117] &quot;kerb&quot;                    &quot;landuse&quot;                
-## [119] &quot;lanes&quot;                   &quot;lanes:bus&quot;              
-## [121] &quot;lanes:psv&quot;               &quot;layer&quot;                  
-## [123] &quot;leaf_cycle&quot;              &quot;leaf_type&quot;              
-## [125] &quot;leisure&quot;                 &quot;lhv&quot;                    
-## [127] &quot;lit&quot;                     &quot;location&quot;               
-## [129] &quot;man_made&quot;                &quot;maxaxleload&quot;            
-## [131] &quot;maxheight&quot;               &quot;maxlength&quot;              
-## [133] &quot;maxspeed&quot;                &quot;maxstay&quot;                
-## [135] &quot;maxweight&quot;               &quot;maxwidth&quot;               
-## [137] &quot;military&quot;                &quot;minspeed&quot;               
-## [139] &quot;mofa&quot;                    &quot;moped&quot;                  
-## [141] &quot;motor_vehicle&quot;           &quot;motorboat&quot;              
-## [143] &quot;motorcar&quot;                &quot;motorcycle&quot;             
-## [145] &quot;motorroad&quot;               &quot;mountain_pass&quot;          
-## [147] &quot;mtb:description&quot;         &quot;mtb:scale:imba&quot;         
-## [149] &quot;mtb_scale&quot;               &quot;name&quot;                   
-## [151] &quot;name:left&quot;               &quot;name:right&quot;             
-## [153] &quot;narrow&quot;                  &quot;natural&quot;                
-## [155] &quot;noexit&quot;                  &quot;non_existent_levels&quot;    
-## [157] &quot;note&quot;                    &quot;nudism&quot;                 
-## [159] &quot;office&quot;                  &quot;official_name&quot;          
-## [161] &quot;old_name&quot;                &quot;oneway&quot;                 
-## [163] &quot;opening_hours&quot;           &quot;operator&quot;               
-## [165] &quot;organic&quot;                 &quot;oven&quot;                   
-## [167] &quot;overtaking&quot;              &quot;parking:condition&quot;      
-## [169] &quot;parking:lane&quot;            &quot;passing_places&quot;         
-## [171] &quot;place&quot;                   &quot;power&quot;                  
-## [173] &quot;priority_road&quot;           &quot;produce&quot;                
-## [175] &quot;proposed&quot;                &quot;protected_area&quot;         
-## [177] &quot;psv&quot;                     &quot;public_transport&quot;       
-## [179] &quot;railway&quot;                 &quot;railway:preserved&quot;      
-## [181] &quot;railway:track_ref&quot;       &quot;recycling_type&quot;         
-## [183] &quot;ref&quot;                     &quot;religion&quot;               
-## [185] &quot;residential&quot;             &quot;roadtrain&quot;              
-## [187] &quot;route&quot;                   &quot;sac_scale&quot;              
-## [189] &quot;service&quot;                 &quot;service_times&quot;          
-## [191] &quot;shelter_type&quot;            &quot;shop&quot;                   
-## [193] &quot;short_name&quot;              &quot;sidewalk&quot;               
-## [195] &quot;site&quot;                    &quot;ski&quot;                    
-## [197] &quot;smoothness&quot;              &quot;social_facility&quot;        
-## [199] &quot;sorting_name&quot;            &quot;speed_pedelec&quot;          
-## [201] &quot;start_date&quot;              &quot;step_count&quot;             
-## [203] &quot;substation&quot;              &quot;surface&quot;                
-## [205] &quot;tactile_paving&quot;          &quot;tank&quot;                   
-## [207] &quot;tidal&quot;                   &quot;toilets:wheelchair&quot;     
-## [209] &quot;toll&quot;                    &quot;tourism&quot;                
-## [211] &quot;tracks&quot;                  &quot;tracktype&quot;              
-## [213] &quot;traffic_calming&quot;         &quot;traffic_sign&quot;           
-## [215] &quot;trail_visibility&quot;        &quot;trailblazed&quot;            
-## [217] &quot;trailblazed:visibility&quot;  &quot;tunnel&quot;                 
-## [219] &quot;turn&quot;                    &quot;type&quot;                   
-## [221] &quot;usage&quot;                   &quot;vehicle&quot;                
-## [223] &quot;vending&quot;                 &quot;voltage&quot;                
-## [225] &quot;water&quot;                   &quot;wheelchair&quot;             
-## [227] &quot;wholesale&quot;               &quot;width&quot;                  
-## [229] &quot;winter_road&quot;             &quot;wood&quot;</code></pre>
+<pre style="max-height: 200px;"><code>##   [1] &quot;4wd_only&quot;                    &quot;abandoned&quot;                  
+##   [3] &quot;abutters&quot;                    &quot;access&quot;                     
+##   [5] &quot;addr&quot;                        &quot;addr:city&quot;                  
+##   [7] &quot;addr:conscriptionnumber&quot;     &quot;addr:country&quot;               
+##   [9] &quot;addr:county&quot;                 &quot;addr:district&quot;              
+##  [11] &quot;addr:flats&quot;                  &quot;addr:full&quot;                  
+##  [13] &quot;addr:hamlet&quot;                 &quot;addr:housename&quot;             
+##  [15] &quot;addr:housenumber&quot;            &quot;addr:inclusion&quot;             
+##  [17] &quot;addr:interpolation&quot;          &quot;addr:place&quot;                 
+##  [19] &quot;addr:postbox&quot;                &quot;addr:postcode&quot;              
+##  [21] &quot;addr:province&quot;               &quot;addr:state&quot;                 
+##  [23] &quot;addr:street&quot;                 &quot;addr:subdistrict&quot;           
+##  [25] &quot;addr:suburb&quot;                 &quot;addr:unit&quot;                  
+##  [27] &quot;admin_level&quot;                 &quot;aeroway&quot;                    
+##  [29] &quot;agricultural&quot;                &quot;alt_name&quot;                   
+##  [31] &quot;amenity&quot;                     &quot;area&quot;                       
+##  [33] &quot;atv&quot;                         &quot;backward&quot;                   
+##  [35] &quot;barrier&quot;                     &quot;basin&quot;                      
+##  [37] &quot;bdouble&quot;                     &quot;bicycle&quot;                    
+##  [39] &quot;bicycle_road&quot;                &quot;biergarten&quot;                 
+##  [41] &quot;boat&quot;                        &quot;border_type&quot;                
+##  [43] &quot;boundary&quot;                    &quot;brand&quot;                      
+##  [45] &quot;bridge&quot;                      &quot;building&quot;                   
+##  [47] &quot;building:colour&quot;             &quot;building:fireproof&quot;         
+##  [49] &quot;building:flats&quot;              &quot;building:levels&quot;            
+##  [51] &quot;building:material&quot;           &quot;building:min_level&quot;         
+##  [53] &quot;building:part&quot;               &quot;building:soft_storey&quot;       
+##  [55] &quot;bus_bay&quot;                     &quot;busway&quot;                     
+##  [57] &quot;capacity&quot;                    &quot;castle_type&quot;                
+##  [59] &quot;change&quot;                      &quot;charge&quot;                     
+##  [61] &quot;clothes&quot;                     &quot;construction&quot;               
+##  [63] &quot;construction#Railways&quot;       &quot;covered&quot;                    
+##  [65] &quot;craft&quot;                       &quot;crossing&quot;                   
+##  [67] &quot;crossing:island&quot;             &quot;cuisine&quot;                    
+##  [69] &quot;cutting&quot;                     &quot;cycleway&quot;                   
+##  [71] &quot;denomination&quot;                &quot;destination&quot;                
+##  [73] &quot;diet&quot;                        &quot;direction&quot;                  
+##  [75] &quot;dispensing&quot;                  &quot;disused&quot;                    
+##  [77] &quot;drinking_water&quot;              &quot;drive_in&quot;                   
+##  [79] &quot;drive_through&quot;               &quot;ele&quot;                        
+##  [81] &quot;electric_bicycle&quot;            &quot;electrified&quot;                
+##  [83] &quot;embankment&quot;                  &quot;embedded_rails&quot;             
+##  [85] &quot;emergency&quot;                   &quot;end_date&quot;                   
+##  [87] &quot;entrance&quot;                    &quot;est_width&quot;                  
+##  [89] &quot;fee&quot;                         &quot;female&quot;                     
+##  [91] &quot;fire_object:type&quot;            &quot;fire_operator&quot;              
+##  [93] &quot;fire_rank&quot;                   &quot;foot&quot;                       
+##  [95] &quot;footway&quot;                     &quot;ford&quot;                       
+##  [97] &quot;forestry&quot;                    &quot;forward&quot;                    
+##  [99] &quot;frequency&quot;                   &quot;fuel&quot;                       
+## [101] &quot;gauge&quot;                       &quot;golf_cart&quot;                  
+## [103] &quot;goods&quot;                       &quot;hazard&quot;                     
+## [105] &quot;hazmat&quot;                      &quot;healthcare&quot;                 
+## [107] &quot;healthcare:counselling&quot;      &quot;healthcare:speciality&quot;      
+## [109] &quot;height&quot;                      &quot;hgv&quot;                        
+## [111] &quot;highway&quot;                     &quot;historic&quot;                   
+## [113] &quot;horse&quot;                       &quot;hot_water&quot;                  
+## [115] &quot;ice_road&quot;                    &quot;incline&quot;                    
+## [117] &quot;industrial&quot;                  &quot;inline_skates&quot;              
+## [119] &quot;inscription&quot;                 &quot;int_name&quot;                   
+## [121] &quot;internet_access&quot;             &quot;junction&quot;                   
+## [123] &quot;kerb&quot;                        &quot;landuse&quot;                    
+## [125] &quot;lanes&quot;                       &quot;lanes:bus&quot;                  
+## [127] &quot;lanes:psv&quot;                   &quot;layer&quot;                      
+## [129] &quot;leaf_cycle&quot;                  &quot;leaf_type&quot;                  
+## [131] &quot;leisure&quot;                     &quot;lhv&quot;                        
+## [133] &quot;lit&quot;                         &quot;loc_name&quot;                   
+## [135] &quot;location&quot;                    &quot;male&quot;                       
+## [137] &quot;man_made&quot;                    &quot;max_age&quot;                    
+## [139] &quot;max_level&quot;                   &quot;maxaxleload&quot;                
+## [141] &quot;maxheight&quot;                   &quot;maxlength&quot;                  
+## [143] &quot;maxspeed&quot;                    &quot;maxstay&quot;                    
+## [145] &quot;maxweight&quot;                   &quot;maxwidth&quot;                   
+## [147] &quot;military&quot;                    &quot;min_age&quot;                    
+## [149] &quot;min_level&quot;                   &quot;minspeed&quot;                   
+## [151] &quot;mofa&quot;                        &quot;moped&quot;                      
+## [153] &quot;motor_vehicle&quot;               &quot;motorboat&quot;                  
+## [155] &quot;motorcar&quot;                    &quot;motorcycle&quot;                 
+## [157] &quot;motorroad&quot;                   &quot;mountain_pass&quot;              
+## [159] &quot;mtb:description&quot;             &quot;mtb:scale&quot;                  
+## [161] &quot;name&quot;                        &quot;name:left&quot;                  
+## [163] &quot;name:right&quot;                  &quot;name_1&quot;                     
+## [165] &quot;name_2&quot;                      &quot;narrow&quot;                     
+## [167] &quot;nat_name&quot;                    &quot;natural&quot;                    
+## [169] &quot;noexit&quot;                      &quot;non_existent_levels&quot;        
+## [171] &quot;nudism&quot;                      &quot;office&quot;                     
+## [173] &quot;official_name&quot;               &quot;old_name&quot;                   
+## [175] &quot;oneway&quot;                      &quot;opening_hours&quot;              
+## [177] &quot;opening_hours:drive_through&quot; &quot;operator&quot;                   
+## [179] &quot;orientation&quot;                 &quot;oven&quot;                       
+## [181] &quot;overtaking&quot;                  &quot;parking&quot;                    
+## [183] &quot;parking:condition&quot;           &quot;parking:lane&quot;               
+## [185] &quot;passing_places&quot;              &quot;place&quot;                      
+## [187] &quot;power&quot;                       &quot;power_supply&quot;               
+## [189] &quot;priority&quot;                    &quot;priority_road&quot;              
+## [191] &quot;produce&quot;                     &quot;proposed&quot;                   
+## [193] &quot;protected_area&quot;              &quot;psv&quot;                        
+## [195] &quot;public_transport&quot;            &quot;railway&quot;                    
+## [197] &quot;railway:preserved&quot;           &quot;railway:track_ref&quot;          
+## [199] &quot;recycling_type&quot;              &quot;ref&quot;                        
+## [201] &quot;reg_name&quot;                    &quot;religion&quot;                   
+## [203] &quot;rental&quot;                      &quot;residential&quot;                
+## [205] &quot;roadtrain&quot;                   &quot;route&quot;                      
+## [207] &quot;sac_scale&quot;                   &quot;sauna&quot;                      
+## [209] &quot;service&quot;                     &quot;service_times&quot;              
+## [211] &quot;shelter_type&quot;                &quot;shop&quot;                       
+## [213] &quot;short_name&quot;                  &quot;shower&quot;                     
+## [215] &quot;sidewalk&quot;                    &quot;site&quot;                       
+## [217] &quot;ski&quot;                         &quot;smoothness&quot;                 
+## [219] &quot;social_facility&quot;             &quot;sorting_name&quot;               
+## [221] &quot;speed_pedelec&quot;               &quot;start_date&quot;                 
+## [223] &quot;step_count&quot;                  &quot;substation&quot;                 
+## [225] &quot;surface&quot;                     &quot;tactile_paving&quot;             
+## [227] &quot;tank&quot;                        &quot;tidal&quot;                      
+## [229] &quot;toilets&quot;                     &quot;toilets:wheelchair&quot;         
+## [231] &quot;toll&quot;                        &quot;topless&quot;                    
+## [233] &quot;tourism&quot;                     &quot;tracks&quot;                     
+## [235] &quot;tracktype&quot;                   &quot;traffic_calming&quot;            
+## [237] &quot;traffic_sign&quot;                &quot;trail_visibility&quot;           
+## [239] &quot;trailblazed&quot;                 &quot;trailblazed:visibility&quot;     
+## [241] &quot;tunnel&quot;                      &quot;turn&quot;                       
+## [243] &quot;type&quot;                        &quot;unisex&quot;                     
+## [245] &quot;usage&quot;                       &quot;vehicle&quot;                    
+## [247] &quot;vending&quot;                     &quot;voltage&quot;                    
+## [249] &quot;water&quot;                       &quot;wheelchair&quot;                 
+## [251] &quot;wholesale&quot;                   &quot;width&quot;                      
+## [253] &quot;winter_road&quot;                 &quot;wood&quot;</code></pre>
 <p>The <code>available_tags()</code> function lists out the tags associated with each feature. The tags associated with the feature “amenity” can be retrieved as follows.</p>
 <pre class="r"><code>available_tags(&quot;amenity&quot;)</code></pre>
 <pre style="max-height: 200px;"><code>##   [1] &quot;animal_boarding&quot;        &quot;animal_breeding&quot;        &quot;animal_shelter&quot;        
@@ -580,36 +586,36 @@ div.tocify {
 ##  [22] &quot;car_rental&quot;             &quot;car_sharing&quot;            &quot;car_wash&quot;              
 ##  [25] &quot;casino&quot;                 &quot;charging_station&quot;       &quot;childcare&quot;             
 ##  [28] &quot;cinema&quot;                 &quot;clinic&quot;                 &quot;clock&quot;                 
-##  [31] &quot;college&quot;                &quot;community_centre&quot;       &quot;conference_centre&quot;     
-##  [34] &quot;courthouse&quot;             &quot;crematorium&quot;            &quot;dentist&quot;               
-##  [37] &quot;dive_centre&quot;            &quot;doctors&quot;                &quot;dog_toilet&quot;            
-##  [40] &quot;drinking_water&quot;         &quot;driving_school&quot;         &quot;embassy&quot;               
-##  [43] &quot;events_venue&quot;           &quot;fast_food&quot;              &quot;ferry_terminal&quot;        
-##  [46] &quot;fire_station&quot;           &quot;food_court&quot;             &quot;fountain&quot;              
-##  [49] &quot;fuel&quot;                   &quot;funeral_hall&quot;           &quot;gambling&quot;              
-##  [52] &quot;give_box&quot;               &quot;grave_yard&quot;             &quot;grit_bin&quot;              
-##  [55] &quot;gym&quot;                    &quot;hospital&quot;               &quot;hunting_stand&quot;         
+##  [31] &quot;college&quot;                &quot;community_centre&quot;       &quot;compressed_air&quot;        
+##  [34] &quot;conference_centre&quot;      &quot;courthouse&quot;             &quot;crematorium&quot;           
+##  [37] &quot;dentist&quot;                &quot;dive_centre&quot;            &quot;doctors&quot;               
+##  [40] &quot;dog_toilet&quot;             &quot;dressing_room&quot;          &quot;drinking_water&quot;        
+##  [43] &quot;driving_school&quot;         &quot;events_venue&quot;           &quot;fast_food&quot;             
+##  [46] &quot;ferry_terminal&quot;         &quot;fire_station&quot;           &quot;food_court&quot;            
+##  [49] &quot;fountain&quot;               &quot;fuel&quot;                   &quot;funeral_hall&quot;          
+##  [52] &quot;gambling&quot;               &quot;give_box&quot;               &quot;grave_yard&quot;            
+##  [55] &quot;grit_bin&quot;               &quot;hospital&quot;               &quot;hunting_stand&quot;         
 ##  [58] &quot;ice_cream&quot;              &quot;internet_cafe&quot;          &quot;kindergarten&quot;          
 ##  [61] &quot;kitchen&quot;                &quot;kneipp_water_cure&quot;      &quot;language_school&quot;       
 ##  [64] &quot;library&quot;                &quot;lounger&quot;                &quot;love_hotel&quot;            
-##  [67] &quot;marketplace&quot;            &quot;monastery&quot;              &quot;motorcycle_parking&quot;    
-##  [70] &quot;music_school&quot;           &quot;nightclub&quot;              &quot;nursing_home&quot;          
-##  [73] &quot;parcel_locker&quot;          &quot;parking&quot;                &quot;parking_entrance&quot;      
-##  [76] &quot;parking_space&quot;          &quot;pharmacy&quot;               &quot;photo_booth&quot;           
-##  [79] &quot;place_of_mourning&quot;      &quot;place_of_worship&quot;       &quot;planetarium&quot;           
-##  [82] &quot;police&quot;                 &quot;post_box&quot;               &quot;post_depot&quot;            
-##  [85] &quot;post_office&quot;            &quot;prison&quot;                 &quot;pub&quot;                   
-##  [88] &quot;public_bath&quot;            &quot;public_bookcase&quot;        &quot;public_building&quot;       
-##  [91] &quot;ranger_station&quot;         &quot;recycling&quot;              &quot;refugee_site&quot;          
-##  [94] &quot;restaurant&quot;             &quot;sanitary_dump_station&quot;  &quot;school&quot;                
-##  [97] &quot;shelter&quot;                &quot;shower&quot;                 &quot;social_centre&quot;         
-## [100] &quot;social_facility&quot;        &quot;stripclub&quot;              &quot;studio&quot;                
-## [103] &quot;swingerclub&quot;            &quot;taxi&quot;                   &quot;telephone&quot;             
-## [106] &quot;theatre&quot;                &quot;toilets&quot;                &quot;townhall&quot;              
-## [109] &quot;toy_library&quot;            &quot;university&quot;             &quot;vehicle_inspection&quot;    
-## [112] &quot;vending_machine&quot;        &quot;veterinary&quot;             &quot;waste_basket&quot;          
-## [115] &quot;waste_disposal&quot;         &quot;waste_transfer_station&quot; &quot;water_point&quot;           
-## [118] &quot;watering_place&quot;</code></pre>
+##  [67] &quot;mailroom&quot;               &quot;marketplace&quot;            &quot;monastery&quot;             
+##  [70] &quot;motorcycle_parking&quot;     &quot;music_school&quot;           &quot;nightclub&quot;             
+##  [73] &quot;nursing_home&quot;           &quot;parcel_locker&quot;          &quot;parking&quot;               
+##  [76] &quot;parking_entrance&quot;       &quot;parking_space&quot;          &quot;pharmacy&quot;              
+##  [79] &quot;photo_booth&quot;            &quot;place_of_mourning&quot;      &quot;place_of_worship&quot;      
+##  [82] &quot;planetarium&quot;            &quot;police&quot;                 &quot;post_box&quot;              
+##  [85] &quot;post_depot&quot;             &quot;post_office&quot;            &quot;prison&quot;                
+##  [88] &quot;pub&quot;                    &quot;public_bath&quot;            &quot;public_bookcase&quot;       
+##  [91] &quot;public_building&quot;        &quot;ranger_station&quot;         &quot;recycling&quot;             
+##  [94] &quot;refugee_site&quot;           &quot;restaurant&quot;             &quot;sanitary_dump_station&quot; 
+##  [97] &quot;school&quot;                 &quot;shelter&quot;                &quot;shower&quot;                
+## [100] &quot;social_centre&quot;          &quot;social_facility&quot;        &quot;stripclub&quot;             
+## [103] &quot;studio&quot;                 &quot;swingerclub&quot;            &quot;taxi&quot;                  
+## [106] &quot;telephone&quot;              &quot;theatre&quot;                &quot;toilets&quot;               
+## [109] &quot;townhall&quot;               &quot;toy_library&quot;            &quot;training&quot;              
+## [112] &quot;university&quot;             &quot;vehicle_inspection&quot;     &quot;vending_machine&quot;       
+## [115] &quot;veterinary&quot;             &quot;waste_basket&quot;           &quot;waste_disposal&quot;        
+## [118] &quot;waste_transfer_station&quot; &quot;water_point&quot;            &quot;watering_place&quot;</code></pre>
 </div>
 <div id="creating-a-query-to-download-data" class="section level2">
 <h2>Creating a query to download data</h2>
@@ -672,62 +678,62 @@ lagos_hospitals$bbox</code></pre>
 <pre class="r"><code># metadata
 lagos_hospitals$meta</code></pre>
 <pre><code>## $timestamp
-## [1] &quot;[ Wed 4 Jun 2022 12:43:43 ]&quot;
+## [1] &quot;[ Sat 7 Jan 2023 12:47:24 ]&quot;
 ## 
 ## $OSM_version
 ## [1] &quot;0.6&quot;
 ## 
 ## $overpass_version
-## [1] &quot;Overpass API 0.7.58.3 b33c3320&quot;</code></pre>
+## [1] &quot;Overpass API 0.7.59 e21c39fe&quot;</code></pre>
 <p>Note how the Spatial data returned by the query are Simple Feature objects as we requested using the<code>osmdata_sf()</code> function, and how the polygons also contain more details about the hospitals such as their names, websites, wikipedia pages etc. where available.</p>
 <pre class="r"><code># osm_points
 lagos_hospitals$osm_points</code></pre>
-<pre style="max-height: 100px;"><code>## Simple feature collection with 406 features and 11 fields
-## geometry type:  POINT
-## dimension:      XY
-## bbox:           xmin: 3.250371 ymin: 6.427682 xmax: 3.522714 ymax: 6.610555
-## geographic CRS: WGS 84
+<pre style="max-height: 100px;"><code>## Simple feature collection with 408 features and 15 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 3.250371 ymin: 6.427734 xmax: 3.522714 ymax: 6.610555
+## Geodetic CRS:  WGS 84
 ## First 10 features:
-##                osm_id name access addr.city addr.housenumber addr.street
-## 815678325   815678325 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 928544939   928544939 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 1209198481 1209198481 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 1209198504 1209198504 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 1209198747 1209198747 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 3024218835 3024218835 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 3845787945 3845787945 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 3845787949 3845787949 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 3845787951 3845787951 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-## 3971452305 3971452305 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;        &lt;NA&gt;
-##            amenity barrier fixme healthcare healthcare.speciality
-## 815678325     &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 928544939     &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 1209198481    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 1209198504    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 1209198747    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 3024218835    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 3845787945    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 3845787949    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 3845787951    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-## 3971452305    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
-##                             geometry
-## 815678325  POINT (3.303055 6.461788)
-## 928544939  POINT (3.361348 6.495705)
-## 1209198481 POINT (3.397627 6.447358)
-## 1209198504    POINT (3.397712 6.447)
-## 1209198747 POINT (3.397854 6.447192)
-## 3024218835 POINT (3.370959 6.511046)
-## 3845787945 POINT (3.397503 6.448392)
-## 3845787949 POINT (3.397583 6.448494)
-## 3845787951  POINT (3.397146 6.44864)
-## 3971452305 POINT (3.386569 6.551142)</code></pre>
+##                osm_id name access addr.city addr.housenumber addr.postcode
+## 815678325   815678325 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 928544939   928544939 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 1209198481 1209198481 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 1209198504 1209198504 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 1209198747 1209198747 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 3024218835 3024218835 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 3845787945 3845787945 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 3845787949 3845787949 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 3845787951 3845787951 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+## 3971452305 3971452305 &lt;NA&gt;   &lt;NA&gt;      &lt;NA&gt;             &lt;NA&gt;          &lt;NA&gt;
+##            addr.street amenity barrier fixme healthcare healthcare.speciality
+## 815678325         &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 928544939         &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 1209198481        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 1209198504        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 1209198747        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 3024218835        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 3845787945        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 3845787949        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 3845787951        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+## 3971452305        &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;       &lt;NA&gt;                  &lt;NA&gt;
+##            name.pcm operator operator.type                  geometry
+## 815678325      &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.303055 6.461788)
+## 928544939      &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.361348 6.495705)
+## 1209198481     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.397627 6.447358)
+## 1209198504     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;    POINT (3.397712 6.447)
+## 1209198747     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.397854 6.447192)
+## 3024218835     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.370959 6.511046)
+## 3845787945     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.397503 6.448392)
+## 3845787949     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.397583 6.448494)
+## 3845787951     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;  POINT (3.397146 6.44864)
+## 3971452305     &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt; POINT (3.386569 6.551142)</code></pre>
 <pre class="r"><code># osm_polyogns
 lagos_hospitals$osm_polygons</code></pre>
 <pre style="max-height: 100px;"><code>## Simple feature collection with 34 features and 21 fields
-## geometry type:  POLYGON
-## dimension:      XY
-## bbox:           xmin: 3.250371 ymin: 6.427682 xmax: 3.522714 ymax: 6.610555
-## geographic CRS: WGS 84
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 3.250371 ymin: 6.427734 xmax: 3.522714 ymax: 6.610555
+## Geodetic CRS:  WGS 84
 ## First 10 features:
 ##              osm_id                                     name addr.city
 ## 394119616 394119616                 Gbagada General Hospital      &lt;NA&gt;
@@ -925,8 +931,8 @@ leaflet() %&gt;%
     data = lagos_hospitals$osm_polygons,
     label = lagos_hospitals$osm_polygons$name
   )</code></pre>
-<div id="htmlwidget-1292019adb30f0cb6fbe" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1292019adb30f0cb6fbe">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[3.3879416,3.3870162,3.3866818,3.3848376,3.386569,3.3873932,3.3881526,3.3882941,3.3889711,3.3887527,3.3886271,3.388594,3.3881013,3.3880034,3.3879416],"lat":[6.5542207,6.5541097,6.5543968,6.5525167,6.5511423,6.5505252,6.5508598,6.5509942,6.5515684,6.5519514,6.5519812,6.5522151,6.5532259,6.5540817,6.5542207]}]],[[{"lng":[3.3681755,3.3681953,3.3682322,3.3679506,3.367964,3.3676778,3.3676868,3.369322,3.3695373,3.3700726,3.3715489,3.3724542,3.3728672,3.3734057,3.3735859,3.3736072,3.3736125,3.3736024,3.3735694,3.3735594,3.3735715,3.3733498,3.3724809,3.3709842,3.3695278,3.368699,3.3681755],"lat":[6.532734,6.5321606,6.5310949,6.5310923,6.5305353,6.5305248,6.529706,6.5300765,6.5301253,6.5302916,6.5305642,6.5303645,6.5304715,6.53049,6.530506,6.530888,6.5309826,6.531487,6.5319167,6.5320472,6.5324553,6.5331544,6.532931,6.5328457,6.5327924,6.5327566,6.532734]}]],[[{"lng":[3.4369585,3.4370621,3.4372653,3.4373038,3.4374614,3.4374953,3.4375116,3.4376827,3.4378875,3.4378218,3.4376453,3.4376202,3.4373055,3.4372853,3.4372301,3.4369585],"lat":[6.4460012,6.4457112,6.4457795,6.4456797,6.445667,6.445537,6.445457,6.4455146,6.4455835,6.4457629,6.4462445,6.4462356,6.4461245,6.4461175,6.4460985,6.4460012]}]],[[{"lng":[3.3568566,3.3573568,3.3574587,3.3569585,3.3568566],"lat":[6.5834889,6.5836834,6.5834316,6.5832331,6.5834889]}]],[[{"lng":[3.420182,3.4207523,3.420635,3.4205885,3.4204135,3.4201467,3.4201385,3.4201306,3.4200905,3.4200791,3.4201586,3.420182],"lat":[6.4332741,6.4331235,6.4326832,6.4326959,6.4327441,6.4328174,6.4328546,6.4328911,6.4329023,6.4329047,6.4331902,6.4332741]}]],[[{"lng":[3.4560249,3.4561498,3.4561533,3.4563991,3.4563991,3.4564215,3.4564582,3.4564586,3.4562689,3.4561521,3.4560249],"lat":[6.4394842,6.439602,6.4397273,6.4397255,6.4396826,6.4396605,6.43966,6.4394448,6.4394442,6.4393578,6.4394842]}]],[[{"lng":[3.505188,3.5051797,3.5052098,3.5052036,3.5051727,3.5051586,3.5051591,3.5051719,3.505194,3.5052241,3.5056984,3.5056832,3.505188],"lat":[6.4344648,6.4345939,6.4346271,6.4346939,6.4347026,6.4349196,6.4349513,6.4349741,6.4349864,6.4349917,6.4350385,6.4345095,6.4344648]}]],[[{"lng":[3.4290805,3.429164,3.4292709,3.4295033,3.4292069,3.4289924,3.428983,3.4289186,3.4288703,3.428818,3.4285981,3.428666,3.4287335,3.4290983,3.4291318,3.4290805],"lat":[6.4433276,6.4433482,6.4430498,6.4424007,6.4424127,6.4424966,6.442478,6.44247,6.4424194,6.442402,6.4423514,6.442668,6.4429831,6.4430537,6.443095,6.4433276]}]],[[{"lng":[3.3958197,3.3957649,3.3957532,3.3957397,3.3955232,3.3954115,3.3954153,3.3960535,3.3962412,3.3964267,3.3964529,3.3966528,3.3967113,3.3967879,3.3969659,3.3970528,3.3973409,3.3973953,3.3977544,3.3977038,3.397677,3.3977122,3.3978541,3.3976272,3.397609,3.3968522,3.3967058,3.3965582,3.3965228,3.3964749,3.3961821,3.3960981,3.3958197],"lat":[6.4485127,6.4484039,6.4483837,6.4483608,6.4479601,6.4477556,6.4476863,6.4472865,6.4471433,6.4470065,6.4469954,6.4468411,6.4467942,6.4467358,6.4466003,6.4465331,6.4463045,6.446375,6.4468755,6.446925,6.4469494,6.4470005,6.4471925,6.4473581,6.4473716,6.4479345,6.448049,6.4481375,6.4481652,6.4481047,6.4483335,6.4483744,6.4485127]}]],[[{"lng":[3.3444917,3.3445296,3.3445537,3.344661,3.3438268,3.3433413,3.3428693,3.3425662,3.3420512,3.3418983,3.3422336,3.3416623,3.3412331,3.3410481,3.3406612,3.3403212,3.3398974,3.3398708,3.3397686,3.3400851,3.3400411,3.3398292,3.3397418,3.3400328,3.3405599,3.3410668,3.340804,3.3401307,3.3401504,3.3401823,3.3402085,3.3401415,3.3401388,3.340179,3.3403426,3.340745,3.3422068,3.3427003,3.3428666,3.3430007,3.343057,3.3430235,3.3430409,3.3431187,3.3431523,3.3432032,3.3442533,3.3444947,3.3444766,3.3444917],"lat":[6.5909877,6.5909641,6.5909854,6.5908389,6.5899729,6.5894667,6.5889764,6.5892642,6.5887339,6.5885927,6.588273,6.5876921,6.5872391,6.5874257,6.5873051,6.5871992,6.5870713,6.5871131,6.5872738,6.5879106,6.5880199,6.5883743,6.5885234,6.5888392,6.5893614,6.5898557,6.5900955,6.5907589,6.5907818,6.590819,6.5908495,6.5909375,6.5909748,6.591036,6.5911133,6.5913025,6.5918301,6.5920059,6.5919926,6.5919366,6.5919033,6.5918514,6.5918447,6.5917808,6.5917581,6.5917901,6.5911719,6.5910181,6.5910001,6.5909877]}]],[[{"lng":[3.2510138,3.2535265,3.2530092,3.2503709,3.2510138],"lat":[6.5627677,6.5620042,6.5599999,6.5606973,6.5627677]}]],[[{"lng":[3.4057919,3.4058357,3.4053896,3.4050315,3.4051764,3.4054384,3.4055746,3.4057919],"lat":[6.4443262,6.444822,6.4451212,6.4447121,6.4445924,6.4443818,6.4442694,6.4443262]}]],[[{"lng":[3.3979508,3.3976116,3.3973687,3.3977079,3.3979508],"lat":[6.4494278,6.4489219,6.4490828,6.4495886,6.4494278]}]],[[{"lng":[3.3972393,3.3970956,3.3971464,3.3975027,3.3975828,3.397681,3.3973135,3.3972393],"lat":[6.448899,6.4486827,6.4486405,6.4483925,6.448494,6.4486264,6.4489057,6.448899]}]],[[{"lng":[3.3923634,3.3923792,3.3925045,3.3924649,3.3924115,3.3921738,3.3919891,3.3923634],"lat":[6.45531,6.455289,6.4551089,6.4550504,6.4549794,6.4548173,6.4550926,6.45531]}]],[[{"lng":[3.3014129,3.3032976,3.3031418,3.3034174,3.3030549,3.3018062,3.3016699,3.3018295,3.3018451,3.3017463,3.3012086,3.3013483,3.3013483,3.3013836,3.3013929,3.301409,3.3013739,3.3014129],"lat":[6.4604225,6.460407,6.4612195,6.4615926,6.461788,6.4626744,6.4624074,6.4623145,6.4621172,6.4621113,6.4621043,6.4616194,6.4614146,6.461418,6.4613231,6.4611538,6.4610764,6.4604225]}]],[[{"lng":[3.2895759,3.2898819,3.2895368,3.2894734,3.2894285,3.2893893,3.2891917,3.2895759],"lat":[6.476061,6.4757914,6.4754048,6.4754607,6.4755003,6.4754564,6.4756305,6.476061]}]],[[{"lng":[3.3520403,3.3520733,3.3520279,3.3519649,3.3518802,3.3517821,3.3519287,3.3530839,3.3540803,3.3541243,3.3541544,3.3541983,3.3542419,3.3542337,3.3542775,3.3550924,3.3552401,3.3552373,3.357764,3.3586588,3.3590088,3.3589437,3.3596776,3.3596807,3.3587951,3.3574884,3.3573459,3.3559022,3.3556198,3.355182,3.3550722,3.3549516,3.3541694,3.3542101,3.3541604,3.3540135,3.3539681,3.3539436,3.3530741,3.3524675,3.3523237,3.3523658,3.3524009,3.3523495,3.3522817,3.352187,3.3518223,3.3515594,3.351356,3.3513245,3.3513841,3.3515699,3.3516505,3.3516996,3.3518609,3.3519941,3.3520403],"lat":[6.5211661,6.5214194,6.5216076,6.5217817,6.521925,6.522047,6.5224051,6.5221321,6.5219485,6.5219762,6.5220631,6.5220563,6.5220495,6.5219517,6.5219083,6.5217316,6.521699,6.5213323,6.5207618,6.5196143,6.519162,6.519079,6.518116,6.5179837,6.5173869,6.516464,6.5163563,6.5152654,6.5152883,6.5157828,6.5159068,6.5159407,6.516633,6.5168691,6.5168892,6.5169362,6.5169527,6.5168377,6.5176215,6.518158,6.5182834,6.5186527,6.5187851,6.518826,6.5188791,6.5188129,6.5190219,6.5192379,6.5194086,6.5195166,6.5196768,6.5199869,6.5201576,6.5204641,6.520802,6.5211364,6.5211661]}]],[[{"lng":[3.3568871,3.3571103,3.3570996,3.3578219,3.3579076,3.3580176,3.3578328,3.3577026,3.3576048,3.3573879,3.3571648,3.3570568,3.3568871],"lat":[6.508001,6.507955,6.507894,6.5077719,6.5078888,6.5079775,6.5083166,6.5085481,6.5086392,6.5087396,6.5088353,6.5088615,6.508001]}]],[[{"lng":[3.5000429,3.500392,3.5008914,3.5012447,3.5008508,3.5010132,3.5003433,3.5003078,3.5002865,3.5000957,3.4992999,3.4986218,3.4990412,3.5000429],"lat":[6.6105552,6.6103213,6.609809,6.6095872,6.6089016,6.6087806,6.6076594,6.6071351,6.6068205,6.6066228,6.6075343,6.6082563,6.6089424,6.6105552]}]],[[{"lng":[3.319058,3.3183686,3.3179516,3.317906,3.3194724,3.3199552,3.3205935,3.3205265,3.3204836,3.3203762,3.3201215,3.3196387,3.3195931,3.3194925,3.3194911,3.3194105,3.3193544,3.3193423,3.319058],"lat":[6.528101,6.5280011,6.5279331,6.5262077,6.525704,6.5275827,6.527159,6.5282436,6.5283597,6.5286469,6.52859,6.5285287,6.5285262,6.52853,6.5284954,6.5284966,6.5284967,6.528173,6.528101]}]],[[{"lng":[3.3613477,3.3610983,3.3611023,3.3612163,3.3613692,3.3613611,3.3613598,3.3613477],"lat":[6.4957053,6.4955987,6.4954695,6.4955094,6.4955614,6.495664,6.495712,6.4957053]}]],[[{"lng":[3.5220945,3.5222715,3.5227141,3.5226202,3.5220945],"lat":[6.5927333,6.5921178,6.5922857,6.5928079,6.5927333]}]],[[{"lng":[3.415044,3.4152799,3.4152826,3.4150467,3.415044],"lat":[6.4276863,6.4276824,6.4278437,6.4278476,6.4276863]}]],[[{"lng":[3.3709586,3.3707499,3.3711102,3.3713189,3.3709586],"lat":[6.5110462,6.5115328,6.5116853,6.5111988,6.5110462]}]],[[{"lng":[3.464045,3.4643802,3.4643855,3.4640503,3.464045],"lat":[6.4286288,6.4286355,6.4283703,6.4283636,6.4286288]}]],[[{"lng":[3.3718634,3.3710695,3.3722171,3.3721531,3.3738111,3.3739381,3.3749416,3.3757769,3.3739435,3.3718634],"lat":[6.5090162,6.5108991,6.5113888,6.5115981,6.5124266,6.5121667,6.5125673,6.5105826,6.5098613,6.5090162]}]],[[{"lng":[3.3726575,3.373387,3.3736284,3.3736713,3.3737598,3.3738028,3.373784,3.3729874,3.3726575],"lat":[6.5103263,6.5104516,6.5099266,6.5098999,6.5098999,6.509812,6.5097694,6.5094496,6.5103263]}]],[[{"lng":[3.3375176,3.3374917,3.3375953,3.3376212,3.3375176],"lat":[6.4611829,6.4610041,6.4609893,6.461168,6.4611829]}]],[[{"lng":[3.3803097,3.380197,3.3801895,3.3803022,3.3803097],"lat":[6.5290361,6.5290336,6.5293646,6.5293672,6.5290361]}]],[[{"lng":[3.3300359,3.3301099,3.329957,3.3298829,3.3300359],"lat":[6.4979955,6.4979224,6.4977695,6.4978427,6.4979955]}]],[[{"lng":[3.3871468,3.3874687,3.3877315,3.387458,3.3871468],"lat":[6.4927187,6.4929586,6.4926361,6.4925588,6.4927187]}]],[[{"lng":[3.3804538,3.3805557,3.3808373,3.3807461,3.3804538],"lat":[6.484301,6.4843409,6.4836587,6.4836187,6.484301]}]],[[{"lng":[3.3369255,3.3370425,3.3371015,3.3369845,3.3369255],"lat":[6.4476051,6.4476288,6.4473409,6.4473172,6.4476051]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,["Gbagada General Hospital","National Orthopaedic Hospital Igbobi","Gold Cross Hospital - Bourdillon","Reddington Hospital - Ikeja GRA","Reddington Hospital","Eye Foundation Hospital &amp; Laser Centre","St. Kizito Clinic &amp; Maternity Ward","Nigerian Police Hospital - Falomo","General Hospital Lagos","Lagos State University Teaching Hospital","Alimosho General Hospital Igando","Onikan Health Centre","St Nicholas Hospital","Lagos Island Maternity Hospital","Massey Street Children Hospital","Amuwo Odofin Maternal &amp; Childcare Centre","Emel Hospital","Lagos University Teaching Hospital","Randle General Hospital","General Hospital Ikorodu","Isolo General Hospital","Parklande Specialist Hospital","Health Center","Glen Eagles Hospital","Lagos Emergency Operations Center","Medison Specialist Women's Hospital","Lagos Health Center Harvey Road","Federal Psychiatric Hospital Yaba","Teaching / Specialist Hospital","MARANATHA MEDICAL CENTER","St. LukeÃƒÂ¢Ã‚â‚¬Ã‚Ëœs medical center","Ayeitoro PHC","Federal Medical Centre","Abbey Medical Centre"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[6.4276824,6.6105552],"lng":[3.2503709,3.5227141]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1936ee3a04aa59258f7b" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1936ee3a04aa59258f7b">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[3.3879416,3.3870162,3.3866818,3.3848376,3.386569,3.3873932,3.3881526,3.3882941,3.3889711,3.3887527,3.3886271,3.388594,3.3881013,3.3880034,3.3879416],"lat":[6.5542207,6.5541097,6.5543968,6.5525167,6.5511423,6.5505252,6.5508598,6.5509942,6.5515684,6.5519514,6.5519812,6.5522151,6.5532259,6.5540817,6.5542207]}]],[[{"lng":[3.3681755,3.3681953,3.3682322,3.3679506,3.367964,3.3676778,3.3676868,3.369322,3.3695373,3.3700726,3.3715489,3.3724542,3.3728672,3.3734057,3.3735859,3.3736072,3.3736125,3.3736024,3.3735694,3.3735594,3.3735715,3.3733498,3.3724809,3.3709842,3.3695278,3.368699,3.3681755],"lat":[6.532734,6.5321606,6.5310949,6.5310923,6.5305353,6.5305248,6.529706,6.5300765,6.5301253,6.5302916,6.5305642,6.5303645,6.5304715,6.53049,6.530506,6.530888,6.5309826,6.531487,6.5319167,6.5320472,6.5324553,6.5331544,6.532931,6.5328457,6.5327924,6.5327566,6.532734]}]],[[{"lng":[3.4369585,3.4370621,3.4372653,3.4373038,3.4374614,3.4374953,3.4375116,3.4376827,3.4378875,3.4378218,3.4376453,3.4376202,3.4373055,3.4372853,3.4372301,3.4369585],"lat":[6.4460012,6.4457112,6.4457795,6.4456797,6.445667,6.445537,6.445457,6.4455146,6.4455835,6.4457629,6.4462445,6.4462356,6.4461245,6.4461175,6.4460985,6.4460012]}]],[[{"lng":[3.3568566,3.3573568,3.3574587,3.3569585,3.3568566],"lat":[6.5834889,6.5836834,6.5834316,6.5832331,6.5834889]}]],[[{"lng":[3.420182,3.4207523,3.420635,3.4205885,3.4204135,3.4201467,3.4201385,3.4201306,3.4200905,3.4200791,3.4201586,3.420182],"lat":[6.4332741,6.4331235,6.4326832,6.4326959,6.4327441,6.4328174,6.4328546,6.4328911,6.4329023,6.4329047,6.4331902,6.4332741]}]],[[{"lng":[3.4560249,3.4561498,3.4561533,3.4563991,3.4563991,3.4564215,3.4564582,3.4564586,3.4562689,3.4561521,3.4560249],"lat":[6.4394842,6.439602,6.4397273,6.4397255,6.4396826,6.4396605,6.43966,6.4394448,6.4394442,6.4393578,6.4394842]}]],[[{"lng":[3.505188,3.5051797,3.5052098,3.5052036,3.5051727,3.5051586,3.5051591,3.5051719,3.505194,3.5052241,3.5056984,3.5056832,3.505188],"lat":[6.4344648,6.4345939,6.4346271,6.4346939,6.4347026,6.4349196,6.4349513,6.4349741,6.4349864,6.4349917,6.4350385,6.4345095,6.4344648]}]],[[{"lng":[3.4290805,3.429164,3.4292709,3.4295033,3.4292069,3.4289924,3.428983,3.4289186,3.4288703,3.428818,3.4285981,3.428666,3.4287335,3.4290983,3.4291318,3.4290805],"lat":[6.4433276,6.4433482,6.4430498,6.4424007,6.4424127,6.4424966,6.442478,6.44247,6.4424194,6.442402,6.4423514,6.442668,6.4429831,6.4430537,6.443095,6.4433276]}]],[[{"lng":[3.3958197,3.3957649,3.3957532,3.3957397,3.3955232,3.3954115,3.3954153,3.3960535,3.3962412,3.3964267,3.3964529,3.3966528,3.3967113,3.3967879,3.3969659,3.3970528,3.3973409,3.3973953,3.3977544,3.3977038,3.397677,3.3977122,3.3978541,3.3976272,3.397609,3.3968522,3.3967058,3.3965582,3.3965228,3.3964749,3.3961821,3.3960981,3.3958197],"lat":[6.4485127,6.4484039,6.4483837,6.4483608,6.4479601,6.4477556,6.4476863,6.4472865,6.4471433,6.4470065,6.4469954,6.4468411,6.4467942,6.4467358,6.4466003,6.4465331,6.4463045,6.446375,6.4468755,6.446925,6.4469494,6.4470005,6.4471925,6.4473581,6.4473716,6.4479345,6.448049,6.4481375,6.4481652,6.4481047,6.4483335,6.4483744,6.4485127]}]],[[{"lng":[3.3444917,3.3445296,3.3445537,3.344661,3.3438268,3.3433413,3.3428693,3.3425662,3.3420512,3.3418983,3.3422336,3.3416623,3.3412331,3.3410481,3.3406612,3.3403212,3.3398974,3.3398708,3.3397686,3.3400851,3.3400411,3.3398292,3.3397418,3.3400328,3.3405599,3.3410668,3.340804,3.3401307,3.3401504,3.3401823,3.3402085,3.3401415,3.3401388,3.340179,3.3403426,3.340745,3.3422068,3.3427003,3.3428666,3.3430007,3.343057,3.3430235,3.3430409,3.3431187,3.3431523,3.3432032,3.3442533,3.3444947,3.3444766,3.3444917],"lat":[6.5909877,6.5909641,6.5909854,6.5908389,6.5899729,6.5894667,6.5889764,6.5892642,6.5887339,6.5885927,6.588273,6.5876921,6.5872391,6.5874257,6.5873051,6.5871992,6.5870713,6.5871131,6.5872738,6.5879106,6.5880199,6.5883743,6.5885234,6.5888392,6.5893614,6.5898557,6.5900955,6.5907589,6.5907818,6.590819,6.5908495,6.5909375,6.5909748,6.591036,6.5911133,6.5913025,6.5918301,6.5920059,6.5919926,6.5919366,6.5919033,6.5918514,6.5918447,6.5917808,6.5917581,6.5917901,6.5911719,6.5910181,6.5910001,6.5909877]}]],[[{"lng":[3.2510138,3.2535265,3.2530092,3.2503709,3.2510138],"lat":[6.5627677,6.5620042,6.5599999,6.5606973,6.5627677]}]],[[{"lng":[3.4057919,3.4058357,3.4053896,3.4050315,3.4051764,3.4054384,3.4055746,3.4057919],"lat":[6.4443262,6.444822,6.4451212,6.4447121,6.4445924,6.4443818,6.4442694,6.4443262]}]],[[{"lng":[3.3979508,3.3976116,3.3973687,3.3977079,3.3979508],"lat":[6.4494278,6.4489219,6.4490828,6.4495886,6.4494278]}]],[[{"lng":[3.3972393,3.3970956,3.3971464,3.3975027,3.3975828,3.397681,3.3973135,3.3972393],"lat":[6.448899,6.4486827,6.4486405,6.4483925,6.448494,6.4486264,6.4489057,6.448899]}]],[[{"lng":[3.3923634,3.3923792,3.3925045,3.3924649,3.3924115,3.3921738,3.3919891,3.3923634],"lat":[6.45531,6.455289,6.4551089,6.4550504,6.4549794,6.4548173,6.4550926,6.45531]}]],[[{"lng":[3.3014129,3.3032976,3.3031418,3.3034174,3.3030549,3.3018062,3.3016699,3.3018295,3.3018451,3.3017463,3.3012086,3.3013483,3.3013483,3.3013836,3.3013929,3.301409,3.3013739,3.3013994,3.3014129],"lat":[6.4604225,6.460407,6.4612195,6.4615926,6.461788,6.4626744,6.4624074,6.4623145,6.4621172,6.4621113,6.4621043,6.4616194,6.4614146,6.461418,6.4613231,6.4611538,6.4610764,6.4606493,6.4604225]}]],[[{"lng":[3.2895759,3.2898819,3.2895368,3.2894734,3.2894285,3.2893893,3.2891917,3.2895759],"lat":[6.476061,6.4757914,6.4754048,6.4754607,6.4755003,6.4754564,6.4756305,6.476061]}]],[[{"lng":[3.3520403,3.3520733,3.3520279,3.3519649,3.3518802,3.3517821,3.3519287,3.3530839,3.3540803,3.3541243,3.3541544,3.3541983,3.3542419,3.3542337,3.3542775,3.3550924,3.3552401,3.3552373,3.357764,3.3586588,3.3590088,3.3589437,3.3596776,3.3596807,3.3587951,3.3574884,3.3573459,3.3559022,3.3556198,3.355182,3.3550722,3.3549516,3.3541694,3.3542101,3.3541604,3.3540135,3.3539681,3.3539436,3.3530741,3.3524675,3.3523237,3.3523658,3.3524009,3.3523495,3.3522817,3.352187,3.3518223,3.3515594,3.351356,3.3513245,3.3513841,3.3515699,3.3516505,3.3516996,3.3518609,3.3519941,3.3520403],"lat":[6.5211661,6.5214194,6.5216076,6.5217817,6.521925,6.522047,6.5224051,6.5221321,6.5219485,6.5219762,6.5220631,6.5220563,6.5220495,6.5219517,6.5219083,6.5217316,6.521699,6.5213323,6.5207618,6.5196143,6.519162,6.519079,6.518116,6.5179837,6.5173869,6.516464,6.5163563,6.5152654,6.5152883,6.5157828,6.5159068,6.5159407,6.516633,6.5168691,6.5168892,6.5169362,6.5169527,6.5168377,6.5176215,6.518158,6.5182834,6.5186527,6.5187851,6.518826,6.5188791,6.5188129,6.5190219,6.5192379,6.5194086,6.5195166,6.5196768,6.5199869,6.5201576,6.5204641,6.520802,6.5211364,6.5211661]}]],[[{"lng":[3.3568871,3.3571103,3.3570996,3.3578219,3.3579076,3.3580176,3.3578328,3.3577026,3.3576048,3.3573879,3.3571648,3.3570568,3.3568871],"lat":[6.508001,6.507955,6.507894,6.5077719,6.5078888,6.5079775,6.5083166,6.5085481,6.5086392,6.5087396,6.5088353,6.5088615,6.508001]}]],[[{"lng":[3.5000429,3.500392,3.5008914,3.5010854,3.5008508,3.5010132,3.5003433,3.5003078,3.5002865,3.5000957,3.4992999,3.4985289,3.4990412,3.5000429],"lat":[6.6105552,6.6103213,6.609809,6.6093903,6.6089016,6.6087806,6.6076594,6.6071351,6.6068205,6.6066228,6.6075343,6.6083029,6.6089424,6.6105552]}]],[[{"lng":[3.319058,3.3183686,3.3179516,3.317906,3.3194724,3.3199552,3.3205935,3.3205265,3.3204836,3.3203762,3.3201215,3.3196387,3.3195931,3.3194925,3.3194911,3.3194105,3.3193544,3.3193423,3.319058],"lat":[6.528101,6.5280011,6.5279331,6.5262077,6.525704,6.5275827,6.527159,6.5282436,6.5283597,6.5286469,6.52859,6.5285287,6.5285262,6.52853,6.5284954,6.5284966,6.5284967,6.528173,6.528101]}]],[[{"lng":[3.3613477,3.3610983,3.3611023,3.3612163,3.3613692,3.3613611,3.3613598,3.3613477],"lat":[6.4957053,6.4955987,6.4954695,6.4955094,6.4955614,6.495664,6.495712,6.4957053]}]],[[{"lng":[3.5220945,3.5222715,3.5227141,3.5226202,3.5220945],"lat":[6.5927333,6.5921178,6.5922857,6.5928079,6.5927333]}]],[[{"lng":[3.4150386,3.4152745,3.4152772,3.4150413,3.4150386],"lat":[6.4277383,6.4277344,6.4278957,6.4278996,6.4277383]}]],[[{"lng":[3.3709586,3.3707499,3.3711102,3.3713189,3.3709586],"lat":[6.5110462,6.5115328,6.5116853,6.5111988,6.5110462]}]],[[{"lng":[3.464045,3.4643802,3.4643855,3.4640503,3.464045],"lat":[6.4286288,6.4286355,6.4283703,6.4283636,6.4286288]}]],[[{"lng":[3.3718634,3.3710695,3.3722171,3.3721531,3.3738111,3.3739381,3.3749416,3.3757769,3.3739435,3.3718634],"lat":[6.5090162,6.5108991,6.5113888,6.5115981,6.5124266,6.5121667,6.5125673,6.5105826,6.5098613,6.5090162]}]],[[{"lng":[3.3726575,3.373387,3.3736284,3.3736713,3.3737598,3.3738028,3.373784,3.3729874,3.3726575],"lat":[6.5103263,6.5104516,6.5099266,6.5098999,6.5098999,6.509812,6.5097694,6.5094496,6.5103263]}]],[[{"lng":[3.3375176,3.3374917,3.3375953,3.3376212,3.3375176],"lat":[6.4611829,6.4610041,6.4609893,6.461168,6.4611829]}]],[[{"lng":[3.3803787,3.380266,3.3802585,3.3803712,3.3803787],"lat":[6.52904,6.5290375,6.5293685,6.5293711,6.52904]}]],[[{"lng":[3.3300359,3.3301099,3.329957,3.3298829,3.3300359],"lat":[6.4979955,6.4979224,6.4977695,6.4978427,6.4979955]}]],[[{"lng":[3.3871468,3.3874687,3.3877315,3.387458,3.3871468],"lat":[6.4927187,6.4929586,6.4926361,6.4925588,6.4927187]}]],[[{"lng":[3.3804538,3.3805557,3.3808373,3.3807461,3.3804538],"lat":[6.484301,6.4843409,6.4836587,6.4836187,6.484301]}]],[[{"lng":[3.3369255,3.3370425,3.3371015,3.3369845,3.3369255],"lat":[6.4476051,6.4476288,6.4473409,6.4473172,6.4476051]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,["Gbagada General Hospital","National Orthopaedic Hospital Igbobi","Gold Cross Hospital - Bourdillon","Reddington Hospital - Ikeja GRA","Reddington Hospital","Eye Foundation Hospital &amp; Laser Centre","St. Kizito Clinic &amp; Maternity Ward","Nigerian Police Hospital - Falomo","General Hospital Lagos","Lagos State University Teaching Hospital","Alimosho General Hospital Igando","Onikan Health Centre","St Nicholas Hospital","Lagos Island Maternity Hospital","Massey Street Children Hospital","Amuwo Odofin Maternal &amp; Childcare Centre","Emel Hospital","Lagos University Teaching Hospital","Randle General Hospital","General Hospital Ikorodu","Isolo General Hospital","Parklande Specialist Hospital","Health Center","Glen Eagles Hospital","Lagos Emergency Operations Center","Medison Specialist Women's Hospital","Lagos Health Center Harvey Road","Federal Psychiatric Hospital Yaba","Teaching / Specialist Hospital","MARANATHA MEDICAL CENTER","St. LukeÃƒÂ¢Ã‚â‚¬Ã‚Ëœs medical center","Ayeitoro PHC","Federal Medical Centre","Abbey Medical Centre"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[6.4277344,6.6105552],"lng":[3.2503709,3.5227141]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
@@ -941,7 +947,7 @@ leaflet() %&gt;%
 </ul>
 <hr />
 <p style="color:grey; font-size: 13px;">
-Last updated: 2022-06-29<br />
+Last updated: 2023-01-07<br />
 Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blob/main/osm.Rmd" class="uri">https://github.com/rspatialdata/rspatialdata.github.io/blob/main/osm.Rmd</a>
 <details>
 <summary>
@@ -966,55 +972,61 @@ Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blo
 ## other attached packages:
 ##  [1] ggmap_3.0.0               osmdata_0.1.5            
 ##  [3] malariaAtlas_1.0.1        ggthemes_4.2.4           
-##  [5] here_1.0.1                sf_0.9-7                 
-##  [7] MODIStsp_2.0.5            raster_3.5-15            
-##  [9] sp_1.4-5                  nasapower_4.0.7          
+##  [5] here_1.0.1                MODIStsp_2.0.9           
+##  [7] nasapower_4.0.7           terra_1.5-17             
+##  [9] rnaturalearthhires_0.2.0  rnaturalearth_0.1.0      
 ## [11] viridis_0.5.1             viridisLite_0.3.0        
-## [13] rnaturalearth_0.1.0       terra_1.5-17             
-## [15] rdhs_0.7.2                DT_0.17                  
-## [17] forcats_0.5.1             stringr_1.4.0            
-## [19] dplyr_1.0.4               purrr_0.3.4              
-## [21] readr_1.4.0               tidyr_1.1.4              
-## [23] tibble_3.1.6              tidyverse_1.3.1          
-## [25] openair_2.9-1             leaflet_2.1.1            
-## [27] ggplot2_3.3.5             rgeoboundaries_0.0.0.9000
+## [13] raster_3.5-15             sp_1.4-5                 
+## [15] sf_1.0-7                  elevatr_0.4.2            
+## [17] kableExtra_1.3.4          rdhs_0.7.2               
+## [19] DT_0.17                   forcats_0.5.1            
+## [21] stringr_1.4.0             dplyr_1.0.4              
+## [23] purrr_0.3.4               readr_2.1.2              
+## [25] tidyr_1.1.4               tibble_3.1.6             
+## [27] tidyverse_1.3.1           openair_2.9-1            
+## [29] leaflet_2.1.1             ggplot2_3.3.5            
+## [31] rgeoboundaries_0.0.0.9000
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] colorspace_2.0-3         rjson_0.2.20             selectr_0.4-2           
-##   [4] ellipsis_0.3.2           class_7.3-17             rgdal_1.5-23            
-##   [7] rprojroot_2.0.2          fs_1.5.2                 httpcode_0.3.0          
-##  [10] rstudioapi_0.13          farver_2.1.0             hexbin_1.28.2           
-##  [13] urltools_1.7.3           fansi_0.4.2              lubridate_1.8.0         
-##  [16] xml2_1.3.2               codetools_0.2-16         splines_4.0.3           
-##  [19] cachem_1.0.6             knitr_1.33               jsonlite_1.8.0          
-##  [22] broom_0.8.0              cluster_2.1.0            dbplyr_2.1.1            
-##  [25] png_0.1-7                rgeos_0.5-5              hoardr_0.5.2            
-##  [28] mapproj_1.2.8            compiler_4.0.3           httr_1.4.2              
-##  [31] backports_1.4.1          assertthat_0.2.1         Matrix_1.2-18           
-##  [34] fastmap_1.1.0            cli_3.2.0                htmltools_0.5.2         
-##  [37] tools_4.0.3              gtable_0.3.0             glue_1.4.2              
-##  [40] gdalUtilities_1.2.1      maps_3.4.0               rappdirs_0.3.3          
-##  [43] Rcpp_1.0.7               cellranger_1.1.0         jquerylib_0.1.4         
-##  [46] vctrs_0.3.8              crul_1.2.0               countrycode_1.2.0       
-##  [49] nlme_3.1-149             crosstalk_1.2.0          xfun_0.30               
-##  [52] rvest_1.0.2              lifecycle_1.0.1          rnaturalearthhires_0.2.0
-##  [55] zoo_1.8-8                MASS_7.3-53              scales_1.1.1            
-##  [58] hms_1.1.1                parallel_4.0.3           RColorBrewer_1.1-2      
-##  [61] yaml_2.2.1               curl_4.3.2               memoise_2.0.1           
-##  [64] gridExtra_2.3            sass_0.4.0               triebeard_0.3.0         
-##  [67] latticeExtra_0.6-29      stringi_1.5.3            highr_0.9               
-##  [70] e1071_1.7-4              storr_1.2.5              RgoogleMaps_1.4.5.3     
-##  [73] bitops_1.0-7             rlang_0.4.10             pkgconfig_2.0.3         
-##  [76] evaluate_0.15            lattice_0.20-41          htmlwidgets_1.5.4       
-##  [79] labeling_0.4.2           tidyselect_1.1.0         plyr_1.8.7              
-##  [82] magrittr_2.0.1           R6_2.5.0                 generics_0.1.2          
-##  [85] DBI_1.1.2                pillar_1.7.0             haven_2.5.0             
-##  [88] withr_2.5.0              mgcv_1.8-33              xts_0.12.1              
-##  [91] units_0.6-7              modelr_0.1.8             crayon_1.5.1            
-##  [94] KernSmooth_2.23-17       utf8_1.1.4               rmarkdown_2.11          
-##  [97] jpeg_0.1-9               grid_4.0.3               readxl_1.3.1            
-## [100] data.table_1.14.2        reprex_2.0.1             digest_0.6.27           
-## [103] classInt_0.4-3           munsell_0.5.0            bslib_0.3.1</code></pre>
+##   [1] readxl_1.3.1        backports_1.4.1     systemfonts_1.0.4  
+##   [4] plyr_1.8.7          selectr_0.4-2       splines_4.0.3      
+##   [7] storr_1.2.5         crosstalk_1.2.0     urltools_1.7.3     
+##  [10] digest_0.6.27       htmltools_0.5.2     fansi_0.4.2        
+##  [13] magrittr_2.0.1      memoise_2.0.1       cluster_2.1.0      
+##  [16] gdalUtilities_1.2.1 tzdb_0.3.0          modelr_0.1.8       
+##  [19] vroom_1.5.7         xts_0.12.1          svglite_1.2.3.2    
+##  [22] prettyunits_1.1.1   jpeg_0.1-9          colorspace_2.0-3   
+##  [25] rvest_1.0.2         rappdirs_0.3.3      hoardr_0.5.2       
+##  [28] haven_2.5.0         xfun_0.30           rgdal_1.5-23       
+##  [31] crayon_1.5.1        jsonlite_1.8.0      hexbin_1.28.2      
+##  [34] progressr_0.10.1    zoo_1.8-8           countrycode_1.2.0  
+##  [37] glue_1.6.2          gtable_0.3.0        webshot_0.5.2      
+##  [40] maps_3.4.0          scales_1.1.1        DBI_1.1.2          
+##  [43] Rcpp_1.0.7          progress_1.2.2      units_0.8-0        
+##  [46] bit_4.0.4           mapproj_1.2.8       htmlwidgets_1.5.4  
+##  [49] httr_1.4.2          RColorBrewer_1.1-2  wk_0.5.0           
+##  [52] ellipsis_0.3.2      pkgconfig_2.0.3     farver_2.1.0       
+##  [55] sass_0.4.0          dbplyr_2.1.1        utf8_1.1.4         
+##  [58] crul_1.2.0          tidyselect_1.1.0    labeling_0.4.2     
+##  [61] rlang_1.0.2         munsell_0.5.0       cellranger_1.1.0   
+##  [64] tools_4.0.3         cachem_1.0.6        cli_3.2.0          
+##  [67] generics_0.1.2      broom_0.8.0         evaluate_0.15      
+##  [70] fastmap_1.1.0       yaml_2.2.1          knitr_1.33         
+##  [73] bit64_4.0.5         fs_1.5.2            s2_1.0.7           
+##  [76] RgoogleMaps_1.4.5.3 nlme_3.1-149        xml2_1.3.2         
+##  [79] compiler_4.0.3      rstudioapi_0.13     curl_4.3.2         
+##  [82] png_0.1-7           e1071_1.7-4         reprex_2.0.1       
+##  [85] bslib_0.3.1         stringi_1.5.3       highr_0.9          
+##  [88] gdtools_0.2.4       lattice_0.20-41     Matrix_1.2-18      
+##  [91] classInt_0.4-3      vctrs_0.3.8         slippymath_0.3.1   
+##  [94] pillar_1.7.0        lifecycle_1.0.1     triebeard_0.3.0    
+##  [97] jquerylib_0.1.4     data.table_1.14.2   bitops_1.0-7       
+## [100] R6_2.5.0            latticeExtra_0.6-29 KernSmooth_2.23-17 
+## [103] gridExtra_2.3       codetools_0.2-16    MASS_7.3-53        
+## [106] assertthat_0.2.1    rjson_0.2.20        rprojroot_2.0.2    
+## [109] withr_2.5.0         httpcode_0.3.0      mgcv_1.8-33        
+## [112] parallel_4.0.3      hms_1.1.1           grid_4.0.3         
+## [115] class_7.3-17        rmarkdown_2.11      lubridate_1.8.0</code></pre>
 </details>
 </p>
 </div>
@@ -1025,9 +1037,6 @@ Source code: <a href="https://github.com/rspatialdata/rspatialdata.github.io/blo
   create an issue</a> on the source repository or  
   <a href="https://github.com/rspatialdata/rspatialdata.github.io">submit a pull 
   request</a></br>
-  Contributions: If you want to contribute or collaborate on the project, please
-  see the <a href="https://rspatialdata.github.io/contributing.html">
-  guidelines for collaborating</a></br>
   Reuse: Text and figures are licensed under Creative Commons Attribution 
   <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0.</a>
 </p>
