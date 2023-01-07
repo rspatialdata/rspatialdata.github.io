@@ -68,9 +68,8 @@ Paula Moraga and Laurie Baker. rspatialdata: a collection of data sources and tu
 
 <center>
 
-```{r, echo = FALSE}
-knitr::include_url("https://f1000research.com/articles/11-770")
-```
+<a href="https://f1000research.com/articles/11-770" target="_blank"><img src="images/f1000paper.png" /></a>
+ 
 
 </center>
 
